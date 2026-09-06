@@ -44,8 +44,10 @@ const MainContent: React.FC = () => {
         <div className="space-y-6">
           <HeroBanner />
           <TrustHighlights />
+          {/* Temporary hidden sections - uncomment when needed:
           <FeaturedCategories />
           <TopSellingCarousel />
+          */}
           <CategorySection />
           <ComboOfferSection />
           <TestimonialsSection />
