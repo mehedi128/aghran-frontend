@@ -1,0 +1,6 @@
+{
+  "name": "Aghran - Traditional Organic Food & Spices",
+  "description": "Bangladeshi traditional homemade organic food e-commerce platform specializing in authentic Pitha and pure stone-ground spices.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

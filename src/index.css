@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #D85A30;
+    --color-secondary: #639922;
+    --color-bg-cream: #FAEEDA;
+    --color-text-dark: #3A2A1E;
+    --color-text-muted: #888780;
+    --color-gold: #FAC775;
+  }
+
+  html {
+    font-size: 17px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      font-size: 17.5px;
+    }
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, -apple-system, sans-serif;
+    background-color: #FAF6EE;
+    color: #3A2A1E;
+    line-height: 1.6;
+  }
+
+  .font-bangla {
+    font-family: 'Hind Siliguri', 'Tiro Bangla', sans-serif;
+  }
+
+  .font-serif-bangla {
+    font-family: 'Tiro Bangla', 'Hind Siliguri', serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF6EE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D85A30/30;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D85A30/60;
+}
+
+/* Hide scrollbar for clean carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
