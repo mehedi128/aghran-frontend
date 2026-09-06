@@ -66,40 +66,42 @@ export const FeaturedCategories: React.FC = () => {
           <div
             key={cat.id}
             onClick={() => handleCategoryClick(cat)}
-            className="group relative bg-[#FAF6EE] rounded-3xl p-6 sm:p-8 border-2 border-[#D85A30]/15 hover:border-[#D85A30]/50 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6"
+            className="group relative bg-[#FAF6EE] rounded-3xl p-4 sm:p-6 md:p-8 border-2 border-[#D85A30]/15 hover:border-[#D85A30]/50 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden flex flex-col sm:flex-row items-stretch justify-between gap-5 sm:gap-6 w-full"
             id={`category-card-${cat.id}`}
           >
-            {/* Left Content */}
-            <div className="flex-1 space-y-3 z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-[#FAEEDA] rounded-2xl group-hover:scale-110 transition-transform">
-                  {cat.icon}
+            {/* Content */}
+            <div className="flex-1 space-y-3 z-10 flex flex-col justify-between w-full">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 sm:p-3 bg-[#FAEEDA] rounded-2xl group-hover:scale-110 transition-transform">
+                    {cat.icon}
+                  </div>
+                  <span className={`${cat.badgeColor} text-[#FAF6EE] text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-sm`}>
+                    {cat.badge}
+                  </span>
                 </div>
-                <span className={`${cat.badgeColor} text-[#FAF6EE] text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-sm`}>
-                  {cat.badge}
-                </span>
-              </div>
 
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold font-serif-bangla text-[#3A2A1E] group-hover:text-[#D85A30] transition-colors">
-                  {cat.titleBangla}
-                </h3>
-              </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif-bangla text-[#3A2A1E] group-hover:text-[#D85A30] transition-colors">
+                    {cat.titleBangla}
+                  </h3>
+                </div>
 
-              <p className="text-xs text-[#888780] leading-relaxed">
-                {cat.subtitle}
-              </p>
+                <p className="text-xs sm:text-sm text-[#888780] leading-relaxed">
+                  {cat.subtitle}
+                </p>
+              </div>
 
               <div className="pt-2 flex items-center gap-4">
-                <span className="text-xs font-black text-[#3A2A1E] group-hover:text-[#D85A30] flex items-center gap-1 group-hover:translate-x-1 transition-all">
+                <span className="text-xs sm:text-sm font-black text-[#3A2A1E] group-hover:text-[#D85A30] flex items-center gap-1.5 group-hover:translate-x-1 transition-all">
                   <span>{cat.id === 'combos' ? 'Explore Combos' : 'Explore Collection'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>
             </div>
 
-            {/* Right Thumbnail Image */}
-            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 border-2 border-[#FAF6EE] group-hover:scale-105 transition-transform duration-500">
+            {/* Thumbnail Image - Full width banner on mobile, square box on desktop */}
+            <div className="w-full sm:w-44 sm:h-auto md:w-52 aspect-[16/9] sm:aspect-square rounded-2xl overflow-hidden shadow-md flex-shrink-0 border-2 border-[#FAEEDA] group-hover:scale-105 transition-transform duration-500 relative">
               <img
                 src={cat.image}
                 alt={cat.titleEnglish}

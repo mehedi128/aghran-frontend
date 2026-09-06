@@ -44,33 +44,33 @@ export const TopSellingCarousel: React.FC = () => {
                 key={product.id}
                 id={`top-seller-card-${product.id}`}
                 onClick={() => navigateTo('product-detail', { slug: product.slug })}
-                className="bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/20 shadow-[0_2px_12px_rgba(58,42,30,0.04)] hover:shadow-lg transition-all duration-300 p-5 sm:p-7 relative flex flex-col sm:flex-row items-center sm:items-stretch gap-6 group hover:border-[#D85A30]/40 cursor-pointer"
+                className="bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/20 shadow-[0_2px_12px_rgba(58,42,30,0.04)] hover:shadow-lg transition-all duration-300 p-4 sm:p-5 md:p-6 relative flex flex-col sm:flex-row items-stretch gap-4 sm:gap-6 group hover:border-[#D85A30]/40 cursor-pointer w-full"
               >
                 {/* Red/Terracotta Pill Badge in Top Right */}
-                <div className="absolute top-4 right-4 bg-[#D85A30] text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm z-10">
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#D85A30] text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm z-10">
                   <Flame className="w-3.5 h-3.5 fill-current" />
                   <span>Best Selling</span>
                 </div>
 
-                {/* Left: Product Image */}
+                {/* Product Image - Full Width on Mobile, Clean Square on Desktop */}
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
                     navigateTo('product-detail', { slug: product.slug });
                   }}
-                  className="w-44 h-44 sm:w-56 sm:h-56 flex-shrink-0 flex items-center justify-center p-3 rounded-2xl bg-white border border-[#D85A30]/15 cursor-pointer overflow-hidden shadow-sm"
+                  className="w-full sm:w-48 md:w-56 sm:flex-shrink-0 aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl bg-white border border-[#D85A30]/15 cursor-pointer overflow-hidden shadow-sm relative"
                 >
                   <img
                     src={product.images[0]}
                     alt={product.nameEnglish}
-                    className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />
                 </div>
 
-                {/* Right: Product Details & Actions */}
+                {/* Product Details & Actions - Full Width Content */}
                 <div className="flex-1 flex flex-col justify-between w-full">
-                  <div className="pt-1 pr-20 sm:pr-24">
+                  <div className="pt-0 sm:pt-1 pr-0 sm:pr-24">
                     <h3
                       onClick={(e) => {
                         e.stopPropagation();
@@ -106,13 +106,13 @@ export const TopSellingCarousel: React.FC = () => {
                   </div>
 
                   {/* Action Buttons: Add to Cart & Buy Now */}
-                  <div className="mt-5 flex items-center gap-2.5 pt-2 flex-wrap sm:flex-nowrap">
+                  <div className="mt-4 sm:mt-5 flex items-center gap-2 pt-2 w-full">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         addToCart(product, displayVariant, 1, true);
                       }}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#FAEEDA] hover:bg-[#D85A30] text-[#3A2A1E] hover:text-white border border-[#D85A30]/30 font-bold text-xs sm:text-sm transition-all shadow-sm active:scale-[0.98]"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl bg-[#FAEEDA] hover:bg-[#D85A30] text-[#3A2A1E] hover:text-white border border-[#D85A30]/30 font-bold text-xs sm:text-sm transition-all shadow-sm active:scale-[0.98]"
                       title="Add to cart"
                     >
                       <ShoppingCart className="w-4 h-4 stroke-[2.2]" />
@@ -124,7 +124,7 @@ export const TopSellingCarousel: React.FC = () => {
                         e.stopPropagation();
                         buyNow(product, displayVariant, 1);
                       }}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#D85A30] hover:bg-[#C14B24] text-white font-bold text-xs sm:text-sm transition-all shadow-sm hover:shadow active:scale-[0.98]"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl bg-[#D85A30] hover:bg-[#C14B24] text-white font-bold text-xs sm:text-sm transition-all shadow-sm hover:shadow active:scale-[0.98]"
                       title="Buy now directly"
                     >
                       <Zap className="w-4 h-4 fill-white stroke-none" />
