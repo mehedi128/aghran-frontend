@@ -82,11 +82,92 @@ const STORAGE_CART_KEY = 'aghran_cart_v1';
 const STORAGE_WISHLIST_KEY = 'aghran_wishlist_v1';
 const STORAGE_ORDERS_KEY = 'aghran_orders_v1';
 
+// Helper to parse state from URL
+const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: string | null } => {
+  if (typeof window === 'undefined') {
+    return { view: 'home', category: 'all', slug: null };
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  const hash = window.location.hash.replace(/^#\/?/, '');
+
+  // 1. Check Query Parameters
+  const productParam = urlParams.get('product') || urlParams.get('p');
+  if (productParam) {
+    return { view: 'product-detail', category: 'all', slug: productParam };
+  }
+
+  const categoryParam = urlParams.get('category') || urlParams.get('cat');
+  if (categoryParam) {
+    return { view: 'collection', category: categoryParam as CategoryId, slug: null };
+  }
+
+  const viewParam = urlParams.get('view');
+  if (viewParam) {
+    return {
+      view: (viewParam as CurrentView) || 'home',
+      category: (urlParams.get('category') as CategoryId) || 'all',
+      slug: urlParams.get('slug') || null
+    };
+  }
+
+  // 2. Check Pathname or Hash (e.g., /product/slug or #product/slug)
+  const pathToCheck = pathname || hash;
+  if (pathToCheck.startsWith('product/')) {
+    const slug = pathToCheck.replace('product/', '');
+    return { view: 'product-detail', category: 'all', slug };
+  }
+  if (pathToCheck.startsWith('collection/')) {
+    const cat = pathToCheck.replace('collection/', '');
+    return { view: 'collection', category: cat as CategoryId, slug: null };
+  }
+  if (['collection', 'cart', 'checkout', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
+    return { view: pathToCheck as CurrentView, category: 'all', slug: null };
+  }
+
+  return { view: 'home', category: 'all', slug: null };
+};
+
+const syncUrlToBrowser = (view: CurrentView, params?: { category?: CategoryId; slug?: string }, replace: boolean = false) => {
+  if (typeof window === 'undefined') return;
+
+  const url = new URL(window.location.href);
+  // Clear known route query parameters
+  url.searchParams.delete('product');
+  url.searchParams.delete('p');
+  url.searchParams.delete('category');
+  url.searchParams.delete('cat');
+  url.searchParams.delete('view');
+  url.searchParams.delete('slug');
+
+  if (view === 'product-detail' && params?.slug) {
+    url.searchParams.set('product', params.slug);
+  } else if (view === 'collection') {
+    if (params?.category && params.category !== 'all') {
+      url.searchParams.set('category', params.category);
+    } else {
+      url.searchParams.set('view', 'collection');
+    }
+  } else if (view !== 'home') {
+    url.searchParams.set('view', view);
+  }
+
+  const targetUrl = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : '') + url.hash;
+
+  if (replace) {
+    window.history.replaceState({ view, params }, '', targetUrl);
+  } else {
+    window.history.pushState({ view, params }, '', targetUrl);
+  }
+};
+
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const initialUrlState = getStateFromUrl();
   const [products] = useState<Product[]>(INITIAL_PRODUCTS);
-  const [currentView, setCurrentView] = useState<CurrentView>('home');
-  const [selectedCategory, setSelectedCategory] = useState<CategoryId>('all');
-  const [selectedProductSlug, setSelectedProductSlug] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<CurrentView>(initialUrlState.view);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryId>(initialUrlState.category);
+  const [selectedProductSlug, setSelectedProductSlug] = useState<string | null>(initialUrlState.slug);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
@@ -94,6 +175,24 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
   const [toast, setToast] = useState<ToastMessage | null>(null);
+
+  // Sync initial URL
+  useEffect(() => {
+    syncUrlToBrowser(currentView, { category: selectedCategory, slug: selectedProductSlug || undefined }, true);
+  }, []);
+
+  // Listen to browser Back / Forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const state = getStateFromUrl();
+      setCurrentView(state.view);
+      setSelectedCategory(state.category);
+      setSelectedProductSlug(state.slug);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Initialize Cart from LocalStorage
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -197,7 +296,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [recentOrders]);
 
-  // Scroll to top on view switch
+  // Scroll to top on view switch and sync URL
   const navigateTo = (view: CurrentView, params?: { category?: CategoryId; slug?: string }) => {
     if (params?.category) {
       setSelectedCategory(params.category);
@@ -206,6 +305,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       setSelectedProductSlug(params.slug);
     }
     setCurrentView(view);
+    syncUrlToBrowser(view, params);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

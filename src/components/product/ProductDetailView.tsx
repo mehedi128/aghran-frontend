@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Star, ShoppingBag, Zap, Heart, ShieldCheck, Truck, 
   RotateCcw, Sparkles, Check, MapPin, Clock, Info, ArrowLeft,
-  ChevronRight, MessageCircle, Phone, Plus, Minus
+  ChevronRight, MessageCircle, Phone, Plus, Minus, Share2, Link2
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { ProductCard } from './ProductCard';
@@ -15,9 +15,35 @@ export const ProductDetailView: React.FC = () => {
     buyNow,
     toggleWishlist,
     isInWishlist,
-    navigateTo
+    navigateTo,
+    showToast
   } = useStore();
   const product = products.find(p => p.slug === selectedProductSlug || p.id === selectedProductSlug) || products[0];
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleShareOrCopy = async () => {
+    const productUrl = `${window.location.origin}${window.location.pathname}?product=${product.slug}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${product.nameBangla} | Aghran`,
+          text: product.shortDescription,
+          url: productUrl
+        });
+        return;
+      } catch {
+        // Fallback to copy if user cancelled share or share failed
+      }
+    }
+    
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(productUrl).then(() => {
+        setIsCopied(true);
+        showToast('লিংক কপি হয়েছে!', 'প্রডাক্ট লিংক ক্লিপবোর্ডে কপি করা হয়েছে।');
+        setTimeout(() => setIsCopied(false), 2500);
+      });
+    }
+  };
 
   // Helper to find default variant index (prefer 1kg if available)
   const getDefaultVariantIndex = (p: typeof products[0] | undefined) => {
@@ -285,6 +311,26 @@ export const ProductDetailView: React.FC = () => {
                   <span>Order In Messenger</span>
                 </a>
               </div>
+
+              {/* Share / Copy Product Link Button */}
+              <button
+                type="button"
+                onClick={handleShareOrCopy}
+                className="w-full py-2.5 px-4 bg-[#FAF6EE] hover:bg-[#FAEEDA] text-[#3A2A1E] border border-[#D85A30]/30 hover:border-[#D85A30] font-semibold text-xs tracking-wide rounded-md transition-all flex items-center justify-center gap-2 shadow-xs"
+                id="pdp-share-link-btn"
+              >
+                {isCopied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="text-emerald-700 font-bold">লিংক কপি হয়েছে!</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="w-3.5 h-3.5 text-[#D85A30]" />
+                    <span>প্রডাক্টের সরাসরি লিংক কপি / শেয়ার করুন</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
 
