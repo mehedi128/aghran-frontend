@@ -2,9 +2,11 @@ import { Order } from '../types';
 
 /**
  * Google Apps Script Web App URL
- * Set this in your .env file as VITE_GOOGLE_SHEETS_URL
+ * Set this in your .env file as VITE_GOOGLE_SHEETS_URL or uses default active webhook
  */
-const GOOGLE_SHEETS_URL = import.meta.env.VITE_GOOGLE_SHEETS_URL || '';
+const GOOGLE_SHEETS_URL = 
+  import.meta.env.VITE_GOOGLE_SHEETS_URL || 
+  'https://script.google.com/macros/s/AKfycbxgnNweu5fSRONScOumyzaYJ8_T1k1Fa2ahUOS3CWh3p7KJ-n7515fEaMylAIVWP1IXVQ/exec';
 
 export interface GoogleSheetOrderPayload {
   orderNumber: string;
