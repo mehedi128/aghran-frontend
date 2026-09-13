@@ -3,6 +3,8 @@ import nokshiPithaImage1 from '../assets/images/nokshi_pitha_village_17874665076
 import nokshiPithaImage2 from '../assets/images/nokshi_pitha_clay_1787466525945.jpg';
 import narikelPuliImage1 from '../assets/images/narikel_puli_pitha_1.jpg';
 import narikelPuliImage2 from '../assets/images/narikel_puli_pitha_2.jpg';
+import jhinukPithaImage1 from '../assets/images/jn0.png';
+import jhinukPithaImage2 from '../assets/images/jn1.jpg';
 
 export const INITIAL_PRODUCTS: Product[] = [
   // ==================== TOP SELLING NOKSHI PITHA PRODUCTS ====================
@@ -137,8 +139,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 110,
     images: [
-      nokshiPithaImage1,
-      nokshiPithaImage2
+      jhinukPithaImage1,
+      jhinukPithaImage2
     ],
     isFeatured: true,
     isTopSeller: true,
