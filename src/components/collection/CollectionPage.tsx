@@ -8,7 +8,7 @@ export const CollectionPage: React.FC = () => {
   const { products, selectedCategory, setSelectedCategory, navigateTo } = useStore();
 
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [maxPrice, setMaxPrice] = useState<number>(1000);
+  const [maxPrice, setMaxPrice] = useState<number>(5000);
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
@@ -144,7 +144,7 @@ export const CollectionPage: React.FC = () => {
             <button
               onClick={() => {
                 setSelectedCategory('all');
-                setMaxPrice(1000);
+                setMaxPrice(5000);
                 setInStockOnly(false);
                 setSortBy('featured');
               }}
@@ -202,7 +202,7 @@ export const CollectionPage: React.FC = () => {
             <input
               type="range"
               min="100"
-              max="1000"
+              max="5000"
               step="50"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
@@ -210,7 +210,7 @@ export const CollectionPage: React.FC = () => {
             />
             <div className="flex justify-between text-[10px] text-[#888780]">
               <span>৳100</span>
-              <span>৳1000</span>
+              <span>৳5000</span>
             </div>
           </div>
 
@@ -221,32 +221,27 @@ export const CollectionPage: React.FC = () => {
                 type="checkbox"
                 checked={inStockOnly}
                 onChange={(e) => setInStockOnly(e.target.checked)}
-                className="rounded accent-[#639922]"
+                className="accent-[#639922]"
               />
-              <span className="font-semibold">In Stock Items Only</span>
+              <span className="font-bold">In-Stock Only</span>
             </label>
-          </div>
-
-          {/* Purity Badge */}
-          <div className="pt-4 border-t border-[#D85A30]/10 bg-[#639922]/10 p-3 rounded-2xl text-[11px] text-[#639922] font-semibold">
-            🌱 100% Village Kitchen Origin & Zero Chemical Guarantee
           </div>
         </div>
 
-        {/* Right Column: Product Grid */}
+        {/* Right Main Product Area */}
         <div className="lg:col-span-9 space-y-6">
           
-          {/* Top Bar (Results count & Sorting) */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/15">
-            <div className="text-xs text-[#3A2A1E]">
-              Showing <strong className="text-[#D85A30] font-bold">{filteredProducts.length}</strong> delicious items
+          {/* Top Bar: Results Count + Sort & Mobile Filter Toggle */}
+          <div className="bg-[#FAF6EE] p-4 rounded-2xl border border-[#D85A30]/20 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+            <div className="text-xs font-semibold text-[#888780]">
+              Showing <span className="text-[#3A2A1E] font-bold">{filteredProducts.length}</span> items
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Mobile Filter Trigger Button */}
+              {/* Mobile Filter Button */}
               <button
                 onClick={() => setIsMobileFilterOpen(true)}
-                className="lg:hidden flex items-center gap-1.5 bg-[#FAEEDA] px-3 py-1.5 rounded-xl text-xs font-bold text-[#3A2A1E]"
+                className="lg:hidden flex items-center gap-1.5 text-xs font-bold bg-[#FAEEDA] px-3 py-2 rounded-xl border border-[#D85A30]/20 text-[#3A2A1E]"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5 text-[#D85A30]" />
                 <span>Filters</span>
@@ -284,7 +279,7 @@ export const CollectionPage: React.FC = () => {
               <button
                 onClick={() => {
                   setSelectedCategory('all');
-                  setMaxPrice(1000);
+                  setMaxPrice(5000);
                   setInStockOnly(false);
                 }}
                 className="bg-[#D85A30] text-[#FAF6EE] text-xs font-bold px-5 py-2.5 rounded-xl shadow-md"
@@ -335,7 +330,7 @@ export const CollectionPage: React.FC = () => {
                       selectedCategory === 'all' ? 'bg-[#D85A30] text-[#FAF6EE]' : 'bg-[#FAEEDA] text-[#3A2A1E]'
                     }`}
                   >
-                    All Products
+                    All Products ({activeProducts.length})
                   </button>
                   <button
                     onClick={() => {
@@ -346,7 +341,18 @@ export const CollectionPage: React.FC = () => {
                       selectedCategory === 'pitha' ? 'bg-[#D85A30] text-[#FAF6EE]' : 'bg-[#FAEEDA] text-[#3A2A1E]'
                     }`}
                   >
-                    Traditional Pitha (ঐতিহ্যবাহী পিঠা)
+                    Traditional Pitha ({pithaCount})
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedCategory('combos');
+                      setIsMobileFilterOpen(false);
+                    }}
+                    className={`w-full text-left p-2.5 rounded-xl text-xs font-bold ${
+                      selectedCategory === 'combos' ? 'bg-[#D85A30] text-[#FAF6EE]' : 'bg-[#FAEEDA] text-[#3A2A1E]'
+                    }`}
+                  >
+                    Combo Offers ({comboCount})
                   </button>
                 </div>
               </div>
@@ -359,7 +365,7 @@ export const CollectionPage: React.FC = () => {
                 <input
                   type="range"
                   min="100"
-                  max="1000"
+                  max="5000"
                   step="50"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
