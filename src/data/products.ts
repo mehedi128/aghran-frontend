@@ -5,6 +5,8 @@ import narikelPuliImage1 from '../assets/images/narikel_puli_pitha_1.jpg';
 import narikelPuliImage2 from '../assets/images/narikel_puli_pitha_2.jpg';
 import jhinukPithaImage1 from '../assets/images/jn0.png';
 import jhinukPithaImage2 from '../assets/images/jn1.jpg';
+import phulNokshiImage1 from '../assets/images/pn0.png';
+import phulNokshiImage2 from '../assets/images/pn1.png';
 
 export const INITIAL_PRODUCTS: Product[] = [
   // ==================== TOP SELLING NOKSHI PITHA PRODUCTS ====================
@@ -92,8 +94,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     rating: 5.0,
     reviewCount: 156,
     images: [
-      nokshiPithaImage2,
-      nokshiPithaImage1
+      phulNokshiImage1,
+      phulNokshiImage2
     ],
     isFeatured: true,
     isTopSeller: true,
