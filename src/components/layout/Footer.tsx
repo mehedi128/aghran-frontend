@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
 
           <div className="w-full lg:w-auto flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/profile.php?id=61593008477913"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto bg-[#1877F2] hover:bg-[#166fe5] text-white text-sm font-bold px-6 py-3.5 rounded-2xl transition-all flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg active:scale-[0.98] font-serif-bangla"
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
             </a>
 
             <a
-              href="https://m.me"
+              href="https://m.me/61593008477913"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto bg-white border-2 border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2]/10 text-sm font-bold px-5 py-3 rounded-2xl transition-all flex items-center justify-center gap-2 font-serif-bangla shadow-sm"

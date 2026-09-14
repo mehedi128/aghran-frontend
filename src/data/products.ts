@@ -7,6 +7,7 @@ import jhinukPithaImage1 from '../assets/images/jn0.png';
 import jhinukPithaImage2 from '../assets/images/jn1.jpg';
 import phulNokshiImage1 from '../assets/images/pn0.png';
 import phulNokshiImage2 from '../assets/images/pn1.png';
+import phulNokshiImage3 from '../assets/images/pn2.png';
 import reviewUserImage1 from '../assets/images/review_user_1.jpg';
 import reviewUserImage2 from '../assets/images/review_user_2.jpg';
 import reviewUserImage3 from '../assets/images/review_user_3.jpg';
@@ -98,7 +99,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     reviewCount: 156,
     images: [
       phulNokshiImage1,
-      phulNokshiImage2
+      phulNokshiImage2,
+      phulNokshiImage3
     ],
     isFeatured: true,
     isTopSeller: true,
