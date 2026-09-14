@@ -89,8 +89,8 @@ export const TestimonialsSection: React.FC = () => {
 
                 <div className="min-w-0">
                   <div className="flex items-center gap-1">
-                    <h4 className="text-xs font-bold text-[#3A2A1E] truncate">
-                      {t.author}
+                    <h4 className="text-xs font-bold text-[#3A2A1E] truncate font-serif-bangla">
+                      {t.authorBangla || t.author}
                     </h4>
                     {t.verifiedBuyer && (
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#639922] flex-shrink-0" title="Verified Buyer" />
