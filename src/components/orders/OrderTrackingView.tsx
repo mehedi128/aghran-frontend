@@ -139,7 +139,7 @@ export const OrderTrackingView: React.FC = () => {
                 Status: In Preparation (রান্নাঘরে প্রস্তুত হচ্ছে)
               </span>
               <div className="text-[11px] text-[#888780] mt-1">
-                Est. Delivery: Within 24-48 Hours
+                Est. Delivery: Within 48-72 Hours
               </div>
             </div>
           </div>

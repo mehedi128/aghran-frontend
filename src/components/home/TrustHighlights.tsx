@@ -13,7 +13,7 @@ export const TrustHighlights: React.FC = () => {
       icon: <Truck className="w-7 h-7 text-[#D85A30]" />,
       titleBangla: 'সারা দেশে হোম ডেলিভারি',
       titleEnglish: 'Express Fast Delivery',
-      description: '24-48 hours across all 64 districts.'
+      description: '48-72 hours across all 64 districts.'
     },
     {
       icon: <Banknote className="w-7 h-7 text-[#639922]" />,
