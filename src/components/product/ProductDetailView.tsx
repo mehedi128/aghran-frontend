@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { ProductCard } from './ProductCard';
+import { trackViewContent } from '../../services/facebookTrackingService';
 
 export const ProductDetailView: React.FC = () => {
   const {
@@ -64,11 +65,14 @@ export const ProductDetailView: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'ingredients' | 'usage' | 'reviews'>('description');
 
-  // Update default variant selection when product changes
+  // Update default variant selection and track ViewContent when product changes
   React.useEffect(() => {
     setSelectedVariantIndex(getDefaultVariantIndex(product));
     setSelectedImageIndex(0);
     setQuantity(1);
+    if (product) {
+      trackViewContent(product);
+    }
   }, [product?.id]);
 
   const isFavorited = isInWishlist(product.id);

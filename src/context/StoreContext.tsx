@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Product, ProductVariant, CartItem, Order, CategoryId, DeliveryZone, Coupon } from '../types';
 import { INITIAL_PRODUCTS, SAMPLE_COUPONS } from '../data/products';
 import { sendOrderToGoogleSheet } from '../services/googleSheetsService';
+import { trackAddToCart, trackInitiateCheckout, trackPurchase } from '../services/facebookTrackingService';
 
 export type CurrentView = 
   | 'home'
@@ -304,6 +305,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (params?.slug) {
       setSelectedProductSlug(params.slug);
     }
+    if (view === 'checkout' && cart.length > 0) {
+      trackInitiateCheckout(cart, cartTotal);
+    }
     setCurrentView(view);
     syncUrlToBrowser(view, params);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -352,6 +356,9 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         }];
       }
     });
+
+    // Facebook Pixel & CAPI AddToCart tracking
+    trackAddToCart(product, quantity, unitPrice);
 
     showToast('Added to Cart', `${product.nameBangla} (${product.nameEnglish}) added to your basket!`);
     if (openDrawer) {
@@ -477,6 +484,13 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     sendOrderToGoogleSheet(newOrder).catch(err => {
       console.error('Failed to sync order to Google Sheets:', err);
     });
+
+    // Facebook Pixel & CAPI Purchase tracking
+    try {
+      trackPurchase(newOrder);
+    } catch (err) {
+      console.warn('Facebook Purchase tracking error:', err);
+    }
 
     navigateTo('order-success');
     showToast('Order Placed Successfully!', `Order #${newOrder.orderNumber} is now confirmed.`);
