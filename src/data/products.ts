@@ -9,6 +9,7 @@ import phulNokshiImage1 from '../assets/images/pn0.png';
 import phulNokshiImage2 from '../assets/images/pn1.png';
 import reviewUserImage1 from '../assets/images/review_user_1.jpg';
 import reviewUserImage2 from '../assets/images/review_user_2.jpg';
+import reviewUserImage3 from '../assets/images/review_user_3.jpg';
 
 export const INITIAL_PRODUCTS: Product[] = [
   // ==================== TOP SELLING NOKSHI PITHA PRODUCTS ====================
@@ -865,6 +866,18 @@ export const TESTIMONIALS: Testimonial[] = [
     productName: 'Traditional Pitha & Delicacies',
     verifiedBuyer: true,
     avatarUrl: reviewUserImage2
+  },
+  {
+    id: 't-mohammad-arafat',
+    author: 'Mohammad Arafat',
+    authorBangla: 'মোহাম্মদ আরাফাত',
+    location: 'Tongi',
+    rating: 5,
+    comment: 'দেখতে যতটুকু লোভনীয় খেতে তারথেকে বেশি মজা কোনো ভেজাল নেই একদম পিওর জিনিস কোয়ালিটি এবং কোয়ান্টিটি একদমই বেস্ট ইনশাল্লাহ পরবর্তীতে আবার অর্ডার করবো',
+    commentBangla: 'দেখতে যতটুকু লোভনীয় খেতে তারথেকে বেশি মজা কোনো ভেজাল নেই একদম পিওর জিনিস কোয়ালিটি এবং কোয়ান্টিটি একদমই বেস্ট ইনশাল্লাহ পরবর্তীতে আবার অর্ডার করবো',
+    productName: 'Traditional Pitha Collection',
+    verifiedBuyer: true,
+    avatarUrl: reviewUserImage3
   },
   {
     id: 't1',
