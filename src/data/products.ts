@@ -878,54 +878,6 @@ export const TESTIMONIALS: Testimonial[] = [
     productName: 'Traditional Pitha Collection',
     verifiedBuyer: true,
     avatarUrl: reviewUserImage3
-  },
-  {
-    id: 't1',
-    author: 'Nusrat Jahan',
-    authorBangla: 'নুসরাত জাহান',
-    location: 'Gulshan-2, Dhaka',
-    rating: 5,
-    comment: 'The Nokshi Pitha tasted just like my grandmother used to make in our village home in Bogura. Crisp, not overly sweet, and the date jaggery fragrance was heavenly. Packaging was pristine!',
-    commentBangla: 'নকশী পিঠাটা খেয়ে ঠিক নানুবাড়ির কথা মনে পড়ে গেল। একদম খাঁটি গুড়ের ঘ্রাণ আর মুচমুচে। প্যাকেজিং খুব সুন্দর ছিল।',
-    productName: 'Traditional Nokshi Pitha',
-    verifiedBuyer: true,
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
-  },
-  {
-    id: 't2',
-    author: 'Mahmudul Hasan',
-    authorBangla: 'মাহমুদুল হাসান',
-    location: 'Dhanmondi, Dhaka',
-    rating: 5,
-    comment: 'I tested Aghran turmeric and chili powder with hot water to check for synthetic colors — zero residue or yellow dye floating. The authentic sharpness and natural bright color made our beef rezala phenomenal.',
-    commentBangla: 'হলুদ আর মরিচ গুঁড়ার মধ্যে কোনো কৃত্রিম রং বা ভেজাল নেই। একদম নির্ভেজাল ও খাঁটি পণ্য। ডেলিভারিও খুব দ্রুত পেয়েছি।',
-    productName: 'Pure Stone-Ground Turmeric & Bogura Chili',
-    verifiedBuyer: true,
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'
-  },
-  {
-    id: 't3',
-    author: 'Dr. Farhana Chowdhury',
-    authorBangla: 'ডাঃ ফারহানা চৌধুরী',
-    location: 'GEC Circle, Chattogram',
-    rating: 5,
-    comment: 'The Shahi Garam Masala is a game-changer! You only need half a teaspoon and your entire dining room smells like an authentic royal wedding feast. Will order again every month.',
-    commentBangla: 'শাহী গরম মসলার সুবাস সত্যিই চমৎকার! বিরিয়ানি আর রোস্টে অসাধারণ স্বাদ এনে দেয়।',
-    productName: 'Royal Shahi Garam Masala Blend',
-    verifiedBuyer: true,
-    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80'
-  },
-  {
-    id: 't4',
-    author: 'Tanvir Ahmed',
-    authorBangla: 'তানভীর আহমেদ',
-    location: 'Uttara Sector 11, Dhaka',
-    rating: 5,
-    comment: 'Ordered the Kheer Patishapta for a family get-together. It arrived warm and fresh within hours. Everyone in the family kept asking where I bought it from!',
-    commentBangla: 'পাটিসাপটা পিঠাটা ভীষণ নরম ও ভেতরের ক্ষীরসা দারুণ স্বাদের। বাসায় সবাই খুব প্রশংসা করেছে।',
-    productName: 'Nolen Gur Kheer Patishapta',
-    verifiedBuyer: true,
-    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'
   }
 ];
 
