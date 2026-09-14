@@ -8,6 +8,7 @@ import jhinukPithaImage2 from '../assets/images/jn1.jpg';
 import phulNokshiImage1 from '../assets/images/pn0.png';
 import phulNokshiImage2 from '../assets/images/pn1.png';
 import reviewUserImage1 from '../assets/images/review_user_1.jpg';
+import reviewUserImage2 from '../assets/images/review_user_2.jpg';
 
 export const INITIAL_PRODUCTS: Product[] = [
   // ==================== TOP SELLING NOKSHI PITHA PRODUCTS ====================
@@ -842,9 +843,9 @@ export const INITIAL_PRODUCTS: Product[] = [
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    id: 't-mehedi-jhinuk',
-    author: 'Mehedi Hasan',
-    authorBangla: 'মেহেদী হাসান',
+    id: 't-jahid-jhinuk',
+    author: 'Jahid Hasan Pappu',
+    authorBangla: 'জাহিদ হাসান পাপ্পু',
     location: 'Dhaka, Bangladesh',
     rating: 5,
     comment: 'The Jhinuk Pithas were extraordinary, ordered some more pithas today!',
@@ -852,6 +853,18 @@ export const TESTIMONIALS: Testimonial[] = [
     productName: 'ঝিনুক নকশি পিঠা (Jhinuk Nokshi Pitha)',
     verifiedBuyer: true,
     avatarUrl: reviewUserImage1
+  },
+  {
+    id: 't-abu-hanif',
+    author: 'Abu Hanif',
+    authorBangla: 'আবু হানিফ',
+    location: 'Gazipur',
+    rating: 5,
+    comment: 'tasty and delicious. Will order again.',
+    commentBangla: 'অনেক সুস্বাদু ও মুখরোচক ছিল। আবারও অর্ডার করব।',
+    productName: 'Traditional Pitha & Delicacies',
+    verifiedBuyer: true,
+    avatarUrl: reviewUserImage2
   },
   {
     id: 't1',
