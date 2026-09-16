@@ -425,15 +425,15 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'pitha',
     categoryBangla: 'ঐতিহ্যবাহী পিঠা',
     categoryEnglish: 'Traditional Pitha',
-    price: 350,
-    originalPrice: 499,
-    discountPercentage: 30,
+    price: 499,
+    originalPrice: 599,
+    discountPercentage: 17,
     weight: '500g Pack',
     variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
-      { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
-      { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
-      { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }
+      { id: 'v1', name: '500g', weight: '500g', price: 499, originalPrice: 599, inStock: true },
+      { id: 'v2', name: '1kg', weight: '1kg', price: 950, originalPrice: 1150, inStock: true },
+      { id: 'v3', name: '2kg', weight: '2kg', price: 1799, originalPrice: 2100, inStock: true },
+      { id: 'v4', name: '3kg', weight: '3kg', price: 2599, originalPrice: 2999, inStock: true }
     ],
     descriptionBangla: 'ভাজা নারিকেলের লোভনীয় পুর ও খাঁটি খেজুরের গুড়ে প্রস্তুত নরম সুস্বাদু ঐতিহ্যবাহী নারিকেল পুলি পিঠা। চালের নরম খোলসের ভেতরে রসালো নারিকেল ও এলাচের সুবাস মন ভরিয়ে দেয়।',
     descriptionEnglish: 'Authentic Bengali Narikel Puli dumplings stuffed with a rich, caramelized filling of grated fresh coconut, roasted sesame, and pure date palm jaggery.',
