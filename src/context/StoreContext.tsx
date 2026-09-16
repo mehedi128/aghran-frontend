@@ -10,6 +10,7 @@ export type CurrentView =
   | 'product-detail'
   | 'cart'
   | 'checkout'
+  | 'checkout-test'
   | 'order-success'
   | 'track-order'
   | 'about'
@@ -123,7 +124,7 @@ const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: str
     const cat = pathToCheck.replace('collection/', '');
     return { view: 'collection', category: cat as CategoryId, slug: null };
   }
-  if (['collection', 'cart', 'checkout', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
+  if (['collection', 'cart', 'checkout', 'checkout-test', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
     return { view: pathToCheck as CurrentView, category: 'all', slug: null };
   }
 
@@ -439,11 +440,11 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
   const cartSubtotal = cart.reduce((total, item) => total + (item.unitPrice * item.quantity), 0);
   
-  // Shipping calculation: Inside Dhaka ৳70, Outside Dhaka ৳130. Free above ৳1500 or with Free Delivery products!
+  // Shipping calculation: Inside Dhaka ৳80, Outside Dhaka ৳130. Free above ৳1500 or with Free Delivery products!
   const freeShippingThreshold = 1500;
   const hasFreeDeliveryProduct = cart.some(item => item.product.freeDelivery || item.product.id === 'combo-pitha-utsab' || item.product.slug === 'combo-pitha-utsab');
   const isFreeShipping = cartSubtotal >= freeShippingThreshold || hasFreeDeliveryProduct;
-  const baseShipping = deliveryZone === 'dhaka' ? 70 : 130;
+  const baseShipping = deliveryZone === 'dhaka' ? 80 : 130;
   const shippingFee = cart.length === 0 ? 0 : (isFreeShipping ? 0 : baseShipping);
   const freeShippingRemaining = hasFreeDeliveryProduct ? 0 : Math.max(0, freeShippingThreshold - cartSubtotal);
 

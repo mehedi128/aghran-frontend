@@ -124,7 +124,7 @@ export const CheckoutPage: React.FC = () => {
                                     <Truck className='w-4 h-4 mt-0.5 flex-shrink-0' />
                                     <div>
                                         <div>Inside Dhaka Metro</div>
-                                        <div className='text-[11px] opacity-85 font-normal'>৳70</div>
+                                        <div className='text-[11px] opacity-85 font-normal'>৳80</div>
                                     </div>
                                 </button>
 

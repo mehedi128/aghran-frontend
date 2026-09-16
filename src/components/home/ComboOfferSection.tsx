@@ -31,7 +31,6 @@ export const ComboOfferSection: React.FC = () => {
       price: 699,
       originalPrice: 850,
       savings: 151,
-      badge: 'বেস্ট সেলিং কম্বো',
       image: utsabComboImage,
       items: [
         'পাতা নকশি পিঠা',

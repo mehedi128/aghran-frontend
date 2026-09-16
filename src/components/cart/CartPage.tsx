@@ -218,7 +218,7 @@ export const CartPage: React.FC = () => {
                   }`}
                 >
                   <div>Inside Dhaka</div>
-                  <div className="text-[11px] opacity-80 mt-0.5">৳70</div>
+                  <div className="text-[11px] opacity-80 mt-0.5">৳80</div>
                 </button>
 
                 <button

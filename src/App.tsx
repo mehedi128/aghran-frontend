@@ -23,6 +23,7 @@ import { CollectionPage } from './components/collection/CollectionPage';
 import { ProductDetailView } from './components/product/ProductDetailView';
 import { CartPage } from './components/cart/CartPage';
 import { CheckoutPage } from './components/checkout/CheckoutPage';
+import { CheckoutTestPage } from './components/checkout/CheckoutTestPage';
 import { OrderSuccessView } from './components/checkout/OrderSuccessView';
 import { OrderTrackingView } from './components/orders/OrderTrackingView';
 import { AboutPage } from './components/pages/AboutPage';
@@ -58,6 +59,7 @@ const MainContent: React.FC = () => {
       {currentView === 'product-detail' && <ProductDetailView />}
       {currentView === 'cart' && <CartPage />}
       {currentView === 'checkout' && <CheckoutPage />}
+      {currentView === 'checkout-test' && <CheckoutTestPage />}
       {currentView === 'order-success' && <OrderSuccessView />}
       {currentView === 'track-order' && <OrderTrackingView />}
       {currentView === 'about' && <AboutPage />}
