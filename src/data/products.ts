@@ -1,4 +1,7 @@
 import { Product, Testimonial, Coupon } from '../types';
+import utsabComboImage from '../assets/images/up0.png';
+import pataNokshiImage1 from '../assets/images/pata_n0.png';
+import pataNokshiImage2 from '../assets/images/pata_n1.png';
 import nokshiPithaImage1 from '../assets/images/nokshi_pitha_village_1787466507600.jpg';
 import nokshiPithaImage2 from '../assets/images/nokshi_pitha_clay_1787466525945.jpg';
 import narikelPuliImage1 from '../assets/images/narikel_puli_pitha_1.jpg';
@@ -51,8 +54,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 128,
     images: [
-      nokshiPithaImage1,
-      nokshiPithaImage2
+      pataNokshiImage1,
+      pataNokshiImage2
     ],
     isFeatured: true,
     isTopSeller: true,
@@ -189,6 +192,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     rating: 5.0,
     reviewCount: 248,
     images: [
+      utsabComboImage,
       nokshiPithaImage2,
       nokshiPithaImage1
     ],
@@ -234,6 +238,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     rating: 5.0,
     reviewCount: 82,
     images: [
+      utsabComboImage,
       nokshiPithaImage2,
       nokshiPithaImage1
     ],

@@ -2,6 +2,7 @@ import React from 'react';
 import { ShoppingCart, Tag, Check, Zap, Truck } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import nokshiPithaComboImg from '../../assets/images/nokshi_pitha_village_1787466507600.jpg';
+import utsabComboImage from '../../assets/images/up0.png';
 
 interface ComboOffer {
   id: string;
@@ -31,7 +32,7 @@ export const ComboOfferSection: React.FC = () => {
       originalPrice: 850,
       savings: 151,
       badge: 'বেস্ট সেলিং কম্বো',
-      image: nokshiPithaComboImg,
+      image: utsabComboImage,
       items: [
         'পাতা নকশি পিঠা',
         'ফুল নকশি পিঠা',
@@ -51,7 +52,7 @@ export const ComboOfferSection: React.FC = () => {
       savings: 300,
       badge: 'ফ্রি ডেলিভারি',
       freeDelivery: true,
-      image: nokshiPithaComboImg,
+      image: utsabComboImage,
       items: [
         'পাতা নকশি পিঠা',
         'ফুল নকশি পিঠা',
