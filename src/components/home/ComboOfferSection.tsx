@@ -121,62 +121,67 @@ export const ComboOfferSection: React.FC = () => {
 
       {/* Offers Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {comboOffers.map((combo) => (
-          <div
-            key={combo.id}
-            id={`combo-card-${combo.id}`}
-            onClick={() => navigateTo('product-detail', { slug: combo.id })}
-            className="bg-[#FAF6EE] rounded-3xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1 cursor-pointer"
-          >
-            <div>
-              {/* Image Banner */}
-              <div 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigateTo('product-detail', { slug: combo.id });
-                }}
-                className="relative h-48 sm:h-52 w-full overflow-hidden bg-[#FAEEDA] cursor-pointer"
-              >
-                <img
-                  src={combo.image}
-                  alt={combo.titleBangla}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  referrerPolicy="no-referrer"
-                />
-                {combo.freeDelivery ? (
-                  <div className="absolute top-3 left-3 bg-[#1B5E20] text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border border-[#81C784]/60 animate-pulse">
-                    <Truck className="w-3.5 h-3.5 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
-                  </div>
-                ) : (
-                  <div className="absolute top-3 left-3 bg-[#D85A30] text-white text-xs font-black px-3 py-1 rounded-full shadow-md">
-                    {combo.badge}
-                  </div>
-                )}
-                <div className="absolute top-3 right-3 bg-[#639922] text-white text-xs font-black px-3 py-1 rounded-full shadow-md flex items-center gap-1">
-                  <Tag className="w-3.5 h-3.5" />
-                  <span>সেভ ৳{combo.savings}</span>
-                </div>
-              </div>
+        {comboOffers.map((combo) => {
+          const handleComboClick = (e: React.MouseEvent) => {
+            if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+              e.preventDefault();
+              navigateTo('product-detail', { slug: combo.id });
+            }
+          };
 
-              {/* Body Content */}
-              <div className="p-5">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h3 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigateTo('product-detail', { slug: combo.id });
-                      }}
-                      className="text-lg sm:text-xl font-bold text-[#3A2A1E] font-serif-bangla group-hover:text-[#D85A30] transition-colors leading-snug cursor-pointer"
-                    >
-                      {combo.titleBangla}
-                    </h3>
-                    <p className="text-xs text-[#888780] font-sans font-semibold mt-0.5">
-                      {combo.titleEnglish}
-                    </p>
+          return (
+            <div
+              key={combo.id}
+              id={`combo-card-${combo.id}`}
+              className="bg-[#FAF6EE] rounded-3xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
+            >
+              <div>
+                {/* Image Banner */}
+                <a 
+                  href={`?product=${combo.id}`}
+                  onClick={handleComboClick}
+                  className="relative block h-48 sm:h-52 w-full overflow-hidden bg-[#FAEEDA] cursor-pointer"
+                >
+                  <img
+                    src={combo.image}
+                    alt={combo.titleBangla}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  {combo.freeDelivery ? (
+                    <div className="absolute top-3 left-3 bg-[#1B5E20] text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border border-[#81C784]/60 animate-pulse">
+                      <Truck className="w-3.5 h-3.5 text-[#A5D6A7]" />
+                      <span>🚚 ফ্রি ডেলিভারি</span>
+                    </div>
+                  ) : (
+                    <div className="absolute top-3 left-3 bg-[#D85A30] text-white text-xs font-black px-3 py-1 rounded-full shadow-md">
+                      {combo.badge}
+                    </div>
+                  )}
+                  <div className="absolute top-3 right-3 bg-[#639922] text-white text-xs font-black px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+                    <Tag className="w-3.5 h-3.5" />
+                    <span>সেভ ৳{combo.savings}</span>
                   </div>
-                </div>
+                </a>
+
+                {/* Body Content */}
+                <div className="p-5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <a
+                        href={`?product=${combo.id}`}
+                        onClick={handleComboClick}
+                        className="block group-hover:text-[#D85A30] transition-colors"
+                      >
+                        <h3 className="text-lg sm:text-xl font-bold text-[#3A2A1E] font-serif-bangla leading-snug">
+                          {combo.titleBangla}
+                        </h3>
+                      </a>
+                      <p className="text-xs text-[#888780] font-sans font-semibold mt-0.5">
+                        {combo.titleEnglish}
+                      </p>
+                    </div>
+                  </div>
 
                 {combo.freeDelivery && (
                   <div className="mt-2.5 inline-flex items-center gap-1.5 bg-[#E8F5E9] text-[#1B5E20] border border-[#81C784]/60 px-2.5 py-1 rounded-lg text-xs font-black font-serif-bangla shadow-xs">
@@ -240,7 +245,8 @@ export const ComboOfferSection: React.FC = () => {
               </div>
             </div>
           </div>
-        ))}
+        );
+      })}
       </div>
     </section>
   );

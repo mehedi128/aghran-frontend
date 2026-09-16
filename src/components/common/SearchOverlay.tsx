@@ -106,43 +106,51 @@ export const SearchOverlay: React.FC = () => {
               </div>
             ) : (
               <div className="max-h-72 overflow-y-auto space-y-2.5 pr-1 divide-y divide-[#D85A30]/10">
-                {searchResults.map((item) => (
-                  <div
-                    key={item.id}
-                    onClick={() => {
+                {searchResults.map((item) => {
+                  const handleItemClick = (e: React.MouseEvent) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
                       setIsSearchOpen(false);
                       navigateTo('product-detail', { slug: item.slug });
-                    }}
-                    className="pt-2.5 first:pt-0 flex items-center justify-between gap-3 p-2 rounded-xl hover:bg-[#FAEEDA]/70 cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <img
-                        src={item.images[0]}
-                        alt={item.nameEnglish}
-                        referrerPolicy="no-referrer"
-                        className="w-12 h-12 rounded-xl object-cover border border-[#D85A30]/20 flex-shrink-0"
-                      />
-                      <div className="min-w-0">
-                        <h4 className="text-xs font-bold font-serif-bangla text-[#3A2A1E] truncate">
-                          {item.nameBangla}
-                        </h4>
-                        <h5 className="text-[11px] text-[#888780] truncate">
-                          {item.nameEnglish}
-                        </h5>
-                        <div className="text-[10px] text-[#639922] font-semibold">
-                          {item.categoryEnglish}
+                    }
+                  };
+
+                  return (
+                    <a
+                      key={item.id}
+                      href={`?product=${item.slug}`}
+                      onClick={handleItemClick}
+                      className="pt-2.5 first:pt-0 flex items-center justify-between gap-3 p-2 rounded-xl hover:bg-[#FAEEDA]/70 cursor-pointer transition-colors"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <img
+                          src={item.images[0]}
+                          alt={item.nameEnglish}
+                          referrerPolicy="no-referrer"
+                          className="w-12 h-12 rounded-xl object-cover border border-[#D85A30]/20 flex-shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <h4 className="text-xs font-bold font-serif-bangla text-[#3A2A1E] truncate">
+                            {item.nameBangla}
+                          </h4>
+                          <h5 className="text-[11px] text-[#888780] truncate">
+                            {item.nameEnglish}
+                          </h5>
+                          <div className="text-[10px] text-[#639922] font-semibold">
+                            {item.categoryEnglish}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="text-right flex-shrink-0">
-                      <span className="text-xs font-black text-[#D85A30] block">
-                        ৳{item.price}
-                      </span>
-                      <span className="text-[10px] text-[#888780]">View Details →</span>
-                    </div>
-                  </div>
-                ))}
+                      <div className="text-right flex-shrink-0">
+                        <span className="text-xs font-black text-[#D85A30] block">
+                          ৳{item.price}
+                        </span>
+                        <span className="text-[10px] text-[#888780]">View Details →</span>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
             )}
           </div>

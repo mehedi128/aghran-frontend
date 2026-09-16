@@ -4,14 +4,16 @@ interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg';
   showTagline?: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
+  href?: string;
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   showTagline = true,
   className = '',
-  onClick
+  onClick,
+  href = '/'
 }) => {
   const iconSizes = {
     sm: 'w-8 h-8',
@@ -25,9 +27,19 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     lg: 'text-2xl md:text-3xl'
   };
 
+  const handleClick = (e: React.MouseEvent) => {
+    if (onClick) {
+      if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+        e.preventDefault();
+        onClick(e);
+      }
+    }
+  };
+
   return (
-    <div
-      onClick={onClick}
+    <a
+      href={href}
+      onClick={handleClick}
       className={`inline-flex items-center gap-3 cursor-pointer select-none group ${className}`}
       id="aghran-brand-logo"
     >
@@ -101,6 +113,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           অঘ্রাণ
         </span>
       </div>
-    </div>
+    </a>
   );
 };

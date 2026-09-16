@@ -39,12 +39,18 @@ export const TopSellingCarousel: React.FC = () => {
               ? displayOriginalPrice - displayPrice 
               : 0;
 
+            const handleTopSellerClick = (e: React.MouseEvent) => {
+              if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                e.preventDefault();
+                navigateTo('product-detail', { slug: product.slug });
+              }
+            };
+
             return (
               <div
                 key={product.id}
                 id={`top-seller-card-${product.id}`}
-                onClick={() => navigateTo('product-detail', { slug: product.slug })}
-                className="bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/20 shadow-[0_2px_12px_rgba(58,42,30,0.04)] hover:shadow-lg transition-all duration-300 p-4 sm:p-5 md:p-6 relative flex flex-col sm:flex-row items-stretch gap-4 sm:gap-6 group hover:border-[#D85A30]/40 cursor-pointer w-full"
+                className="bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/20 shadow-[0_2px_12px_rgba(58,42,30,0.04)] hover:shadow-lg transition-all duration-300 p-4 sm:p-5 md:p-6 relative flex flex-col sm:flex-row items-stretch gap-4 sm:gap-6 group hover:border-[#D85A30]/40 w-full"
               >
                 {/* Red/Terracotta Pill Badge in Top Right */}
                 <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#D85A30] text-white text-[11px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm z-10">
@@ -53,12 +59,10 @@ export const TopSellingCarousel: React.FC = () => {
                 </div>
 
                 {/* Product Image - Full Width on Mobile, Clean Square on Desktop */}
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigateTo('product-detail', { slug: product.slug });
-                  }}
-                  className="w-full sm:w-48 md:w-56 sm:flex-shrink-0 aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl bg-white border border-[#D85A30]/15 cursor-pointer overflow-hidden shadow-sm relative"
+                <a
+                  href={`?product=${product.slug}`}
+                  onClick={handleTopSellerClick}
+                  className="block w-full sm:w-48 md:w-56 sm:flex-shrink-0 aspect-[4/3] sm:aspect-square rounded-xl sm:rounded-2xl bg-white border border-[#D85A30]/15 cursor-pointer overflow-hidden shadow-sm relative"
                 >
                   <img
                     src={product.images[0]}
@@ -66,20 +70,20 @@ export const TopSellingCarousel: React.FC = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />
-                </div>
+                </a>
 
                 {/* Product Details & Actions - Full Width Content */}
                 <div className="flex-1 flex flex-col justify-between w-full">
                   <div className="pt-0 sm:pt-1 pr-0 sm:pr-24">
-                    <h3
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigateTo('product-detail', { slug: product.slug });
-                      }}
-                      className="text-lg sm:text-xl font-bold text-[#3A2A1E] group-hover:text-[#D85A30] transition-colors cursor-pointer leading-snug font-serif-bangla"
+                    <a
+                      href={`?product=${product.slug}`}
+                      onClick={handleTopSellerClick}
+                      className="block group-hover:text-[#D85A30] transition-colors"
                     >
-                      {product.nameBangla}
-                    </h3>
+                      <h3 className="text-lg sm:text-xl font-bold text-[#3A2A1E] leading-snug font-serif-bangla">
+                        {product.nameBangla}
+                      </h3>
+                    </a>
                     {/* Price Display */}
                     <div className="mt-2.5 flex items-baseline gap-2 flex-wrap">
                       <span className="text-xl sm:text-2xl font-bold text-[#D85A30] font-sans">

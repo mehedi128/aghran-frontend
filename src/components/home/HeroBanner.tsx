@@ -72,23 +72,35 @@ export const HeroBanner: React.FC = () => {
 
                     {/* CTA Buttons */}
                     <div className='flex flex-wrap items-center gap-3 sm:gap-4 mt-6 sm:mt-8'>
-                        <button
-                            onClick={() => navigateTo('collection', { category: active.primaryCategory })}
+                        <a
+                            href={`?category=${active.primaryCategory}`}
+                            onClick={(e) => {
+                                if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                                    e.preventDefault();
+                                    navigateTo('collection', { category: active.primaryCategory });
+                                }
+                            }}
                             className='bg-[#D85A30] text-[#FAF6EE] hover:bg-[#c24e27] active:scale-95 font-bold text-xs sm:text-sm px-6 sm:px-8 py-3.5 rounded-2xl transition-all flex items-center gap-2 shadow-lg shadow-[#D85A30]/30 group'
                             id='hero-primary-cta'
                         >
                             <span>{active.primaryCtaText}</span>
                             <ArrowRight className='w-4 h-4 transition-transform group-hover:translate-x-1' />
-                        </button>
+                        </a>
 
                         {active.secondarySlug && (
-                            <button
-                                onClick={() => navigateTo('product-detail', { slug: active.secondarySlug })}
+                            <a
+                                href={`?product=${active.secondarySlug}`}
+                                onClick={(e) => {
+                                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                                        e.preventDefault();
+                                        navigateTo('product-detail', { slug: active.secondarySlug });
+                                    }
+                                }}
                                 className='bg-[#FAF6EE]/15 hover:bg-[#FAF6EE]/25 backdrop-blur-md text-[#FAF6EE] border border-[#FAF6EE]/30 font-semibold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition-all'
                                 id='hero-secondary-cta'
                             >
                                 {active.secondaryCtaText} →
-                            </button>
+                            </a>
                         )}
                     </div>
                 </div>

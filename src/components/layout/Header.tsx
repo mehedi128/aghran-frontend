@@ -90,66 +90,80 @@ export const Header: React.FC = () => {
                   <span className="text-[#D85A30]">Direct from Village Kitchens</span>
                 </div>
                 <div className="divide-y divide-[#D85A30]/10 max-h-80 overflow-y-auto">
-                  {searchResults.map((product) => (
-                    <div
-                      key={product.id}
-                      onClick={() => {
+                  {searchResults.map((product) => {
+                    const handleItemClick = (e: React.MouseEvent) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                        e.preventDefault();
                         setIsSearchFocused(false);
                         navigateTo('product-detail', { slug: product.slug });
-                      }}
-                      className="p-3 flex items-center gap-3 hover:bg-[#FAEEDA]/60 cursor-pointer transition-colors group"
-                    >
-                      <img
-                        src={product.images[0]}
-                        alt={product.nameEnglish}
-                        referrerPolicy="no-referrer"
-                        className="w-12 h-12 object-cover rounded-xl border border-[#D85A30]/15 group-hover:scale-105 transition-transform"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-bold text-[#3A2A1E] truncate group-hover:text-[#D85A30] transition-colors">
-                            {product.nameEnglish}
-                          </h4>
-                          <span className="text-[11px] font-bangla text-[#888780] truncate">
-                            ({product.nameBangla})
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-xs font-extrabold text-[#D85A30]">
-                            ৳{product.price}
-                          </span>
-                          {product.originalPrice && (
-                            <span className="text-[11px] text-[#888780] line-through">
-                              ৳{product.originalPrice}
-                            </span>
-                          )}
-                          <span className="text-[10px] text-[#639922] bg-[#639922]/10 px-2 py-0.5 rounded-full font-semibold">
-                            {product.categoryEnglish}
-                          </span>
-                        </div>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart(product, undefined, 1);
-                        }}
-                        className="text-xs font-semibold bg-[#D85A30]/10 text-[#D85A30] hover:bg-[#D85A30] hover:text-[#FAF6EE] px-3 py-1.5 rounded-lg transition-colors"
+                      }
+                    };
+
+                    return (
+                      <a
+                        key={product.id}
+                        href={`?product=${product.slug}`}
+                        onClick={handleItemClick}
+                        className="p-3 flex items-center gap-3 hover:bg-[#FAEEDA]/60 cursor-pointer transition-colors group"
                       >
-                        + Add
-                      </button>
-                    </div>
-                  ))}
+                        <img
+                          src={product.images[0]}
+                          alt={product.nameEnglish}
+                          referrerPolicy="no-referrer"
+                          className="w-12 h-12 object-cover rounded-xl border border-[#D85A30]/15 group-hover:scale-105 transition-transform"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-sm font-bold text-[#3A2A1E] truncate group-hover:text-[#D85A30] transition-colors">
+                              {product.nameEnglish}
+                            </h4>
+                            <span className="text-[11px] font-bangla text-[#888780] truncate">
+                              ({product.nameBangla})
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-xs font-extrabold text-[#D85A30]">
+                              ৳{product.price}
+                            </span>
+                            {product.originalPrice && (
+                              <span className="text-[11px] text-[#888780] line-through">
+                                ৳{product.originalPrice}
+                              </span>
+                            )}
+                            <span className="text-[10px] text-[#639922] bg-[#639922]/10 px-2 py-0.5 rounded-full font-semibold">
+                              {product.categoryEnglish}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            addToCart(product, undefined, 1);
+                          }}
+                          className="text-xs font-semibold bg-[#D85A30]/10 text-[#D85A30] hover:bg-[#D85A30] hover:text-[#FAF6EE] px-3 py-1.5 rounded-lg transition-colors"
+                        >
+                          + Add
+                        </button>
+                      </a>
+                    );
+                  })}
                 </div>
-                <div
-                  onClick={() => {
-                    setIsSearchFocused(false);
-                    navigateTo('collection', { category: 'all' });
+                <a
+                  href="?category=all"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      setIsSearchFocused(false);
+                      navigateTo('collection', { category: 'all' });
+                    }
                   }}
                   className="p-2.5 bg-[#FAEEDA] text-center text-xs font-bold text-[#D85A30] hover:bg-[#D85A30] hover:text-[#FAF6EE] cursor-pointer transition-colors flex items-center justify-center gap-1"
                 >
                   <span>View all results</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </div>
+                </a>
               </div>
             )}
           </div>

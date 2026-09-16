@@ -101,28 +101,46 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3 text-sm text-[#3A2A1E]/85 font-medium">
               <li>
-                <button
-                  onClick={() => navigateTo('collection', { category: 'pitha' })}
-                  className="hover:text-[#D85A30] transition-colors text-left"
+                <a
+                  href="?category=pitha"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('collection', { category: 'pitha' });
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
                 >
                   Traditional Pitha (ঐতিহ্যবাহী পিঠা)
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => navigateTo('collection', { category: 'combos' })}
-                  className="hover:text-[#D85A30] transition-colors text-left"
+                <a
+                  href="?category=combos"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('collection', { category: 'combos' });
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
                 >
                   Combo Offers (কম্বো অফার)
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => navigateTo('product-detail', { slug: 'pata-nokshi-pitha' })}
-                  className="hover:text-[#D85A30] transition-colors text-left"
+                <a
+                  href="?product=pata-nokshi-pitha"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('product-detail', { slug: 'pata-nokshi-pitha' });
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
                 >
                   Nokshi Pitha (নকশী পিঠা)
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -134,14 +152,32 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3 text-sm text-[#3A2A1E]/85 font-medium">
               <li>
-                <button onClick={() => navigateTo('about')} className="hover:text-[#D85A30] transition-colors text-left">
+                <a
+                  href="?view=about"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('about');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
+                >
                   Our Harvest Story (অঘ্রাণের কথা)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => navigateTo('about')} className="hover:text-[#D85A30] transition-colors text-left">
+                <a
+                  href="?view=about"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('about');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
+                >
                   Offer Zone (অফার)
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -153,29 +189,74 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-3 text-sm text-[#3A2A1E]/85 font-medium">
               <li>
-                <button onClick={() => navigateTo('track-order')} className="hover:text-[#D85A30] transition-colors text-left font-bold text-[#D85A30]">
+                <a
+                  href="?view=track-order"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('track-order');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left font-bold text-[#D85A30]"
+                >
                   ⚡ Track Order Status
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => navigateTo('contact')} className="hover:text-[#D85A30] transition-colors text-left">
+                <a
+                  href="?view=contact"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('contact');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
+                >
                   Shipping & Delivery Info
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => navigateTo('contact')} className="hover:text-[#D85A30] transition-colors text-left">
+                <a
+                  href="?view=contact"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('contact');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
+                >
                   Return & Refund Policy
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => navigateTo('contact')} className="hover:text-[#D85A30] transition-colors text-left">
+                <a
+                  href="?view=contact"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('contact');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
+                >
                   Frequently Asked Questions
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => navigateTo('contact')} className="hover:text-[#D85A30] transition-colors text-left">
+                <a
+                  href="?view=contact"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                      e.preventDefault();
+                      navigateTo('contact');
+                    }
+                  }}
+                  className="hover:text-[#D85A30] transition-colors block text-left"
+                >
                   Contact Customer Care
-                </button>
+                </a>
               </li>
             </ul>
           </div>

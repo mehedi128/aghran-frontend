@@ -94,19 +94,41 @@ export const CartPage: React.FC = () => {
                   
                   {/* Product Thumbnail & Details */}
                   <div className="col-span-6 sm:col-span-7 flex items-center gap-3">
-                    <img
-                      src={item.product.images[0]}
-                      alt={item.product.nameEnglish}
-                      referrerPolicy="no-referrer"
-                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-[#D85A30]/20 flex-shrink-0"
-                    />
+                    <a
+                      href={`?product=${item.product.slug}`}
+                      onClick={(e) => {
+                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                          e.preventDefault();
+                          navigateTo('product-detail', { slug: item.product.slug });
+                        }
+                      }}
+                      className="flex-shrink-0"
+                    >
+                      <img
+                        src={item.product.images[0]}
+                        alt={item.product.nameEnglish}
+                        referrerPolicy="no-referrer"
+                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-[#D85A30]/20 hover:scale-105 transition-transform"
+                      />
+                    </a>
                     <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold font-serif-bangla text-[#3A2A1E] truncate">
-                        {item.product.nameBangla}
-                      </h4>
-                      <h5 className="text-[11px] sm:text-xs text-[#888780] truncate">
-                        {item.product.nameEnglish}
-                      </h5>
+                      <a
+                        href={`?product=${item.product.slug}`}
+                        onClick={(e) => {
+                          if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                            e.preventDefault();
+                            navigateTo('product-detail', { slug: item.product.slug });
+                          }
+                        }}
+                        className="block group"
+                      >
+                        <h4 className="text-xs sm:text-sm font-bold font-serif-bangla text-[#3A2A1E] truncate group-hover:text-[#D85A30] transition-colors">
+                          {item.product.nameBangla}
+                        </h4>
+                        <h5 className="text-[11px] sm:text-xs text-[#888780] truncate">
+                          {item.product.nameEnglish}
+                        </h5>
+                      </a>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-xs font-black text-[#D85A30]">
                           ৳{item.unitPrice}

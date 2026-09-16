@@ -34,19 +34,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const displayOriginalPrice = defaultVariant?.originalPrice || product.originalPrice;
   const displayWeight = defaultVariant ? defaultVariant.name : product.weight;
 
+  const handleProductClick = (e: React.MouseEvent) => {
+    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+      e.preventDefault();
+      navigateTo('product-detail', { slug: product.slug });
+    }
+  };
+
   return (
     <div
-      className="bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/15 overflow-hidden shadow-sm hover:shadow-xl hover:border-[#D85A30]/40 transition-all duration-300 flex flex-col group relative cursor-pointer"
+      className="bg-[#FAF6EE] rounded-2xl border border-[#D85A30]/15 overflow-hidden shadow-sm hover:shadow-xl hover:border-[#D85A30]/40 transition-all duration-300 flex flex-col group relative"
       id={`product-card-${product.id}`}
-      onClick={() => navigateTo('product-detail', { slug: product.slug })}
     >
       {/* Image Container */}
-      <div
-        className="relative w-full aspect-square bg-[#FAEEDA] overflow-hidden cursor-pointer"
-        onClick={(e) => {
-          e.stopPropagation();
-          navigateTo('product-detail', { slug: product.slug });
-        }}
+      <a
+        href={`?product=${product.slug}`}
+        onClick={handleProductClick}
+        className="relative block w-full aspect-square bg-[#FAEEDA] overflow-hidden cursor-pointer"
       >
         <img
           src={product.images[0]}
@@ -77,8 +81,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Action icons (Wishlist & Quick View) on hover */}
         <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               toggleWishlist(product.id);
             }}
             className={`w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition-all shadow-sm ${
@@ -93,8 +99,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </button>
 
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               setQuickViewProduct(product);
             }}
             className="w-8 h-8 rounded-full bg-[#FAF6EE]/80 text-[#3A2A1E] hover:bg-[#FAF6EE] hover:text-[#D85A30] flex items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover:opacity-100 shadow-sm"
@@ -120,18 +128,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.stockStatus}
           </span>
         </div>
-      </div>
+      </a>
 
       {/* Product Content Details */}
       <div className="p-4 flex-1 flex flex-col justify-between">
         <div>
           {/* Main Product Name */}
-          <h3
-            onClick={() => navigateTo('product-detail', { slug: product.slug })}
-            className="font-serif-bangla font-bold text-lg text-[#3A2A1E] leading-snug group-hover:text-[#D85A30] transition-colors cursor-pointer line-clamp-2"
+          <a
+            href={`?product=${product.slug}`}
+            onClick={handleProductClick}
+            className="block group-hover:text-[#D85A30] transition-colors"
           >
-            {product.nameBangla}
-          </h3>
+            <h3 className="font-serif-bangla font-bold text-lg text-[#3A2A1E] leading-snug line-clamp-2">
+              {product.nameBangla}
+            </h3>
+          </a>
         </div>
 
         {/* Pricing & Buttons */}

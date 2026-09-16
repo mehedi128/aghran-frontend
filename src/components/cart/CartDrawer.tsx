@@ -118,27 +118,48 @@ export const CartDrawer: React.FC = () => {
               </button>
             </div>
           ) : (
-            cart.map((item, index) => (
-              <div key={`${item.product.id}-${item.selectedVariant?.id || 'base'}`} className={`flex items-start gap-3.5 ${index > 0 ? 'pt-4' : ''}`}>
-                <img
-                  src={item.product.images[0]}
-                  alt={item.product.nameEnglish}
-                  referrerPolicy="no-referrer"
-                  className="w-16 h-16 rounded-xl object-cover border border-[#D85A30]/20 flex-shrink-0"
-                />
+            cart.map((item, index) => {
+              const handleItemClick = (e: React.MouseEvent) => {
+                if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                  e.preventDefault();
+                  setIsCartOpen(false);
+                  navigateTo('product-detail', { slug: item.product.slug });
+                }
+              };
 
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-bold text-[#3A2A1E] font-serif-bangla truncate">
-                    {item.product.nameBangla}
-                  </h4>
-                  <h5 className="text-[11px] text-[#888780] truncate">
-                    {item.product.nameEnglish}
-                  </h5>
-                  {item.selectedVariant && (
-                    <span className="text-[10px] bg-[#FAEEDA] text-[#D85A30] font-semibold px-1.5 py-0.2 rounded inline-block mt-0.5">
-                      {item.selectedVariant.name}
-                    </span>
-                  )}
+              return (
+                <div key={`${item.product.id}-${item.selectedVariant?.id || 'base'}`} className={`flex items-start gap-3.5 ${index > 0 ? 'pt-4' : ''}`}>
+                  <a
+                    href={`?product=${item.product.slug}`}
+                    onClick={handleItemClick}
+                    className="block flex-shrink-0"
+                  >
+                    <img
+                      src={item.product.images[0]}
+                      alt={item.product.nameEnglish}
+                      referrerPolicy="no-referrer"
+                      className="w-16 h-16 rounded-xl object-cover border border-[#D85A30]/20 hover:scale-105 transition-transform"
+                    />
+                  </a>
+
+                  <div className="flex-1 min-w-0">
+                    <a
+                      href={`?product=${item.product.slug}`}
+                      onClick={handleItemClick}
+                      className="block group"
+                    >
+                      <h4 className="text-xs font-bold text-[#3A2A1E] font-serif-bangla truncate group-hover:text-[#D85A30] transition-colors">
+                        {item.product.nameBangla}
+                      </h4>
+                      <h5 className="text-[11px] text-[#888780] truncate">
+                        {item.product.nameEnglish}
+                      </h5>
+                    </a>
+                    {item.selectedVariant && (
+                      <span className="text-[10px] bg-[#FAEEDA] text-[#D85A30] font-semibold px-1.5 py-0.2 rounded inline-block mt-0.5">
+                        {item.selectedVariant.name}
+                      </span>
+                    )}
 
                   <div className="flex items-center justify-between mt-2">
                     {/* Quantity modifier */}
@@ -178,9 +199,10 @@ export const CartDrawer: React.FC = () => {
                   </div>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            );
+          })
+        )}
+      </div>
 
         {/* Footer Summary & Checkout */}
         {cart.length > 0 && (

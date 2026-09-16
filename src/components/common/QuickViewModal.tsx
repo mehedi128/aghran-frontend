@@ -235,15 +235,19 @@ export const QuickViewModal: React.FC = () => {
 
             {/* View Full Product Link */}
             <div className="pt-2 text-center border-t border-[#D85A30]/10">
-              <button
-                onClick={() => {
-                  handleClose();
-                  navigateTo('product-detail', { slug: product.slug });
+              <a
+                href={`?product=${product.slug}`}
+                onClick={(e) => {
+                  if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                    e.preventDefault();
+                    handleClose();
+                    navigateTo('product-detail', { slug: product.slug });
+                  }
                 }}
-                className="text-xs font-bold text-[#D85A30] hover:underline"
+                className="inline-block text-xs font-bold text-[#D85A30] hover:underline"
               >
                 View Full Product Details & Ingredients →
-              </button>
+              </a>
             </div>
 
           </div>
