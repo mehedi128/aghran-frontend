@@ -951,16 +951,13 @@ export const CheckoutTestPage: React.FC = () => {
                     <span>🚚 ফ্রি ডেলিভারি</span>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       উৎসব কম্বো প্যাক (২ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳১৩৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    নকশি ১ কেজি + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রামের সেরা মেগা সমাহার।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -988,16 +985,13 @@ export const CheckoutTestPage: React.FC = () => {
                     কম্বো প্যাক
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       উৎসব কম্বো প্যাক (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳৬৯৯</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    নকশি ৫০০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রামের আকর্ষণীয় প্যাক।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1025,16 +1019,13 @@ export const CheckoutTestPage: React.FC = () => {
                     হাতে নকশা করা
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       পাতা নকশি পিঠা (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    হাতে সুই দিয়ে কাটা নিখুঁত পাতার কারুকাজ, মচমচে খাস্তা ও ব্যালেন্সড মিষ্টি।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1062,16 +1053,13 @@ export const CheckoutTestPage: React.FC = () => {
                     ফুলের কারুকাজ
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       ফুল নকশি পিঠা (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    গোলাপ ও বকুল ফুলের মতো সূক্ষ্ম কারুকাজে তৈরি এক্সট্রা ক্রাঞ্চি নকশি পিঠা।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1099,16 +1087,13 @@ export const CheckoutTestPage: React.FC = () => {
                     ঝিনুক নকশা
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       ঝিনুক নকশি পিঠা (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    ঝিনুকের নিখুঁত খাঁজকাটা প্যাটার্নে তৈরি মুখে মেল্ট হওয়া মচমচে পিঠা।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1136,16 +1121,13 @@ export const CheckoutTestPage: React.FC = () => {
                     খাঁটি নারিকেলের পুর
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       নারিকেল পুলি পিঠা (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳৯৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    ভাজা নারিকেলের লোভনীয় পুর ও খাঁটি খেজুরের গুড়ে প্রস্তুত নরম সুস্বাদু পিঠা।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1174,16 +1156,13 @@ export const CheckoutTestPage: React.FC = () => {
                     <span>🚚 ফ্রি ডেলিভারি</span>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       পাতা নকশি পিঠা (২ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳১২৯৯</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    হাতে নকশা করা ২ কেজি পাতা নকশি পিঠা। ফ্রি ডেলিভারিতে সেরা সাশ্রয়ী মেগা প্যাক।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1212,16 +1191,13 @@ export const CheckoutTestPage: React.FC = () => {
                     <span>🚚 ফ্রি ডেলিভারি</span>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       নারিকেল পুলি পিঠা (২ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳১৭৯৯</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    খাঁটি খেজুর গুড় ও নারিকেলের পুরে তৈরি রসালো ২ কেজি পুলি পিঠা ফ্রি হোম ডেলিভারিতে।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1250,16 +1226,13 @@ export const CheckoutTestPage: React.FC = () => {
                     <span>🚚 ফ্রি ডেলিভারি</span>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       পাতা ১ কেজি + ফুল ১ কেজি (২ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳১২৯৯</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    পাতা নকশি ও ফুল নকশির যৌথ ২ কেজি কম্বো প্যাক ফ্রি হোম ডেলিভারি সহ।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1287,16 +1260,13 @@ export const CheckoutTestPage: React.FC = () => {
                     ১০০% খাঁটি গুড়
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       যশোরের নলেন পাটালী গুড় (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    গাছিদের সংগৃহীত ভোরের কাঁচা রস জ্বাল দেওয়া ১০০% খাঁটি দানাদার পাটালী গুড়।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1325,16 +1295,13 @@ export const CheckoutTestPage: React.FC = () => {
                     <span>🚚 ফ্রি ডেলিভারি</span>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       সুন্দরবনের খলিশা মধু (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳১৩৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    মৌয়ালদের হাত থেকে সরাসরি সংগৃহীত ১০০% নির্ভেজাল প্রাকৃতিক খলিশা ফুলের মধু।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1363,16 +1330,13 @@ export const CheckoutTestPage: React.FC = () => {
                     <span>🚚 ফ্রি ডেলিভারি</span>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       পাবনার খাঁটি গাওয়া ঘি (১ কেজি)
                     </h4>
                     <span className="text-base font-black text-[#D85A30]">৳১৬৫০</span>
                   </div>
-                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
-                    খাঁটি গরুর দুধের ননী থেকে তৈরিকৃত সুগন্ধি দানাদার প্রিমিয়াম গাওয়া ঘি।
-                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
