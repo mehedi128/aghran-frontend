@@ -73,7 +73,9 @@ export const CheckoutTestPage: React.FC = () => {
       weight: '1 kg',
       price: 699,
       originalPrice: 850,
-      image: utsabComboImg
+      image: utsabComboImg,
+      badge: '🔥 সর্বাধিক জনপ্রিয় কম্বো',
+      highlight: true
     },
     {
       id: 'opt-pata-2kg',
@@ -466,10 +468,14 @@ export const CheckoutTestPage: React.FC = () => {
                     isSelected
                       ? option.freeDelivery
                         ? 'border-[#2E7D32] bg-[#E8F5E9]/70 shadow-md ring-2 ring-[#2E7D32]/50'
-                        : 'border-[#D85A30] bg-[#FAEEDA]/40 shadow-md ring-1 ring-[#D85A30]/50'
+                        : option.highlight
+                          ? 'border-[#D85A30] bg-[#FAEEDA]/90 shadow-md ring-2 ring-[#D85A30]/50'
+                          : 'border-[#D85A30] bg-[#FAEEDA]/40 shadow-md ring-1 ring-[#D85A30]/50'
                       : option.freeDelivery
                         ? 'border-[#81C784]/80 bg-gradient-to-r from-[#F1F8E9] via-[#FFFDE7] to-[#F1F8E9] hover:border-[#2E7D32] shadow-xs'
-                        : 'border-[#D85A30]/15 bg-white hover:border-[#D85A30]/40 hover:bg-[#FAF6EE]/50'
+                        : option.highlight
+                          ? 'border-[#D85A30]/50 bg-gradient-to-r from-[#FFF9E6] via-[#FFF3CC]/50 to-[#FFF9E6] hover:border-[#D85A30] shadow-sm ring-1 ring-[#D85A30]/20'
+                          : 'border-[#D85A30]/15 bg-white hover:border-[#D85A30]/40 hover:bg-[#FAF6EE]/50'
                   }`}
                 >
                   {/* Top Badge (if any) */}
@@ -1034,8 +1040,8 @@ export const CheckoutTestPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 5: Utsab Combo 1kg */}
-            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+            {/* Card 5: Utsab Combo 1kg (HIGHLIGHTED) */}
+            <div className="bg-gradient-to-b from-[#FFFDF6] via-[#FFF8EC] to-[#FFF1DE]/50 rounded-2xl border-2 border-[#D85A30] overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col justify-between group ring-2 ring-[#D85A30]/30 relative">
               <div>
                 <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
                   <img
@@ -1043,16 +1049,20 @@ export const CheckoutTestPage: React.FC = () => {
                     alt="উৎসব কম্বো প্যাক ১ কেজি"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-2.5 left-2.5 bg-[#D85A30] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
-                    কম্বো প্যাক
+                  <div className="absolute top-2.5 left-2.5 bg-gradient-to-r from-[#D85A30] to-[#B84218] text-white text-[11px] font-black px-3 py-1 rounded-full shadow-md font-serif-bangla flex items-center gap-1 border border-[#FFE082]/60">
+                    <Flame className="w-3.5 h-3.5 fill-[#FFE082] text-[#FFE082]" />
+                    <span>🔥 সর্বাধিক জনপ্রিয় কম্বো</span>
                   </div>
                 </div>
                 <div className="p-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                    <h4 className="font-serif-bangla font-black text-base text-[#3A2A1E]">
                       উৎসব কম্বো প্যাক (১ কেজি)
                     </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৬৯৯</span>
+                    <div className="text-right">
+                      <span className="text-xs text-[#888780] line-through block font-serif-bangla">৳৮৫০</span>
+                      <span className="text-lg font-black text-[#D85A30]">৳৬৯৯</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1060,7 +1070,7 @@ export const CheckoutTestPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectAndScroll('opt-utsab-1kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                  className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#D85A30] to-[#B84218] hover:from-[#b84218] hover:to-[#963311] text-white font-black text-xs sm:text-sm font-serif-bangla transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
                 >
                   <span>এখনই অর্ডার করুন</span>
                   <ArrowUpRight className="w-4 h-4" />
