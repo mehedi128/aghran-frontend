@@ -51,6 +51,38 @@ export const CheckoutTestPage: React.FC = () => {
   // All Pitha package options available for quick selection
   const pithaOptions: PithaOption[] = useMemo(() => [
     {
+      id: 'opt-phul-2kg',
+      productId: 'pitha-2',
+      name: 'ফুল নকশি পিঠা (২ কেজি)',
+      nameEnglish: 'Phul Nokshi Pitha (2 kg)',
+      weight: '2 kg',
+      price: 1299,
+      originalPrice: 1450,
+      image: phulNokshiImg,
+      badge: '🚚 ফ্রি ডেলিভারি',
+      freeDelivery: true
+    },
+    {
+      id: 'opt-phul-1kg',
+      productId: 'pitha-2',
+      name: 'ফুল নকশি পিঠা (১ কেজি)',
+      nameEnglish: 'Phul Nokshi Pitha (1 kg)',
+      weight: '1 kg',
+      price: 650,
+      originalPrice: 799,
+      image: phulNokshiImg
+    },
+    {
+      id: 'opt-phul-500g',
+      productId: 'pitha-2',
+      name: 'ফুল নকশি পিঠা (৫০০ গ্রাম)',
+      nameEnglish: 'Phul Nokshi Pitha (500g)',
+      weight: '500g',
+      price: 350,
+      originalPrice: 499,
+      image: phulNokshiImg
+    },
+    {
       id: 'opt-utsab-2kg',
       productId: 'combo-pitha-utsab',
       name: 'উৎসব কম্বো প্যাক (২ কেজি)',
@@ -106,28 +138,6 @@ export const CheckoutTestPage: React.FC = () => {
       price: 350,
       originalPrice: 499,
       image: pataNokshiImg2
-    },
-    {
-      id: 'opt-phul-2kg',
-      productId: 'pitha-2',
-      name: 'ফুল নকশি পিঠা (২ কেজি)',
-      nameEnglish: 'Phul Nokshi Pitha (2 kg)',
-      weight: '2 kg',
-      price: 1299,
-      originalPrice: 1450,
-      image: phulNokshiImg,
-      badge: '🚚 ফ্রি ডেলিভারি',
-      freeDelivery: true
-    },
-    {
-      id: 'opt-phul-1kg',
-      productId: 'pitha-2',
-      name: 'ফুল নকশি পিঠা (১ কেজি)',
-      nameEnglish: 'Phul Nokshi Pitha (1 kg)',
-      weight: '1 kg',
-      price: 650,
-      originalPrice: 799,
-      image: phulNokshiImg
     },
     {
       id: 'opt-jhinuk-2kg',
@@ -210,9 +220,9 @@ export const CheckoutTestPage: React.FC = () => {
   ], []);
 
   // Selected state: Map of optionId -> quantity (0 if not selected)
-  // Default selected: 2kg Utsab Combo Pack
+  // Default selected: 1kg Phul Nokshi Pitha
   const [selectedItems, setSelectedItems] = useState<{ [optionId: string]: number }>({
-    'opt-utsab-2kg': 1
+    'opt-phul-1kg': 1
   });
 
   // Customer Delivery Info
@@ -822,36 +832,6 @@ export const CheckoutTestPage: React.FC = () => {
           </div>
         </form>
 
-        {/* DELIVERY & HELPLINE SECTION */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#FAEEDA]/70 to-[#FAF6EE] border-2 border-[#D85A30]/30 text-center space-y-4 shadow-sm">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-black font-serif-bangla text-[#3A2A1E]">
-            🚚 ক্যাশ অন হোম ডেলিভারি ২-৪ দিনের ভিতর
-          </h3>
-
-          <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-md mx-auto">
-            অর্ডার সংক্রান্ত যেকোনো তথ্যের জন্য বা সরাসরি কথা বলতে যোগাযোগ করুন:
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <a
-              href="tel:+8801752421224"
-              className="inline-flex items-center gap-2 bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
-            >
-              <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>কল করুন: 01752-421224</span>
-            </a>
-            <a
-              href="https://wa.me/8801752421224"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1eb757] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
-            >
-              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>হোয়াটসঅ্যাপ মেসেজ</span>
-            </a>
-          </div>
-        </div>
-
         {/* CUSTOMER REVIEWS & TESTIMONIALS SECTION */}
         <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#D85A30]/20 space-y-6 shadow-sm">
           <div className="text-center space-y-1.5">
@@ -916,7 +896,8 @@ export const CheckoutTestPage: React.FC = () => {
             ))}
           </div>
         </div>
-        {/* POPULAR PRODUCTS SHOWCASE (Last section) */}
+
+        {/* POPULAR PRODUCTS SHOWCASE */}
         <div className="space-y-6 pt-2">
           <div className="text-center space-y-1.5">
             <div className="inline-flex items-center gap-1.5 bg-[#FAEEDA] border border-[#D85A30]/30 text-[#D85A30] text-xs font-black px-3.5 py-1 rounded-full">
@@ -1105,6 +1086,36 @@ export const CheckoutTestPage: React.FC = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* FOOTER: DELIVERY & HELPLINE SECTION */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#FAEEDA]/70 to-[#FAF6EE] border-2 border-[#D85A30]/30 text-center space-y-4 shadow-sm">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-black font-serif-bangla text-[#3A2A1E]">
+            🚚 ক্যাশ অন হোম ডেলিভারি ২-৪ দিনের ভিতর
+          </h3>
+
+          <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-md mx-auto">
+            অর্ডার সংক্রান্ত যেকোনো তথ্যের জন্য বা সরাসরি কথা বলতে যোগাযোগ করুন:
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href="tel:+8801752421224"
+              className="inline-flex items-center gap-2 bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
+            >
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>কল করুন: 01752-421224</span>
+            </a>
+            <a
+              href="https://wa.me/8801752421224"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1eb757] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
+            >
+              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>হোয়াটসঅ্যাপ মেসেজ</span>
+            </a>
           </div>
         </div>
 
