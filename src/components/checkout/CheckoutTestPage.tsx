@@ -756,7 +756,7 @@ export const CheckoutTestPage: React.FC = () => {
               <div className="p-3 flex items-center justify-between text-xs bg-[#FAF6EE]/50">
                 <span className="font-medium text-[#3A2A1E]/80">ডেলিভারি চার্জ:</span>
                 <span className={`font-bold ${isFreeDeliveryQualified ? 'text-[#1B5E20]' : 'text-[#3A2A1E]'}`}>
-                  {isFreeDeliveryQualified ? '🚚 সম্পূর্ণ ফ্রি (০ টাকা)' : `৳${shippingFee}`}
+                  {isFreeDeliveryQualified ? '🚚 সম্পূর্ণ ফ্রি (0 TK)' : `৳${shippingFee}`}
                 </span>
               </div>
 
@@ -920,7 +920,7 @@ export const CheckoutTestPage: React.FC = () => {
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       পাতা নকশি পিঠা (১ কেজি)
                     </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                    <span className="text-base font-black text-[#D85A30]">৳650</span>
                   </div>
                 </div>
               </div>
@@ -954,7 +954,7 @@ export const CheckoutTestPage: React.FC = () => {
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       ফুল নকশি পিঠা (১ কেজি)
                     </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                    <span className="text-base font-black text-[#D85A30]">৳650</span>
                   </div>
                 </div>
               </div>
@@ -988,7 +988,7 @@ export const CheckoutTestPage: React.FC = () => {
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       ঝিনুক নকশি পিঠা (১ কেজি)
                     </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                    <span className="text-base font-black text-[#D85A30]">৳650</span>
                   </div>
                 </div>
               </div>
@@ -1022,7 +1022,7 @@ export const CheckoutTestPage: React.FC = () => {
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
                       নারিকেল পুলি পিঠা (১ কেজি)
                     </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৯৫০</span>
+                    <span className="text-base font-black text-[#D85A30]">৳950</span>
                   </div>
                 </div>
               </div>
@@ -1058,8 +1058,8 @@ export const CheckoutTestPage: React.FC = () => {
                       উৎসব কম্বো প্যাক (১ কেজি)
                     </h4>
                     <div className="text-right">
-                      <span className="text-xs text-[#888780] line-through block font-serif-bangla">৳৮৫০</span>
-                      <span className="text-lg font-black text-[#D85A30]">৳৬৯৯</span>
+                      <span className="text-xs text-[#888780] line-through block font-serif-bangla">৳850</span>
+                      <span className="text-lg font-black text-[#D85A30]">৳699</span>
                     </div>
                   </div>
                 </div>
