@@ -822,6 +822,36 @@ export const CheckoutTestPage: React.FC = () => {
           </div>
         </form>
 
+        {/* DELIVERY & HELPLINE SECTION */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#FAEEDA]/70 to-[#FAF6EE] border-2 border-[#D85A30]/30 text-center space-y-4 shadow-sm">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-black font-serif-bangla text-[#3A2A1E]">
+            🚚 ক্যাশ অন হোম ডেলিভারি ২-৪ দিনের ভিতর
+          </h3>
+
+          <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-md mx-auto">
+            অর্ডার সংক্রান্ত যেকোনো তথ্যের জন্য বা সরাসরি কথা বলতে যোগাযোগ করুন:
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href="tel:+8801752421224"
+              className="inline-flex items-center gap-2 bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
+            >
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>কল করুন: 01752-421224</span>
+            </a>
+            <a
+              href="https://wa.me/8801752421224"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1eb757] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
+            >
+              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>হোয়াটসঅ্যাপ মেসেজ</span>
+            </a>
+          </div>
+        </div>
+
         {/* CUSTOMER REVIEWS & TESTIMONIALS SECTION */}
         <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#D85A30]/20 space-y-6 shadow-sm">
           <div className="text-center space-y-1.5">
