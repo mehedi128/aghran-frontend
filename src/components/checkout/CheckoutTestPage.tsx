@@ -898,76 +898,7 @@ export const CheckoutTestPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {/* Card 1: Utsab Combo 2kg Mega Pack */}
-            <div className="bg-white rounded-2xl border-2 border-[#D85A30] overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={utsabComboImg}
-                    alt="উৎসব কম্বো প্যাক ২ কেজি"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
-                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      উৎসব কম্বো প্যাক (২ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳১৩৫০</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-utsab-2kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 2: Utsab Combo 1kg */}
-            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={utsabComboImg}
-                    alt="উৎসব কম্বো প্যাক ১ কেজি"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#D85A30] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
-                    কম্বো প্যাক
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      উৎসব কম্বো প্যাক (১ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৬৯৯</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-utsab-1kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 3: Pata Nokshi 1kg */}
+            {/* Card 1: Pata Nokshi 1kg */}
             <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
               <div>
                 <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
@@ -1001,7 +932,7 @@ export const CheckoutTestPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 4: Phul Nokshi 1kg */}
+            {/* Card 2: Phul Nokshi 1kg */}
             <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
               <div>
                 <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
@@ -1035,7 +966,7 @@ export const CheckoutTestPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 5: Jhinuk Nokshi 1kg */}
+            {/* Card 3: Jhinuk Nokshi 1kg */}
             <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
               <div>
                 <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
@@ -1069,7 +1000,7 @@ export const CheckoutTestPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 6: Narikel Puli 1kg */}
+            {/* Card 4: Narikel Puli 1kg */}
             <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
               <div>
                 <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
@@ -1103,103 +1034,32 @@ export const CheckoutTestPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Card 7: Pata Nokshi 2kg Mega Pack */}
-            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+            {/* Card 5: Utsab Combo 1kg */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
               <div>
                 <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
                   <img
-                    src={pataNokshiImg1}
-                    alt="পাতা নকশি পিঠা ২ কেজি"
+                    src={utsabComboImg}
+                    alt="উৎসব কম্বো প্যাক ১ কেজি"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
-                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  <div className="absolute top-2.5 left-2.5 bg-[#D85A30] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    কম্বো প্যাক
                   </div>
                 </div>
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      পাতা নকশি পিঠা (২ কেজি)
+                      উৎসব কম্বো প্যাক (১ কেজি)
                     </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳১২৯৯</span>
+                    <span className="text-base font-black text-[#D85A30]">৳৬৯৯</span>
                   </div>
                 </div>
               </div>
               <div className="p-4 pt-0">
                 <button
                   type="button"
-                  onClick={() => handleSelectAndScroll('opt-pata-2kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 8: Narikel Puli 2kg Mega Pack */}
-            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={narikelPuliImg1}
-                    alt="নারিকেল পুলি পিঠা ২ কেজি"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
-                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      নারিকেল পুলি পিঠা (২ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳১৭৯৯</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-puli-2kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 9: Pata + Phul Combo 2kg */}
-            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={pataNokshiImg1}
-                    alt="পাতা + ফুল নকশি কম্বো"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
-                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      পাতা ১ কেজি + ফুল ১ কেজি (২ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳১২৯৯</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-pata-phul-combo')}
+                  onClick={() => handleSelectAndScroll('opt-utsab-1kg')}
                   className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
                 >
                   <span>এখনই অর্ডার করুন</span>
