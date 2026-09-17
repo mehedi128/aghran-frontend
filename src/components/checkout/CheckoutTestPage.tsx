@@ -30,10 +30,6 @@ import narikelPuliImg1 from '../../assets/images/narikel_puli_pitha_1.jpg';
 import narikelPuliImg2 from '../../assets/images/narikel_puli_pitha_2.jpg';
 import nokshiClayImg from '../../assets/images/nokshi_pitha_clay_1787466525945.jpg';
 
-const gurImg = 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80';
-const honeyImg = 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=800&q=80';
-const gheeImg = 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=800&q=80';
-
 interface PithaOption {
   id: string;
   productId: string;
@@ -208,41 +204,6 @@ export const CheckoutTestPage: React.FC = () => {
       price: 1299,
       originalPrice: 1550,
       image: jhinukNokshiImg,
-      badge: '🚚 ফ্রি ডেলিভারি',
-      freeDelivery: true
-    },
-    {
-      id: 'opt-gur-1kg',
-      productId: 'mosolla-7',
-      name: 'যশোরের খাঁটি দানাদার নলেন পাটালী গুড় (১ কেজি)',
-      nameEnglish: 'Pure Jashore Nolen Patali Date Jaggery (1kg)',
-      weight: '1 kg',
-      price: 650,
-      originalPrice: 799,
-      image: gurImg,
-      badge: '১০০% খাঁটি গুড়'
-    },
-    {
-      id: 'opt-honey-1kg',
-      productId: 'top-1',
-      name: 'সুন্দরবনের প্রাকৃতিক খলিশা ফুলের মধু (১ কেজি)',
-      nameEnglish: 'Sundarban Raw Kholisha Honey (1kg)',
-      weight: '2 kg',
-      price: 1350,
-      originalPrice: 1600,
-      image: honeyImg,
-      badge: '🚚 ফ্রি ডেলিভারি',
-      freeDelivery: true
-    },
-    {
-      id: 'opt-ghee-1kg',
-      productId: 'top-2',
-      name: 'পাবনার খাঁটি দানাদার গাওয়া ঘি (১ কেজি)',
-      nameEnglish: 'Pabna Pure Gawa Ghee (1kg)',
-      weight: '2 kg',
-      price: 1650,
-      originalPrice: 1950,
-      image: gheeImg,
       badge: '🚚 ফ্রি ডেলিভারি',
       freeDelivery: true
     }
@@ -1239,110 +1200,6 @@ export const CheckoutTestPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectAndScroll('opt-pata-phul-combo')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 10: Jashore Nolen Patali Gur */}
-            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={gurImg}
-                    alt="যশোরের খাঁটি দানাদার নলেন পাটালী গুড়"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#D85A30] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
-                    ১০০% খাঁটি গুড়
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      যশোরের নলেন পাটালী গুড় (১ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-gur-1kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 11: Sundarban Kholisha Honey 1kg */}
-            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={honeyImg}
-                    alt="সুন্দরবনের প্রাকৃতিক খলিশা মধু"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
-                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      সুন্দরবনের খলিশা মধু (১ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳১৩৫০</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-honey-1kg')}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
-                >
-                  <span>এখনই অর্ডার করুন</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Card 12: Pabna Gawa Ghee 1kg */}
-            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
-              <div>
-                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
-                  <img
-                    src={gheeImg}
-                    alt="পাবনার খাঁটি দানাদার গাওয়া ঘি"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
-                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
-                    <span>🚚 ফ্রি ডেলিভারি</span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                      পাবনার খাঁটি গাওয়া ঘি (১ কেজি)
-                    </h4>
-                    <span className="text-base font-black text-[#D85A30]">৳১৬৫০</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 pt-0">
-                <button
-                  type="button"
-                  onClick={() => handleSelectAndScroll('opt-ghee-1kg')}
                   className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
                 >
                   <span>এখনই অর্ডার করুন</span>

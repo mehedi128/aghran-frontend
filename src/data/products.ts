@@ -252,91 +252,6 @@ export const INITIAL_PRODUCTS: Product[] = [
 
   // ==================== OTHER AUTHENTIC PRODUCTS ====================
   {
-    id: 'top-1',
-    slug: 'sundarban-honey-1kg',
-    nameBangla: 'সুন্দরবনের প্রাকৃতিক খলিশা ফুলের মধু ১ কেজি',
-    nameEnglish: 'Sundarban Honey 1kg',
-    category: 'mosolla',
-    categoryBangla: 'খাঁটি মধু',
-    categoryEnglish: 'Pure Honey',
-    price: 350,
-    originalPrice: 499,
-    discountPercentage: 30,
-    weight: '500g Pack',
-    variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
-      { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
-      { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
-      { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }
-    ],
-    descriptionBangla: 'সুন্দরবনের গভীর অরণ্যের প্রাকৃতিকভাবে সংগৃহীত ১০০% নির্ভেজাল খলিশা ও গরান ফুলের কাঁচা মধু। কোনো প্রকার প্রক্রিয়াজাতকরণ বা চিনি মেশানো ছাড়া সরাসরি মৌয়ালদের কাছ থেকে সংগৃহীত।',
-    descriptionEnglish: 'Raw, unpasteurized honey wild-harvested by traditional Mauals from the deep mangrove forests of the Sundarbans. Naturally rich in pollen, antioxidants, and active enzymes.',
-    shortDescription: '100% wild-harvested raw honey from deep Sundarban mangrove blossoms.',
-    ingredients: ['100% Raw Wildflower Honey (Sundarbans)'],
-    features: [
-      'Collected directly from wild honeybee hives in the deep Sundarbans',
-      'Zero heat treatment, zero sugar syrup adulteration',
-      'Naturally thick, floral aroma and distinct deep amber color',
-      'Bottled in food-grade airtight bottle'
-    ],
-    stockStatus: 'In Stock',
-    stockCount: 65,
-    rating: 5.0,
-    reviewCount: 380,
-    images: [
-      'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=800&q=80'
-    ],
-    isFeatured: true,
-    isTopSeller: false,
-    badge: 'খাঁটি মধু',
-    origin: 'Sundarban Forest Biosphere',
-    shelfLife: '24 Months',
-    storageAdvice: 'Store at room temperature in a dry place. Do not refrigerate.'
-  },
-  {
-    id: 'top-2',
-    slug: 'gawa-ghee-1kg',
-    nameBangla: 'পাবনার খাঁটি গাওয়া ঘি ১ কেজি',
-    nameEnglish: 'Gawa Ghee 1kg',
-    category: 'mosolla',
-    categoryBangla: 'খাঁটি ঘি',
-    categoryEnglish: 'Organic Ghee',
-    price: 350,
-    originalPrice: 499,
-    discountPercentage: 30,
-    weight: '500g Pack',
-    variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
-      { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
-      { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
-      { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }
-    ],
-    descriptionBangla: 'পাবনা ও সিরাজগঞ্জের বাথানের দেশি গরুর খাঁটি দুধের মাখন থেকে ঐতিহ্যবাহী পদ্ধতিতে জ্বাল দিয়ে তৈরি খাঁটি দানাদার গাওয়া ঘি। মুখে দিলে মেল্ট হয়ে যাওয়া টেক্সচার আর সুবাস মাতানো খাঁটি ঘ্রাণ।',
-    descriptionEnglish: 'Traditional granular golden cow ghee made from fresh cultured butter of pasture-fed cows in Pabna. Slow-cooked over gentle wood fire for that signature nutty aroma.',
-    shortDescription: 'Slow-clarified granular cow ghee with intoxicating traditional village aroma.',
-    ingredients: ['100% Pure Cow Milk Fat / Cream Butter (দেশি গাওয়া ঘি)'],
-    features: [
-      'Cultured bilona method preserving essential butyric acids & vitamins',
-      'Golden granular texture with rich appetizing aroma',
-      'Zero vegetable fat (Dalda) or artificial butter essence'
-    ],
-    stockStatus: 'In Stock',
-    stockCount: 40,
-    rating: 4.9,
-    reviewCount: 420,
-    images: [
-      'https://images.unsplash.com/photo-1631709497146-a239ef373cf1?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80'
-    ],
-    isFeatured: true,
-    isTopSeller: false,
-    badge: 'খাঁটি ঘি',
-    origin: 'Pabna Traditional Milk Belt',
-    shelfLife: '12 Months',
-    storageAdvice: 'Store at room temperature away from moisture.'
-  },
-  {
     id: 'top-3',
     slug: 'deshi-mustard-oil-5-liter',
     nameBangla: 'কাঠের ঘানি ভাঙা খাঁটি দেশি সরিষার তেল ৫ লিটার',
@@ -720,47 +635,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: 'Sirajganj Traditional Ghani',
     shelfLife: '12 Months',
     storageAdvice: 'Store in dark amber/glass bottle away from heat.'
-  },
-  {
-    id: 'mosolla-7',
-    slug: 'jashore-nolen-patali-gur',
-    nameBangla: 'যশোরের খাঁটি দানাদার নলেন পাটালী গুড়',
-    nameEnglish: 'Pure Jashore Nolen Patali Date Jaggery',
-    category: 'mosolla',
-    categoryBangla: 'মিষ্টি ও গুড়',
-    categoryEnglish: 'Jaggery & Sweeteners',
-    price: 350,
-    originalPrice: 499,
-    discountPercentage: 30,
-    weight: '500g Pack',
-    variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
-      { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
-      { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
-      { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }
-    ],
-    descriptionBangla: 'যশোরের ঐতিহ্যবাহী গাছিদের সংগৃহীত ভোরের কাঁচা খেজুর রস জ্বাল দিয়ে তৈরি ১০০% নির্ভেজাল দানাদার নলেন পাটালী গুড়। কোনো চিনি, সোডা বা রাসায়নিক হাইড্রোজ মেশানো নেই। পিঠা ও পায়েসের জন্য অতুলনীয়।',
-    descriptionEnglish: 'Pure artisanal crystalline date palm jaggery boiled from fresh dawn date palm sap in Jashore. Completely chemical and refined sugar free.',
-    shortDescription: 'Pure crystalline date palm jaggery from authentic Jashore tree-tappers.',
-    ingredients: ['100% Fresh Date Palm Sap (খেজুরের রস)'],
-    features: [
-      '100% free from white sugar adulteration, sodium hydrosulfite, or coloring',
-      'Rich caramel fudge aroma with soft melt-in-mouth crystalline grain',
-      'The soul of winter Pitha and Payesh'
-    ],
-    stockStatus: 'Low Stock',
-    stockCount: 12,
-    rating: 5.0,
-    reviewCount: 147,
-    images: [
-      'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80'
-    ],
-    isFeatured: true,
-    isTopSeller: true,
-    badge: '100% Pure Organic',
-    origin: 'Jashore Date Palm Groves',
-    shelfLife: '6 Months',
-    storageAdvice: 'Store in refrigerator in airtight container to retain crystal texture.'
   },
   // ==================== COMBO OFFER PACKS ====================
   {
