@@ -69,26 +69,39 @@ const MainContent: React.FC = () => {
   );
 };
 
+const AppContent: React.FC = () => {
+  const { currentView } = useStore();
+  const isCheckoutTest = currentView === 'checkout-test';
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#FAEEDA]/30 text-[#3A2A1E] font-sans selection:bg-[#FAC775] selection:text-[#3A2A1E]">
+      {/* Top Header Bars (Hidden on checkout-test landing page) */}
+      {!isCheckoutTest && (
+        <>
+          <Header />
+          <Navbar />
+        </>
+      )}
+
+      {/* Dynamic Route Content */}
+      <MainContent />
+
+      {/* Global Footer (Hidden on checkout-test landing page) */}
+      {!isCheckoutTest && <Footer />}
+
+      {/* Global Drawers & Modals */}
+      <CartDrawer />
+      <QuickViewModal />
+      <SearchOverlay />
+      <Toast />
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <StoreProvider>
-      <div className="min-h-screen flex flex-col bg-[#FAEEDA]/30 text-[#3A2A1E] font-sans selection:bg-[#FAC775] selection:text-[#3A2A1E]">
-        {/* Top Header Bars */}
-        <Header />
-        <Navbar />
-
-        {/* Dynamic Route Content */}
-        <MainContent />
-
-        {/* Global Footer */}
-        <Footer />
-
-        {/* Global Drawers & Modals */}
-        <CartDrawer />
-        <QuickViewModal />
-        <SearchOverlay />
-        <Toast />
-      </div>
+      <AppContent />
     </StoreProvider>
   );
 }

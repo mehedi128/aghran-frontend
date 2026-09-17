@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { Product, ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
+import { TESTIMONIALS } from '../../data/products';
 
 // Images
 import utsabComboImg from '../../assets/images/up0.png';
@@ -28,6 +29,10 @@ import jhinukNokshiImg from '../../assets/images/jn0.png';
 import narikelPuliImg1 from '../../assets/images/narikel_puli_pitha_1.jpg';
 import narikelPuliImg2 from '../../assets/images/narikel_puli_pitha_2.jpg';
 import nokshiClayImg from '../../assets/images/nokshi_pitha_clay_1787466525945.jpg';
+
+const gurImg = 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80';
+const honeyImg = 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=800&q=80';
+const gheeImg = 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=800&q=80';
 
 interface PithaOption {
   id: string;
@@ -203,6 +208,41 @@ export const CheckoutTestPage: React.FC = () => {
       price: 1299,
       originalPrice: 1550,
       image: jhinukNokshiImg,
+      badge: '🚚 ফ্রি ডেলিভারি',
+      freeDelivery: true
+    },
+    {
+      id: 'opt-gur-1kg',
+      productId: 'mosolla-7',
+      name: 'যশোরের খাঁটি দানাদার নলেন পাটালী গুড় (১ কেজি)',
+      nameEnglish: 'Pure Jashore Nolen Patali Date Jaggery (1kg)',
+      weight: '1 kg',
+      price: 650,
+      originalPrice: 799,
+      image: gurImg,
+      badge: '১০০% খাঁটি গুড়'
+    },
+    {
+      id: 'opt-honey-1kg',
+      productId: 'top-1',
+      name: 'সুন্দরবনের প্রাকৃতিক খলিশা ফুলের মধু (১ কেজি)',
+      nameEnglish: 'Sundarban Raw Kholisha Honey (1kg)',
+      weight: '2 kg',
+      price: 1350,
+      originalPrice: 1600,
+      image: honeyImg,
+      badge: '🚚 ফ্রি ডেলিভারি',
+      freeDelivery: true
+    },
+    {
+      id: 'opt-ghee-1kg',
+      productId: 'top-2',
+      name: 'পাবনার খাঁটি দানাদার গাওয়া ঘি (১ কেজি)',
+      nameEnglish: 'Pabna Pure Gawa Ghee (1kg)',
+      weight: '2 kg',
+      price: 1650,
+      originalPrice: 1950,
+      image: gheeImg,
       badge: '🚚 ফ্রি ডেলিভারি',
       freeDelivery: true
     }
@@ -395,8 +435,6 @@ export const CheckoutTestPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF6EE] text-[#3A2A1E] font-sans pb-16">
-      
-
       {/* MAIN CHECKOUT CONTAINER */}
       <div className="max-w-3xl mx-auto px-4 py-6 sm:py-10 space-y-8" id="buynow">
         
@@ -819,35 +857,535 @@ export const CheckoutTestPage: React.FC = () => {
           </div>
         </form>
 
+        {/* CUSTOMER REVIEWS & TESTIMONIALS SECTION */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#D85A30]/20 space-y-6 shadow-sm">
+          <div className="text-center space-y-1.5">
+            <div className="inline-flex items-center gap-1.5 bg-[#FAF6EE] text-[#D85A30] text-xs font-black px-3.5 py-1 rounded-full border border-[#D85A30]/20">
+              <Star className="w-3.5 h-3.5 fill-[#D85A30] text-[#D85A30]" />
+              <span>গ্রাহকদের মূল্যবান প্রতিক্রিয়া (Customer Reviews)</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold font-serif-bangla text-[#3A2A1E]">
+              আমাদের পিঠা খেয়ে সম্মানিত গ্রাহকরা যা বলছেন
+            </h3>
+            <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-lg mx-auto">
+              সারা দেশ থেকে শত শত পরিবার অঘ্রাণের খাঁটি পিঠার স্বাদ গ্রহণ করেছেন।
+            </p>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {TESTIMONIALS.map((t) => (
+              <div
+                key={t.id}
+                className="bg-[#FAF6EE]/60 rounded-2xl p-4 sm:p-5 border border-[#D85A30]/15 flex flex-col justify-between space-y-3 hover:shadow-md transition-shadow"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-amber-500">
+                      {[...Array(t.rating)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-[#639922] bg-[#E8F5E9] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" />
+                      ভেরিফাইড ক্রেতা
+                    </span>
+                  </div>
 
-        {/* DELIVERY & HELPLINE SECTION */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#FAEEDA]/70 to-[#FAF6EE] border-2 border-[#D85A30]/30 text-center space-y-4 shadow-sm">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-black font-serif-bangla text-[#3A2A1E]">
-            🚚 ক্যাশ অন হোম ডেলিভারি ২-৪ দিনের ভিতর
-          </h3>
+                  <p className="text-xs sm:text-[13px] font-serif-bangla text-[#3A2A1E] leading-relaxed italic">
+                    "{t.commentBangla || t.comment}"
+                  </p>
+                </div>
 
-          <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-md mx-auto">
-            অর্ডার সংক্রান্ত যেকোনো তথ্যের জন্য বা সরাসরি কথা বলতে যোগাযোগ করুন:
-          </p>
+                <div className="flex items-center gap-3 pt-3 border-t border-[#D85A30]/10">
+                  {t.avatarUrl ? (
+                    <img
+                      src={t.avatarUrl}
+                      alt={t.authorBangla || t.author}
+                      className="w-10 h-10 rounded-full object-cover border border-[#D85A30]/20 flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-[#D85A30]/10 text-[#D85A30] font-bold flex items-center justify-center text-xs flex-shrink-0">
+                      {(t.authorBangla || t.author).charAt(0)}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#3A2A1E] font-serif-bangla truncate">
+                      {t.authorBangla || t.author}
+                    </h4>
+                    <p className="text-[11px] text-[#888780] truncate">
+                      {t.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* POPULAR PRODUCTS SHOWCASE (Last section) */}
+        <div className="space-y-6 pt-2">
+          <div className="text-center space-y-1.5">
+            <div className="inline-flex items-center gap-1.5 bg-[#FAEEDA] border border-[#D85A30]/30 text-[#D85A30] text-xs font-black px-3.5 py-1 rounded-full">
+              <Flame className="w-3.5 h-3.5 fill-[#D85A30]" />
+              <span>আমাদের স্পেশাল পিঠা কালেকশন</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold font-serif-bangla text-[#3A2A1E]">
+              পছন্দের পিঠা সিলেক্ট করে সরাসরি অর্ডার করুন
+            </h3>
+            <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-lg mx-auto">
+              যেকোনো আইটেমে ক্লিক করলেই উপরের ফর্মে সিলেক্ট হয়ে যাবে এবং সহজে অর্ডার সম্পন্ন করতে পারবেন।
+            </p>
+          </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <a
-              href="tel:+8801752421224"
-              className="inline-flex items-center gap-2 bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
-            >
-              <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>কল করুন: 01752-421224</span>
-            </a>
-            <a
-              href="https://wa.me/8801752421224"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1eb757] text-white font-bold text-sm sm:text-base px-6 py-3 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-98"
-            >
-              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>হোয়াটসঅ্যাপ মেসেজ</span>
-            </a>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {/* Card 1: Utsab Combo 2kg Mega Pack */}
+            <div className="bg-white rounded-2xl border-2 border-[#D85A30] overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={utsabComboImg}
+                    alt="উৎসব কম্বো প্যাক ২ কেজি"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
+                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
+                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      উৎসব কম্বো প্যাক (২ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳১৩৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    নকশি ১ কেজি + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রামের সেরা মেগা সমাহার।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-utsab-2kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 2: Utsab Combo 1kg */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={utsabComboImg}
+                    alt="উৎসব কম্বো প্যাক ১ কেজি"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#D85A30] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    কম্বো প্যাক
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      উৎসব কম্বো প্যাক (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳৬৯৯</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    নকশি ৫০০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রামের আকর্ষণীয় প্যাক।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-utsab-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 3: Pata Nokshi 1kg */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={pataNokshiImg1}
+                    alt="পাতা নকশি পিঠা"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#3A2A1E]/80 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    হাতে নকশা করা
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      পাতা নকশি পিঠা (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    হাতে সুই দিয়ে কাটা নিখুঁত পাতার কারুকাজ, মচমচে খাস্তা ও ব্যালেন্সড মিষ্টি।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-pata-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 4: Phul Nokshi 1kg */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={phulNokshiImg}
+                    alt="ফুল নকশি পিঠা"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#3A2A1E]/80 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    ফুলের কারুকাজ
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      ফুল নকশি পিঠা (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    গোলাপ ও বকুল ফুলের মতো সূক্ষ্ম কারুকাজে তৈরি এক্সট্রা ক্রাঞ্চি নকশি পিঠা।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-phul-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 5: Jhinuk Nokshi 1kg */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={jhinukNokshiImg}
+                    alt="ঝিনুক নকশি পিঠা"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#3A2A1E]/80 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    ঝিনুক নকশা
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      ঝিনুক নকশি পিঠা (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    ঝিনুকের নিখুঁত খাঁজকাটা প্যাটার্নে তৈরি মুখে মেল্ট হওয়া মচমচে পিঠা।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-jhinuk-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 6: Narikel Puli 1kg */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={narikelPuliImg1}
+                    alt="নারিকেল পুলি পিঠা"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#3A2A1E]/80 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    খাঁটি নারিকেলের পুর
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      নারিকেল পুলি পিঠা (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳৯৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    ভাজা নারিকেলের লোভনীয় পুর ও খাঁটি খেজুরের গুড়ে প্রস্তুত নরম সুস্বাদু পিঠা।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-puli-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 7: Pata Nokshi 2kg Mega Pack */}
+            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={pataNokshiImg1}
+                    alt="পাতা নকশি পিঠা ২ কেজি"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
+                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
+                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      পাতা নকশি পিঠা (২ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳১২৯৯</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    হাতে নকশা করা ২ কেজি পাতা নকশি পিঠা। ফ্রি ডেলিভারিতে সেরা সাশ্রয়ী মেগা প্যাক।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-pata-2kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 8: Narikel Puli 2kg Mega Pack */}
+            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={narikelPuliImg1}
+                    alt="নারিকেল পুলি পিঠা ২ কেজি"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
+                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
+                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      নারিকেল পুলি পিঠা (২ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳১৭৯৯</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    খাঁটি খেজুর গুড় ও নারিকেলের পুরে তৈরি রসালো ২ কেজি পুলি পিঠা ফ্রি হোম ডেলিভারিতে।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-puli-2kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 9: Pata + Phul Combo 2kg */}
+            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={pataNokshiImg1}
+                    alt="পাতা + ফুল নকশি কম্বো"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
+                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
+                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      পাতা ১ কেজি + ফুল ১ কেজি (২ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳১২৯৯</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    পাতা নকশি ও ফুল নকশির যৌথ ২ কেজি কম্বো প্যাক ফ্রি হোম ডেলিভারি সহ।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-pata-phul-combo')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 10: Jashore Nolen Patali Gur */}
+            <div className="bg-white rounded-2xl border border-[#D85A30]/20 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={gurImg}
+                    alt="যশোরের খাঁটি দানাদার নলেন পাটালী গুড়"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#D85A30] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md font-serif-bangla">
+                    ১০০% খাঁটি গুড়
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      যশোরের নলেন পাটালী গুড় (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳৬৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    গাছিদের সংগৃহীত ভোরের কাঁচা রস জ্বাল দেওয়া ১০০% খাঁটি দানাদার পাটালী গুড়।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-gur-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 11: Sundarban Kholisha Honey 1kg */}
+            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={honeyImg}
+                    alt="সুন্দরবনের প্রাকৃতিক খলিশা মধু"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
+                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
+                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      সুন্দরবনের খলিশা মধু (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳১৩৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    মৌয়ালদের হাত থেকে সরাসরি সংগৃহীত ১০০% নির্ভেজাল প্রাকৃতিক খলিশা ফুলের মধু।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-honey-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 12: Pabna Gawa Ghee 1kg */}
+            <div className="bg-white rounded-2xl border-2 border-[#2E7D32]/40 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={gheeImg}
+                    alt="পাবনার খাঁটি দানাদার গাওয়া ঘি"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-[#1B5E20] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1 border border-[#81C784]/60 font-serif-bangla">
+                    <Truck className="w-3 h-3 text-[#A5D6A7]" />
+                    <span>🚚 ফ্রি ডেলিভারি</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                      পাবনার খাঁটি গাওয়া ঘি (১ কেজি)
+                    </h4>
+                    <span className="text-base font-black text-[#D85A30]">৳১৬৫০</span>
+                  </div>
+                  <p className="text-xs text-[#888780] font-serif-bangla line-clamp-2">
+                    খাঁটি গরুর দুধের ননী থেকে তৈরিকৃত সুগন্ধি দানাদার প্রিমিয়াম গাওয়া ঘি।
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-ghee-1kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#D85A30] hover:bg-[#b84218] text-white font-bold text-xs sm:text-sm font-serif-bangla transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
