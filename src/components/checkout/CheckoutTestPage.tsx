@@ -73,9 +73,7 @@ export const CheckoutTestPage: React.FC = () => {
       weight: '1 kg',
       price: 699,
       originalPrice: 850,
-      image: utsabComboImg,
-      badge: '🔥 সর্বাধিক জনপ্রিয় কম্বো',
-      highlight: true
+      image: utsabComboImg
     },
     {
       id: 'opt-pata-2kg',
