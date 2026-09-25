@@ -45,6 +45,49 @@ function normalizePhone(phone: string): string {
 }
 
 /**
+ * Normalizes customer name into first and last name
+ */
+function parseName(fullName?: string): { fn?: string; ln?: string } {
+  if (!fullName) return {};
+  const parts = fullName.trim().toLowerCase().split(/\s+/);
+  return {
+    fn: parts[0] || undefined,
+    ln: parts.length > 1 ? parts.slice(1).join(' ') : undefined
+  };
+}
+
+/**
+ * Sets User Data for Browser Pixel Manual Advanced Matching
+ */
+export const setPixelUserData = (userData: {
+  phone?: string;
+  fullName?: string;
+  city?: string;
+  email?: string;
+  externalId?: string;
+}) => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    const { fn, ln } = parseName(userData.fullName);
+    const cleanPhone = userData.phone ? normalizePhone(userData.phone) : undefined;
+    const city = userData.city ? userData.city.trim().toLowerCase() : undefined;
+    const email = userData.email ? userData.email.trim().toLowerCase() : undefined;
+
+    const pixelUserData: Record<string, any> = {
+      country: 'bd'
+    };
+    if (cleanPhone) pixelUserData.ph = cleanPhone;
+    if (fn) pixelUserData.fn = fn;
+    if (ln) pixelUserData.ln = ln;
+    if (city) pixelUserData.ct = city;
+    if (email) pixelUserData.em = email;
+    if (userData.externalId) pixelUserData.external_id = userData.externalId;
+
+    // Passing user parameters to fbq('init') enables Manual Advanced Matching in Meta Pixel
+    window.fbq('init', PIXEL_ID, pixelUserData);
+  }
+};
+
+/**
  * Sends a server-side event to Meta Conversions API (CAPI)
  */
 async function sendCapiEvent(
@@ -58,9 +101,11 @@ async function sendCapiEvent(
   customData?: Record<string, any>
 ) {
   try {
-    const [hashedPhone, hashedName, hashedCity, hashedCountry] = await Promise.all([
+    const { fn, ln } = parseName(userData.fullName);
+    const [hashedPhone, hashedFn, hashedLn, hashedCity, hashedCountry] = await Promise.all([
       userData.phone ? hashValue(normalizePhone(userData.phone)) : Promise.resolve(''),
-      userData.fullName ? hashValue(userData.fullName) : Promise.resolve(''),
+      fn ? hashValue(fn) : Promise.resolve(''),
+      ln ? hashValue(ln) : Promise.resolve(''),
       userData.city ? hashValue(userData.city) : Promise.resolve(''),
       hashValue('bd')
     ]);
@@ -69,7 +114,8 @@ async function sendCapiEvent(
       country: [hashedCountry]
     };
     if (hashedPhone) payloadUserData.ph = [hashedPhone];
-    if (hashedName) payloadUserData.fn = [hashedName];
+    if (hashedFn) payloadUserData.fn = [hashedFn];
+    if (hashedLn) payloadUserData.ln = [hashedLn];
     if (hashedCity) payloadUserData.ct = [hashedCity];
 
     const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://aghran.com';
@@ -185,12 +231,22 @@ export const trackInitiateCheckout = (cart: CartItem[], cartTotal: number) => {
 
 /**
  * Tracks Purchase event (High priority conversion event)
+ * Implements Meta Manual Advanced Matching & Deduplicated CAPI event
  */
 export const trackPurchase = (order: Order) => {
   const eventId = order.orderNumber; // Using orderNumber as eventID ensures Pixel & CAPI deduplication
+  const city = order.customer.district || (order.customer.deliveryZone === 'dhaka' ? 'dhaka' : undefined);
 
-  // 1. Browser Pixel
+  // 1. Browser Pixel - Manual Advanced Matching & Purchase Event
   if (typeof window !== 'undefined' && window.fbq) {
+    // Re-initialize pixel with customer data for Manual Advanced Matching
+    setPixelUserData({
+      phone: order.customer.phone,
+      fullName: order.customer.fullName,
+      city: city,
+      externalId: order.orderNumber
+    });
+
     window.fbq('track', 'Purchase', {
       content_name: 'Order ' + order.orderNumber,
       content_ids: order.items.map(item => item.product.id),
@@ -213,7 +269,7 @@ export const trackPurchase = (order: Order) => {
     {
       phone: order.customer.phone,
       fullName: order.customer.fullName,
-      city: order.customer.district || (order.customer.deliveryZone === 'dhaka' ? 'Dhaka' : undefined)
+      city: city
     },
     {
       content_name: 'Order ' + order.orderNumber,

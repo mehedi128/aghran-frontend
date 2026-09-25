@@ -24,7 +24,27 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1733094124585916');
+
+      // Manual Advanced Matching Data
+      var userMatchData = { country: 'bd' };
+      try {
+        var rawOrders = localStorage.getItem('aghran_orders');
+        if (rawOrders) {
+          var orderList = JSON.parse(rawOrders);
+          if (Array.isArray(orderList) && orderList.length > 0 && orderList[0].customer) {
+            var cust = orderList[0].customer;
+            if (cust.phone) userMatchData.ph = cust.phone.replace(/\D/g, '');
+            if (cust.fullName) {
+              var nParts = cust.fullName.trim().toLowerCase().split(/\s+/);
+              if (nParts[0]) userMatchData.fn = nParts[0];
+              if (nParts.length > 1) userMatchData.ln = nParts.slice(1).join(' ');
+            }
+            if (cust.district) userMatchData.ct = cust.district.trim().toLowerCase();
+          }
+        }
+      } catch (e) {}
+
+      fbq('init', '1733094124585916', userMatchData);
       fbq('track', 'PageView');
     </script>
     <!-- End Meta Pixel Code -->
