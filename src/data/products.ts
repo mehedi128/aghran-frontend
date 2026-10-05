@@ -25,12 +25,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'pitha',
     categoryBangla: 'ঐতিহ্যবাহী পিঠা',
     categoryEnglish: 'Traditional Pitha',
-    price: 350,
+    price: 399,
     originalPrice: 499,
-    discountPercentage: 30,
+    discountPercentage: 20,
     weight: '500g Pack',
     variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
+      { id: 'v1', name: '500g', weight: '500g', price: 399, originalPrice: 499, inStock: true },
       { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
       { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
       { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }
@@ -72,12 +72,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'pitha',
     categoryBangla: 'ঐতিহ্যবাহী পিঠা',
     categoryEnglish: 'Traditional Pitha',
-    price: 350,
+    price: 399,
     originalPrice: 499,
-    discountPercentage: 30,
+    discountPercentage: 20,
     weight: '500g Pack',
     variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
+      { id: 'v1', name: '500g', weight: '500g', price: 399, originalPrice: 499, inStock: true },
       { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
       { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
       { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }
@@ -120,12 +120,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'pitha',
     categoryBangla: 'ঐতিহ্যবাহী পিঠা',
     categoryEnglish: 'Traditional Pitha',
-    price: 350,
+    price: 399,
     originalPrice: 499,
-    discountPercentage: 30,
+    discountPercentage: 20,
     weight: '500g Pack',
     variants: [
-      { id: 'v1', name: '500g', weight: '500g', price: 350, originalPrice: 499, inStock: true },
+      { id: 'v1', name: '500g', weight: '500g', price: 399, originalPrice: 499, inStock: true },
       { id: 'v2', name: '1kg', weight: '1kg', price: 650, originalPrice: 799, inStock: true },
       { id: 'v3', name: '2kg', weight: '2kg', price: 1299, originalPrice: 1450, inStock: true },
       { id: 'v4', name: '3kg', weight: '3kg', price: 1899, originalPrice: 2100, inStock: true }

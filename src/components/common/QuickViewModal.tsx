@@ -41,6 +41,9 @@ export const QuickViewModal: React.FC = () => {
   const selectedVariant = variants.length > 0 ? variants[selectedVariantIndex] : undefined;
   const currentPrice = selectedVariant ? selectedVariant.price : product.price;
   const currentOriginalPrice = selectedVariant?.originalPrice || product.originalPrice;
+  const currentDiscountPercentage = (currentOriginalPrice && currentPrice < currentOriginalPrice)
+    ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
+    : product.discountPercentage;
 
   const handleClose = () => {
     setQuickViewProduct(null);
@@ -79,11 +82,11 @@ export const QuickViewModal: React.FC = () => {
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
               />
-              {product.discountPercentage && (
+              {currentDiscountPercentage ? (
                 <span className="absolute top-3 left-3 bg-[#D85A30] text-[#FAF6EE] text-xs font-black uppercase px-2.5 py-1 rounded-md shadow-md">
-                  -{product.discountPercentage}% OFF
+                  -{currentDiscountPercentage}% OFF
                 </span>
-              )}
+              ) : null}
             </div>
 
             {/* Thumbnail selector */}

@@ -80,6 +80,9 @@ export const ProductDetailView: React.FC = () => {
   const selectedVariant = variants.length > 0 ? variants[selectedVariantIndex] : undefined;
   const currentPrice = selectedVariant ? selectedVariant.price : product.price;
   const currentOriginalPrice = selectedVariant?.originalPrice || product.originalPrice;
+  const currentDiscountPercentage = (currentOriginalPrice && currentPrice < currentOriginalPrice)
+    ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
+    : product.discountPercentage;
   const isOutOfStock = product.stockStatus === 'Stock Out';
 
   // Related products from same category
@@ -121,11 +124,11 @@ export const ProductDetailView: React.FC = () => {
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover transition-all duration-300 hover:scale-105"
             />
-            {product.discountPercentage && (
+            {currentDiscountPercentage ? (
               <span className="absolute top-4 left-4 bg-[#D85A30] text-[#FAF6EE] text-xs font-black uppercase px-3 py-1.5 rounded-xl shadow-md">
-                -{product.discountPercentage}% OFF
+                -{currentDiscountPercentage}% OFF
               </span>
-            )}
+            ) : null}
             {product.badge && (
               <span className="absolute top-4 right-4 bg-[#FAC775] text-[#3A2A1E] text-xs font-black uppercase px-3 py-1.5 rounded-xl shadow-md">
                 {product.badge}

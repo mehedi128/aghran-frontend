@@ -33,6 +33,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const displayPrice = defaultVariant ? defaultVariant.price : product.price;
   const displayOriginalPrice = defaultVariant?.originalPrice || product.originalPrice;
   const displayWeight = defaultVariant ? defaultVariant.name : product.weight;
+  const displayDiscountPercentage = (displayOriginalPrice && displayPrice < displayOriginalPrice)
+    ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
+    : product.discountPercentage;
 
   const handleProductClick = (e: React.MouseEvent) => {
     if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
@@ -61,11 +64,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Top Badges */}
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
-          {product.discountPercentage && (
+          {displayDiscountPercentage ? (
             <span className="bg-[#D85A30] text-[#FAF6EE] text-[10px] font-black uppercase px-2 py-0.5 rounded-md shadow-sm">
-              -{product.discountPercentage}% OFF
+              -{displayDiscountPercentage}% OFF
             </span>
-          )}
+          ) : null}
           {product.freeDelivery ? (
             <span className="bg-[#1B5E20] text-white text-[11px] font-black uppercase px-2.5 py-1 rounded-md shadow-md flex items-center gap-1 border border-[#81C784]/60 animate-pulse">
               <Truck className="w-3 h-3 text-[#A5D6A7]" />

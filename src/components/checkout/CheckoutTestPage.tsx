@@ -78,7 +78,7 @@ export const CheckoutTestPage: React.FC = () => {
       name: 'ফুল নকশি পিঠা (৫০০ গ্রাম)',
       nameEnglish: 'Phul Nokshi Pitha (500g)',
       weight: '500g',
-      price: 350,
+      price: 399,
       originalPrice: 499,
       image: phulNokshiImg
     },
@@ -135,7 +135,7 @@ export const CheckoutTestPage: React.FC = () => {
       name: 'পাতা নকশি পিঠা (৫০০ গ্রাম)',
       nameEnglish: 'Pata Nokshi Pitha (500g)',
       weight: '500g',
-      price: 350,
+      price: 399,
       originalPrice: 499,
       image: pataNokshiImg2
     },
@@ -159,6 +159,16 @@ export const CheckoutTestPage: React.FC = () => {
       weight: '1 kg',
       price: 650,
       originalPrice: 799,
+      image: jhinukNokshiImg
+    },
+    {
+      id: 'opt-jhinuk-500g',
+      productId: 'pitha-3',
+      name: 'ঝিনুক নকশি পিঠা (৫০০ গ্রাম)',
+      nameEnglish: 'Jhinuk Nokshi Pitha (500g)',
+      weight: '500g',
+      price: 399,
+      originalPrice: 499,
       image: jhinukNokshiImg
     },
     {
