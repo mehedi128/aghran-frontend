@@ -17,7 +17,7 @@ import {
 import { useStore } from '../../context/StoreContext';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
 import { TESTIMONIALS } from '../../data/products';
-import { sendOrderToGoogleSheet } from '../../services/googleSheetsService';
+import { sendNokshiOrderToGoogleSheet } from '../../services/googleSheetsService';
 import { trackInitiateCheckout, trackPurchase } from '../../services/facebookTrackingService';
 
 // Product Images
@@ -314,9 +314,9 @@ export const NokshiPithaLandingPage: React.FC = () => {
         total: totalAmount
       });
 
-      // Facebook tracking & Google Sheet integration
+      // Facebook tracking & Dedicated Nokshi Google Sheet integration
       trackPurchase(createdOrder);
-      await sendOrderToGoogleSheet(createdOrder);
+      await sendNokshiOrderToGoogleSheet(createdOrder);
 
       navigateTo('order-success');
     } catch (err) {
