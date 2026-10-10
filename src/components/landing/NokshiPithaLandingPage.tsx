@@ -312,7 +312,7 @@ export const NokshiPithaLandingPage: React.FC = () => {
         shippingFee: shippingFee,
         discount: 0,
         total: totalAmount
-      });
+      }, { skipDefaultSheetSync: true });
 
       // Facebook tracking & Dedicated Nokshi Google Sheet integration
       trackPurchase(createdOrder);

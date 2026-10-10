@@ -62,9 +62,10 @@ interface StoreContextType {
   // Checkout & Order actions
   setDeliveryZone: (zone: DeliveryZone) => void;
   applyCoupon: (code: string) => { success: boolean; message: string };
-  removeCoupon: () => void;
-  placeOrder: (orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'status' | 'trackingSteps'>) => Order;
-  setActiveOrder: (order: Order | null) => void;
+  placeOrder: (
+    orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'status' | 'trackingSteps'>,
+    options?: { skipDefaultSheetSync?: boolean }
+  ) => Order;
   
   // Calculations
   cartCount: number;
@@ -461,7 +462,10 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const cartTotal = Math.max(0, cartSubtotal + shippingFee - discountAmount);
 
   // Place Order
-  const placeOrder = (orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'status' | 'trackingSteps'>): Order => {
+  const placeOrder = (
+    orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'status' | 'trackingSteps'>,
+    options?: { skipDefaultSheetSync?: boolean }
+  ): Order => {
     const randomSuffix = Math.floor(10000 + Math.random() * 90000);
     const newOrder: Order = {
       ...orderData,
@@ -483,9 +487,13 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     clearCart();
 
     // Send order to Google Sheets
-    sendOrderToGoogleSheet(newOrder).catch(err => {
-      console.error('Failed to sync order to Google Sheets:', err);
-    });
+    // IMPORTANT: Skip default sheet sync if on nokshipitha landing page or explicitly requested
+    const shouldSkipDefaultSheet = currentView === 'nokshipitha' || options?.skipDefaultSheetSync;
+    if (!shouldSkipDefaultSheet) {
+      sendOrderToGoogleSheet(newOrder).catch(err => {
+        console.error('Failed to sync order to Google Sheets:', err);
+      });
+    }
 
     // Facebook Pixel & CAPI Purchase tracking
     try {
