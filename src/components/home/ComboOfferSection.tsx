@@ -14,7 +14,7 @@ interface ComboOffer {
   savings: number;
   items: string[];
   image: string;
-  badge: string;
+  badge?: string;
   freeDelivery?: boolean;
   category: 'pitha' | 'mosolla' | 'all';
 }

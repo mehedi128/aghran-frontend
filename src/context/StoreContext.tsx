@@ -11,6 +11,7 @@ export type CurrentView =
   | 'cart'
   | 'checkout'
   | 'checkout-test'
+  | 'nokshipitha'
   | 'order-success'
   | 'track-order'
   | 'about'
@@ -124,7 +125,7 @@ const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: str
     const cat = pathToCheck.replace('collection/', '');
     return { view: 'collection', category: cat as CategoryId, slug: null };
   }
-  if (['collection', 'cart', 'checkout', 'checkout-test', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
+  if (['collection', 'cart', 'checkout', 'checkout-test', 'nokshipitha', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
     return { view: pathToCheck as CurrentView, category: 'all', slug: null };
   }
 

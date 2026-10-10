@@ -24,6 +24,7 @@ import { ProductDetailView } from './components/product/ProductDetailView';
 import { CartPage } from './components/cart/CartPage';
 import { CheckoutPage } from './components/checkout/CheckoutPage';
 import { CheckoutTestPage } from './components/checkout/CheckoutTestPage';
+import { NokshiPithaLandingPage } from './components/landing/NokshiPithaLandingPage';
 import { OrderSuccessView } from './components/checkout/OrderSuccessView';
 import { OrderTrackingView } from './components/orders/OrderTrackingView';
 import { AboutPage } from './components/pages/AboutPage';
@@ -60,6 +61,7 @@ const MainContent: React.FC = () => {
       {currentView === 'cart' && <CartPage />}
       {currentView === 'checkout' && <CheckoutPage />}
       {currentView === 'checkout-test' && <CheckoutTestPage />}
+      {currentView === 'nokshipitha' && <NokshiPithaLandingPage />}
       {currentView === 'order-success' && <OrderSuccessView />}
       {currentView === 'track-order' && <OrderTrackingView />}
       {currentView === 'about' && <AboutPage />}
@@ -71,12 +73,12 @@ const MainContent: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const { currentView } = useStore();
-  const isCheckoutTest = currentView === 'checkout-test';
+  const isDedicatedLanding = currentView === 'checkout-test' || currentView === 'nokshipitha';
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAEEDA]/30 text-[#3A2A1E] font-sans selection:bg-[#FAC775] selection:text-[#3A2A1E]">
-      {/* Top Header Bars (Hidden on checkout-test landing page) */}
-      {!isCheckoutTest && (
+      {/* Top Header Bars (Hidden on landing pages) */}
+      {!isDedicatedLanding && (
         <>
           <Header />
           <Navbar />
@@ -86,8 +88,8 @@ const AppContent: React.FC = () => {
       {/* Dynamic Route Content */}
       <MainContent />
 
-      {/* Global Footer (Hidden on checkout-test landing page) */}
-      {!isCheckoutTest && <Footer />}
+      {/* Global Footer (Hidden on landing pages) */}
+      {!isDedicatedLanding && <Footer />}
 
       {/* Global Drawers & Modals */}
       <CartDrawer />
