@@ -10,7 +10,7 @@ const DEFAULT_GOOGLE_SHEETS_URL =
 
 const NOKSHI_GOOGLE_SHEETS_URL = 
   import.meta.env.VITE_NOKSHI_GOOGLE_SHEETS_URL || 
-  DEFAULT_GOOGLE_SHEETS_URL;
+  'https://script.google.com/macros/s/AKfycbweRnX_F_AGrOZ4rEaolQHXLsizBYsvWrKqU6raZKp-Fv0l1ZsD6M46foHiD0RM3um1/exec';
 
 export interface GoogleSheetOrderPayload {
   orderNumber: string;
