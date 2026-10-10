@@ -142,11 +142,43 @@ export const NokshiPithaLandingPage: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Meta Pixel Tracking: PageView & ViewContent on Landing Page Mount
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'PageView');
+      window.fbq('track', 'ViewContent', {
+        content_name: 'নকশি ও ঝিনুক পিঠা স্পেশাল অফার ল্যান্ডিং পেজ',
+        content_ids: ['pitha-1', 'pitha-combo-pack'],
+        content_type: 'product_group',
+        value: 1299,
+        currency: 'BDT'
+      });
+    }
+  }, []);
+
   // Selected State: Map of optionId -> quantity
   // Default selected: 2kg Nokshi Pitha
   const [selectedItems, setSelectedItems] = useState<{ [optionId: string]: number }>({
     'opt-nokshi-2kg': 1
   });
+
+  // Track InitiateCheckout once when customer starts interacting with packages or form
+  const [hasTrackedCheckout, setHasTrackedCheckout] = useState(false);
+  const triggerInitiateCheckout = () => {
+    if (!hasTrackedCheckout) {
+      setHasTrackedCheckout(true);
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'InitiateCheckout', {
+          content_name: 'নকশি পিঠা অর্ডার ফর্ম',
+          content_ids: ['pitha-1', 'pitha-combo-pack'],
+          content_type: 'product',
+          value: totalAmount,
+          currency: 'BDT',
+          num_items: activeSelectedList.reduce((sum, item) => sum + item.quantity, 0)
+        });
+      }
+    }
+  };
 
   // Photo Gallery State
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
@@ -402,6 +434,7 @@ export const NokshiPithaLandingPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
+                  triggerInitiateCheckout();
                   const el = document.getElementById('package-selection');
                   if (el) {
                     el.scrollIntoView({ behavior: 'smooth' });
@@ -597,7 +630,12 @@ export const NokshiPithaLandingPage: React.FC = () => {
         </div>
 
         {/* 3. CUSTOMER DETAILS FORM & CHECKOUT (STEP 2 & 3) */}
-        <form onSubmit={handleSubmitOrder} className="space-y-8" id="checkout-form-section">
+        <form 
+          onSubmit={handleSubmitOrder} 
+          onFocusCapture={triggerInitiateCheckout}
+          className="space-y-8" 
+          id="checkout-form-section"
+        >
           
           {/* STEP 2: CUSTOMER SHIPPING INFO */}
           <div className="bg-white rounded-3xl border border-[#D85A30]/20 shadow-sm p-4 sm:p-6 space-y-4">
