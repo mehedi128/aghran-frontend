@@ -108,7 +108,7 @@ export const NokshiPithaLandingPage: React.FC = () => {
       nameEnglish: 'Nokshi & Jhinuk Special Combo (1 kg)',
       description: 'নকশি ৫০০ গ্রাম + ঝিনুক ৫০০ গ্রাম (মোট ১ কেজি)',
       weight: '1 kg',
-      price: 699,
+      price: 650,
       originalPrice: 850,
       image: nokshiJhinukComboImg
     }
