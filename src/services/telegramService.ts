@@ -6,10 +6,15 @@ import { Order } from '../types';
 const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '8657618788:AAGtsG-dHe_pYMvnRiI7Rj_utIiSelfXmSs';
 const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID || '1022610461';
 
+export interface SmsDeliveryStatus {
+  sent: boolean;
+  error?: string;
+}
+
 /**
  * Formats order details into a clean HTML formatted Telegram message
  */
-export const buildTelegramOrderNotification = (order: Order): string => {
+export const buildTelegramOrderNotification = (order: Order, smsStatus?: SmsDeliveryStatus): string => {
   const customerName = order.customer.fullName || 'গ্রাহক';
   const phone = order.customer.phone || 'N/A';
   const deliveryZone = order.customer.deliveryZone === 'dhaka' ? 'ঢাকা সিটির ভিতরে (৳80)' : 'ঢাকা সিটির বাইরে (৳130)';
@@ -28,6 +33,16 @@ export const buildTelegramOrderNotification = (order: Order): string => {
     })
     .join('\n');
 
+  let smsSection = '';
+  if (smsStatus) {
+    if (smsStatus.sent) {
+      smsSection = `📱 <b>কাস্টমার SMS:</b> ✅ সফলভাবে পাঠানো হয়েছে (GP SIM)\n`;
+    } else {
+      const cleanErr = smsStatus.error ? ` (${smsStatus.error})` : ' (ফোন অফ বা ব্যালেন্স নেই)';
+      smsSection = `📱 <b>কাস্টমার SMS:</b> ⚠️ <b>ব্যর্থ হয়েছে!</b> <i>${cleanErr}</i>\n`;
+    }
+  }
+
   return `🛒 <b>নতুন অর্ডার এসেছে! (Aghran)</b>
 ━━━━━━━━━━━━━━━━━━━━
 📦 <b>অর্ডার আইডি:</b> <code>#${order.orderNumber}</code>
@@ -43,7 +58,7 @@ ${itemsList}
 🚚 <b>ডেলিভারি চার্জ:</b> ৳${order.shippingFee}
 💵 <b>সর্বমোট বিল:</b> <b>৳${order.total}</b>
 💳 <b>পেমেন্ট মেথড:</b> Cash on Delivery (COD)
-⏰ <b>অর্ডারের সময়:</b> ${formattedDate}
+${smsSection}⏰ <b>অর্ডারের সময়:</b> ${formattedDate}
 ━━━━━━━━━━━━━━━━━━━━`;
 };
 
@@ -58,6 +73,7 @@ export interface TelegramSendResult {
  */
 export const sendOrderToTelegram = async (
   order: Order,
+  smsStatus?: SmsDeliveryStatus,
   customBotToken?: string,
   customChatId?: string
 ): Promise<TelegramSendResult> => {
@@ -72,7 +88,7 @@ export const sendOrderToTelegram = async (
     };
   }
 
-  const messageText = buildTelegramOrderNotification(order);
+  const messageText = buildTelegramOrderNotification(order, smsStatus);
 
   try {
     const endpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;

@@ -504,15 +504,25 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       console.warn('Facebook Purchase tracking error:', err);
     }
 
-    // Send SMS Confirmation to Customer via Textbee (GP SIM)
-    sendOrderConfirmationSms(newOrder).catch(err => {
-      console.error('Failed to dispatch confirmation SMS:', err);
-    });
-
-    // Send Telegram Order Alert to Store Admin
-    sendOrderToTelegram(newOrder).catch(err => {
-      console.error('Failed to dispatch Telegram order notification:', err);
-    });
+    // Send SMS Confirmation via GP SIM & report delivery status in Telegram alert
+    sendOrderConfirmationSms(newOrder)
+      .then(smsResult => {
+        sendOrderToTelegram(newOrder, {
+          sent: smsResult.success,
+          error: smsResult.error
+        }).catch(err => {
+          console.error('Failed to dispatch Telegram order notification:', err);
+        });
+      })
+      .catch(err => {
+        console.error('Failed to dispatch confirmation SMS:', err);
+        sendOrderToTelegram(newOrder, {
+          sent: false,
+          error: err?.message || 'Network error'
+        }).catch(tErr => {
+          console.error('Failed to dispatch Telegram order notification:', tErr);
+        });
+      });
 
     navigateTo('order-success');
     showToast('Order Placed Successfully!', `Order #${newOrder.orderNumber} is now confirmed.`);
