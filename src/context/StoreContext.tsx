@@ -3,6 +3,7 @@ import { Product, ProductVariant, CartItem, Order, CategoryId, DeliveryZone, Cou
 import { INITIAL_PRODUCTS, SAMPLE_COUPONS } from '../data/products';
 import { sendOrderToGoogleSheet } from '../services/googleSheetsService';
 import { sendOrderConfirmationSms } from '../services/smsService';
+import { sendOrderToTelegram } from '../services/telegramService';
 import { trackAddToCart, trackInitiateCheckout, trackPurchase } from '../services/facebookTrackingService';
 
 export type CurrentView = 
@@ -506,6 +507,11 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     // Send SMS Confirmation to Customer via Textbee (GP SIM)
     sendOrderConfirmationSms(newOrder).catch(err => {
       console.error('Failed to dispatch confirmation SMS:', err);
+    });
+
+    // Send Telegram Order Alert to Store Admin
+    sendOrderToTelegram(newOrder).catch(err => {
+      console.error('Failed to dispatch Telegram order notification:', err);
     });
 
     navigateTo('order-success');
