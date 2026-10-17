@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Product, ProductVariant, CartItem, Order, CategoryId, DeliveryZone, Coupon } from '../types';
 import { INITIAL_PRODUCTS, SAMPLE_COUPONS } from '../data/products';
 import { sendOrderToGoogleSheet } from '../services/googleSheetsService';
+import { sendOrderConfirmationSms } from '../services/smsService';
 import { trackAddToCart, trackInitiateCheckout, trackPurchase } from '../services/facebookTrackingService';
 
 export type CurrentView = 
@@ -501,6 +502,11 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     } catch (err) {
       console.warn('Facebook Purchase tracking error:', err);
     }
+
+    // Send SMS Confirmation to Customer via Textbee (GP SIM)
+    sendOrderConfirmationSms(newOrder).catch(err => {
+      console.error('Failed to dispatch confirmation SMS:', err);
+    });
 
     navigateTo('order-success');
     showToast('Order Placed Successfully!', `Order #${newOrder.orderNumber} is now confirmed.`);

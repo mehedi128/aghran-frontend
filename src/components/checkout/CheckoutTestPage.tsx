@@ -401,7 +401,7 @@ export const CheckoutTestPage: React.FC = () => {
       };
     });
 
-    setTimeout(() => {
+    try {
       placeOrder({
         items: orderCartItems,
         customer: formData,
@@ -410,8 +410,12 @@ export const CheckoutTestPage: React.FC = () => {
         discount: 0,
         total: totalAmount
       });
+      navigateTo('order-success');
+    } catch (err) {
+      console.error('Order placement error:', err);
+    } finally {
       setIsSubmitting(false);
-    }, 600);
+    }
   };
 
   return (
