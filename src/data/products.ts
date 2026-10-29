@@ -1,5 +1,5 @@
 import { Product, Testimonial, Coupon } from '../types';
-import utsabComboImage from '../assets/images/up0.png';
+import utsabComboImage from '../assets/images/utsab_combo_pack.jpg';
 import pataNokshiImage1 from '../assets/images/pata_n0.png';
 import pataNokshiImage2 from '../assets/images/pata_n1.png';
 import nokshiPithaImage1 from '../assets/images/nokshi_pitha_village_1787466507600.jpg';
@@ -14,6 +14,7 @@ import phulNokshiImage3 from '../assets/images/pn2.png';
 import reviewUserImage1 from '../assets/images/review_user_1.jpg';
 import reviewUserImage2 from '../assets/images/review_user_2.jpg';
 import reviewUserImage3 from '../assets/images/review_user_3.jpg';
+import narikelNaruImage from '../assets/images/narikel-naru.png';
 
 export const INITIAL_PRODUCTS: Product[] = [
   // ==================== TOP SELLING NOKSHI PITHA PRODUCTS ====================
@@ -162,42 +163,43 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'pitha-combo-pack',
     slug: 'pitha-combo-pack',
-    nameBangla: 'উৎসব কম্বো প্যাক ( 1 kg)',
+    nameBangla: 'উৎসব কম্বো প্যাক (1 KG)',
     nameEnglish: 'Utsab Combo Pack (1 kg) - All-in-One Nokshi & Puli Pitha',
     category: 'pitha',
     categoryBangla: 'ঐতিহ্যবাহী পিঠা',
     categoryEnglish: 'Traditional Pitha',
-    price: 699,
-    originalPrice: 850,
-    discountPercentage: 18,
+    price: 1099,
+    originalPrice: 1250,
+    discountPercentage: 12,
     weight: '1 kg',
     variants: [],
-    descriptionBangla: 'পাতা নকশি, ফুল নকশি, ঝিনুক নকশি ও নারিকেল পুলি পিঠার সেরা সমাহার নিয়ে আমাদের উৎসব কম্বো প্যাক (১ কেজি)। আমাদের তৈরি সকল পিঠাতে কোনো প্রকার কেমিক্যাল বা এডিশনাল কালার ব্যবহার করা হয় না। খাঁটি চালের গুঁড়ো ও অথেন্টিক মিঠাইয়ে তৈরি প্রতিটি পিঠা মুখে দিলেই অসাধারণ মচমচে ও ওয়েল-ব্যালেন্সড টেস্ট ফিল করবেন।',
-    descriptionEnglish: 'Festival Grand Combo Pack (1 kg) bringing together our signature Pata Nokshi, Phul Nokshi, Jhinuk Nokshi, and traditional Narikel Puli Pitha. 100% pure ingredients with no artificial color, sugar, or preservatives.',
-    shortDescription: 'পাতা নকশি, ফুল নকশি, ঝিনুক নকশি ও নারিকেল পুলি পিঠার সেরা ৪টি আইটেম নিয়ে ১ কেজির স্পেশাল উৎসব কম্বো প্যাক।',
+    descriptionBangla: 'নকশি ২৫০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রাম + নারিকেল নাড়ু ২৫০ গ্রাম নিয়ে মোট ১ কেজির সেরা সমাহার আমাদের উৎসব কম্বো প্যাক (১ কেজি)। আমাদের তৈরি সকল পিঠাতে কোনো প্রকার কেমিক্যাল বা কৃত্রিম রঙ ব্যবহার করা হয় না। মুখে দিলেই অসাধারণ মচমচে ও খাঁটি স্বাদ পাবেন। সাথে থাকছে ফ্রি ডেলিভারি!',
+    descriptionEnglish: 'Utsab Combo Pack (1 kg) featuring Nokshi Pitha 250g, Jhinuk Pitha 250g, Narikel Puli 250g, and pure Narikel Naru 250g with Free Delivery across Bangladesh.',
+    shortDescription: 'নকশি ২৫০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রাম + নারিকেল নাড়ু ২৫০ গ্রাম (মোট ১ কেজি)।',
     ingredients: [
-      'চালের গুড়ো।',
-      'অথেন্টিক মিঠাই।',
-      'নারিকেল।',
-      'নো এডিশনাল কালার ।',
-      'সয়াবিন তেল।'
+      'নকশি পিঠা (২৫০ গ্রাম)',
+      'ঝিনুক পিঠা (২৫০ গ্রাম)',
+      'নারিকেল পুলি পিঠা (২৫০ গ্রাম)',
+      'খাঁটি নারিকেল নাড়ু (২৫০ গ্রাম)',
+      'খাঁটি চালের গুঁড়ো, অথেন্টিক গুড়/মিঠাই ও নারিকেল'
     ],
     features: [
       '১০০% হাতে সুই দিয়ে নিখুঁত কারুকাজ কাটা',
-      'কোনো প্রকার কেমিক্যাল নেই',
-      'ওয়েল ব্যালেন্সড মিষ্টি ও মুখে মেল্ট হওয়া মচমচে ভাব'
+      'কোনো প্রকার কেমিক্যাল বা কৃত্রিম রঙ নেই',
+      'ওয়েল ব্যালেন্সড মিষ্টি ও মুখে মেল্ট হওয়া মচমচে ভাব',
+      'সম্পূর্ণ ফ্রি হোম ডেলিভারি'
     ],
     stockStatus: 'In Stock',
     stockCount: 50,
     rating: 5.0,
     reviewCount: 248,
     images: [
-      utsabComboImage,
-      nokshiPithaImage2,
-      nokshiPithaImage1
+      utsabComboImage
     ],
     isFeatured: true,
     isTopSeller: true,
+    freeDelivery: true,
+    badge: 'ফ্রি ডেলিভারি',
     origin: 'পিঠা-পার্ক বাই তানজিলা কিচেন',
     shelfLife: '২০-২৫ দিন (এয়ারটাইট বক্সে সংরক্ষণ করুন)',
     storageAdvice: 'শুকনো ও স্বাভাবিক তাপমাত্রায় বাতাস ঢুকবে না এমন এয়ারটাইট বক্সে বা কাঁচের বয়ামে সংরক্ষণ করুন যাতে মচমচে ভাব দীর্ঘ দিন অটুট থাকে।'
@@ -211,20 +213,20 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'pitha',
     categoryBangla: 'ঐতিহ্যবাহী পিঠা',
     categoryEnglish: 'Traditional Pitha',
-    price: 1350,
-    originalPrice: 1650,
-    discountPercentage: 18,
+    price: 1999,
+    originalPrice: 2500,
+    discountPercentage: 20,
     weight: '2 kg',
     variants: [],
-    descriptionBangla: 'পাতা নকশি, ফুল নকশি, ঝিনুক নকশি ও নারিকেল পুলি পিঠার সেরা সমাহার নিয়ে আমাদের উৎসব কম্বো প্যাক (২  কেজি)। আমাদের তৈরি সকল পিঠাতে কোনো প্রকার কেমিক্যাল বা এডিশনাল কালার ব্যবহার করা হয় না। খাঁটি চালের গুঁড়ো ও অথেন্টিক মিঠাইয়ে তৈরি প্রতিটি পিঠা মুখে দিলেই অসাধারণ মচমচে ও ওয়েল-ব্যালেন্সড টেস্ট ফিল করবেন।',
-    descriptionEnglish: 'Festival Grand Combo Pack (2 kg) bringing together our signature Pata Nokshi, Phul Nokshi, Jhinuk Nokshi, and traditional Narikel Puli Pitha. 100% pure ingredients with no chemicals or additional colors.',
-    shortDescription: 'পাতা নকশি, ফুল নকশি, ঝিনুক নকশি ও নারিকেল পুলি পিঠার সেরা ৪টি আইটেম নিয়ে ২ কেজির স্পেশাল উৎসব কম্বো প্যাক।',
+    descriptionBangla: 'নকশি ৫০০ গ্রাম + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রাম + নারিকেল নাড়ু ৫০০ গ্রাম নিয়ে মোট ২ কেজির মেগা সমাহার আমাদের উৎসব কম্বো প্যাক (২ কেজি)। আমাদের তৈরি সকল পিঠাতে কোনো প্রকার কেমিক্যাল বা কৃত্রিম রঙ ব্যবহার করা হয় না। মুখে দিলেই অসাধারণ মচমচে ও খাঁটি স্বাদ পাবেন। সাথে থাকছে ফ্রি ডেলিভারি!',
+    descriptionEnglish: 'Utsab Combo Pack (2 kg) featuring Nokshi Pitha 500g, Jhinuk Pitha 500g, Narikel Puli 500g, and pure Narikel Naru 500g with Free Delivery across Bangladesh.',
+    shortDescription: 'নকশি ৫০০ গ্রাম + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রাম + নারিকেল নাড়ু ৫০০ গ্রাম (মোট ২ কেজি)।',
     ingredients: [
-      'চালের গুড়ো।',
-      'অথেন্টিক মিঠাই।',
-      'নারিকেল।',
-      'নো এডিশনাল কালার ।',
-      'সয়াবিন তেল।'
+      'নকশি পিঠা (৫০০ গ্রাম)',
+      'ঝিনুক পিঠা (৫০০ গ্রাম)',
+      'নারিকেল পুলি পিঠা (৫০০ গ্রাম)',
+      'খাঁটি নারিকেল নাড়ু (৫০০ গ্রাম)',
+      'খাঁটি চালের গুঁড়ো, অথেন্টিক গুড়/মিঠাই ও নারিকেল'
     ],
     features: [
       '১০০% হাতে সুই দিয়ে নিখুঁত কারুকাজ কাটা',
@@ -237,9 +239,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     rating: 5.0,
     reviewCount: 82,
     images: [
-      utsabComboImage,
-      nokshiPithaImage2,
-      nokshiPithaImage1
+      utsabComboImage
     ],
     isFeatured: true,
     isTopSeller: true,
@@ -248,6 +248,54 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: 'পিঠা-পার্ক বাই তানজিলা কিচেন',
     shelfLife: '২৫ দিন',
     storageAdvice: 'শুকনো স্থানে এয়ারটাইট বক্সে রাখুন।'
+  },
+
+  {
+    id: 'special-narikel-naru',
+    slug: 'special-narikel-naru',
+    nameBangla: 'স্পেশাল নারকেল নাড়ু ১ কেজি',
+    nameEnglish: 'Special Narikel Naru (1 kg)',
+    category: 'pitha',
+    categoryBangla: 'ঐতিহ্যবাহী মিষ্টি ও নাড়ু',
+    categoryEnglish: 'Traditional Sweets & Naru',
+    price: 999,
+    originalPrice: 1150,
+    discountPercentage: 13,
+    weight: '1 kg',
+    variants: [
+      { id: 'v-naru-1kg', name: '১ কেজি', weight: '1 kg', price: 999, originalPrice: 1150, inStock: true },
+      { id: 'v-naru-500g', name: '৫০০ গ্রাম', weight: '500g', price: 550, originalPrice: 650, inStock: true }
+    ],
+    descriptionBangla: 'ঘরোয়া স্বাদ ও ঐতিহ্যের ছোঁয়ায় তৈরি খাঁটি নারকেল ও নির্ভেজাল গুড়ে প্রস্তুত আমাদের স্পেশাল নারকেল নাড়ু। সম্পূর্ণ ঘরোয়া পরিবেশে কোনো প্রকার কেমিক্যাল বা কৃত্রিম রঙ ছাড়া শতভাগ স্বাস্থ্যসম্মত উপায়ে তৈরি। মুখে দিলেই পাবেন খাঁটি নারকেলের মিষ্টি সুবাস ও পারফেক্ট স্বাদ। প্রতিদিনের মিষ্টি মুখ কিংবা উৎসব-আপ্যায়নে অতুলনীয়!',
+    descriptionEnglish: 'Authentic traditional handmade Narikel Naru (sweet coconut balls) crafted with 100% pure fresh grated coconut and premium date/cane jaggery with sesame seeds. 100% homemade taste with no artificial colors or preservatives.',
+    shortDescription: 'ঘরোয়া স্বাদ ও ঐতিহ্যের ছোঁয়ায় ১০০% খাঁটি নারকেল ও নির্ভেজাল গুড়ে তৈরি স্পেশাল নারকেল নাড়ু।',
+    ingredients: [
+      'বাছাইকৃত টাটকা খাঁটি নারকেল।',
+      'খাঁটি দেশি গুড় / চিনি।',
+      'সাদা তিল।',
+      'সুগন্ধি এলাচ গুঁড়ো।',
+      '১০০% কেমিক্যাল ও কৃত্রিম রঙ মুক্ত।'
+    ],
+    features: [
+      'ঘরোয়া পরিবেশে মা-দাদীদের হাতের মতো নিখুঁত খাঁটি স্বাদ',
+      '১০০% খাঁটি ও নির্ভেজাল উপকরণে প্রস্তুত',
+      'কোনো প্রকার কেমিক্যাল বা কৃত্রিম ফ্লেভার নেই',
+      'ফুড-গ্রেড এয়ারটাইট বক্সে স্বাস্থ্যসম্মত প্যাকেজিং',
+      'সারা দেশে দ্রুত ক্যাশ অন হোম ডেলিভারি'
+    ],
+    stockStatus: 'In Stock',
+    stockCount: 40,
+    rating: 5.0,
+    reviewCount: 96,
+    images: [
+      narikelNaruImage
+    ],
+    isFeatured: true,
+    isTopSeller: true,
+    badge: 'ঘরোয়া স্বাদ',
+    origin: 'অঘ্রাণ হেরিটেজ কিচেন',
+    shelfLife: '৩০ দিন (এয়ারটাইট বয়ামে সংরক্ষণ করুন)',
+    storageAdvice: 'শুকনো ও পরিষ্কার এয়ারটাইট বয়ামে সংরক্ষণ করুন যাতে ক্রাঞ্চি ও ফ্রেশ স্বাদ দীর্ঘ দিন অটুট থাকে।'
   },
 
   // ==================== OTHER AUTHENTIC PRODUCTS ====================
@@ -638,8 +686,8 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   // ==================== COMBO OFFER PACKS ====================
   {
-    id: 'combo-pitha-utsab',
-    slug: 'combo-pitha-utsab',
+    id: 'combo-nobanno-utsab',
+    slug: 'combo-nobanno-utsab',
     nameBangla: 'নবান্ন পিঠা উৎসব কম্বো প্যাক',
     nameEnglish: 'নবান্ন পিঠা উৎসব কম্বো (Nobanno Pitha Grand Combo)',
     category: 'pitha',

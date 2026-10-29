@@ -2,7 +2,7 @@ import React from 'react';
 import { ShoppingCart, Tag, Check, Zap, Truck } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import nokshiPithaComboImg from '../../assets/images/nokshi_pitha_village_1787466507600.jpg';
-import utsabComboImage from '../../assets/images/up0.png';
+import utsabComboImage from '../../assets/images/utsab_combo_pack.jpg';
 
 interface ComboOffer {
   id: string;
@@ -25,18 +25,21 @@ export const ComboOfferSection: React.FC = () => {
   const comboOffers: ComboOffer[] = [
     {
       id: 'pitha-combo-pack',
-      titleBangla: 'উৎসব কম্বো প্যাক ( 1 kg)',
+      titleBangla: 'উৎসব কম্বো প্যাক (1 KG)',
       titleEnglish: 'Utsab Combo Pack (1 kg)',
-      subtitle: 'পাতা নকশি + ফুল নকশি + ঝিনুক নকশি + নারিকেল পুলি পিঠার স্পেশাল কম্বো সমাহার',
-      price: 699,
-      originalPrice: 850,
+      subtitle: 'নকশি ২৫০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রাম + নারিকেল নাড়ু ২৫০ গ্রাম',
+      price: 1099,
+      originalPrice: 1250,
       savings: 151,
+      badge: 'ফ্রি ডেলিভারি',
+      freeDelivery: true,
       image: utsabComboImage,
       items: [
-        'পাতা নকশি পিঠা',
-        'ফুল নকশি পিঠা',
-        'ঝিনুক নকশি পিঠা',
-        'নারিকেল পুলি পিঠা'
+        'নকশি পিঠা (২৫০ গ্রাম)',
+        'ঝিনুক পিঠা (২৫০ গ্রাম)',
+        'নারিকেল পুলি পিঠা (২৫০ গ্রাম)',
+        'নারিকেল নাড়ু (২৫০ গ্রাম)',
+        'সারা দেশে ফ্রি হোম ডেলিভারি'
       ],
       category: 'pitha'
     },
@@ -45,18 +48,18 @@ export const ComboOfferSection: React.FC = () => {
       id: 'combo-pitha-utsab',
       titleBangla: 'উৎসব কম্বো প্যাক (2 KG)',
       titleEnglish: 'Utsab Combo Pack (2 kg)',
-      subtitle: 'পাতা নকশি, ফুল নকশি, ঝিনুক নকশি ও নারিকেল পুলি পিঠার ২ কেজির মেগা প্যাক',
-      price: 1350,
-      originalPrice: 1650,
-      savings: 300,
+      subtitle: 'নকশি ৫০০ গ্রাম + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রাম + নারিকেল নাড়ু ৫০০ গ্রাম',
+      price: 1999,
+      originalPrice: 2500,
+      savings: 501,
       badge: 'ফ্রি ডেলিভারি',
       freeDelivery: true,
       image: utsabComboImage,
       items: [
-        'পাতা নকশি পিঠা',
-        'ফুল নকশি পিঠা',
-        'ঝিনুক নকশি পিঠা',
-        'সুস্বাদু নারিকেল পুলি পিঠা',
+        'নকশি পিঠা (৫০০ গ্রাম)',
+        'ঝিনুক পিঠা (৫০০ গ্রাম)',
+        'নারিকেল পুলি পিঠা (৫০০ গ্রাম)',
+        'নারিকেল নাড়ু (৫০০ গ্রাম)',
         'সারা দেশে ফ্রি হোম ডেলিভারি'
       ],
       category: 'pitha'

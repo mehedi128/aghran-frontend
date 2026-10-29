@@ -446,7 +446,13 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   
   // Shipping calculation: Inside Dhaka ৳80, Outside Dhaka ৳130. Free above ৳1500 or with Free Delivery products!
   const freeShippingThreshold = 1500;
-  const hasFreeDeliveryProduct = cart.some(item => item.product.freeDelivery || item.product.id === 'combo-pitha-utsab' || item.product.slug === 'combo-pitha-utsab');
+  const hasFreeDeliveryProduct = cart.some(item => 
+    item.product.freeDelivery || 
+    item.product.id === 'combo-pitha-utsab' || 
+    item.product.slug === 'combo-pitha-utsab' ||
+    item.product.id === 'pitha-combo-pack' ||
+    item.product.slug === 'pitha-combo-pack'
+  );
   const isFreeShipping = cartSubtotal >= freeShippingThreshold || hasFreeDeliveryProduct;
   const baseShipping = deliveryZone === 'dhaka' ? 80 : 130;
   const shippingFee = cart.length === 0 ? 0 : (isFreeShipping ? 0 : baseShipping);

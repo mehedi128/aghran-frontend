@@ -21,7 +21,7 @@ import { Product, ProductVariant, CartItem, OrderCustomerInfo } from '../../type
 import { TESTIMONIALS } from '../../data/products';
 
 // Images
-import utsabComboImg from '../../assets/images/up0.png';
+import utsabComboImg from '../../assets/images/utsab_combo_pack.jpg';
 import pataNokshiImg1 from '../../assets/images/pata_n0.png';
 import pataNokshiImg2 from '../../assets/images/pata_n1.png';
 import phulNokshiImg from '../../assets/images/pn0.png';
@@ -87,10 +87,10 @@ export const CheckoutTestPage: React.FC = () => {
       productId: 'combo-pitha-utsab',
       name: 'উৎসব কম্বো প্যাক (২ কেজি)',
       nameEnglish: 'Utsab Combo Pack (2 kg) - All in One',
-      description: 'নকশি ১ কেজি + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রাম',
+      description: 'নকশি ৫০০ গ্রাম + ঝিনুক ৫০০ গ্রাম + নারিকেল পুলি ৫০০ গ্রাম + নারিকেল নাড়ু ৫০০ গ্রাম',
       weight: '2 kg',
-      price: 1350,
-      originalPrice: 1650,
+      price: 1999,
+      originalPrice: 2500,
       image: utsabComboImg,
       badge: '🚚 ফ্রি ডেলিভারি',
       freeDelivery: true,
@@ -101,11 +101,14 @@ export const CheckoutTestPage: React.FC = () => {
       productId: 'pitha-combo-pack',
       name: 'উৎসব কম্বো প্যাক (১ কেজি)',
       nameEnglish: 'Utsab Combo Pack (1 kg)',
-      description: 'নকশি ৫০০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রাম',
+      description: 'নকশি ২৫০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রাম + নারিকেল নাড়ু ২৫০ গ্রাম',
       weight: '1 kg',
-      price: 699,
-      originalPrice: 850,
-      image: utsabComboImg
+      price: 1099,
+      originalPrice: 1250,
+      image: utsabComboImg,
+      badge: '🚚 ফ্রি ডেলিভারি',
+      freeDelivery: true,
+      highlight: true
     },
     {
       id: 'opt-pata-2kg',
@@ -1074,7 +1077,7 @@ export const CheckoutTestPage: React.FC = () => {
                   />
                   <div className="absolute top-2.5 left-2.5 bg-gradient-to-r from-[#D85A30] to-[#B84218] text-white text-[11px] font-black px-3 py-1 rounded-full shadow-md font-serif-bangla flex items-center gap-1 border border-[#FFE082]/60">
                     <Flame className="w-3.5 h-3.5 fill-[#FFE082] text-[#FFE082]" />
-                    <span>🔥 সর্বাধিক জনপ্রিয় কম্বো</span>
+                    <span>🔥 স্পেশাল কম্বো (ফ্রি ডেলিভারি)</span>
                   </div>
                 </div>
                 <div className="p-4">
@@ -1083,10 +1086,13 @@ export const CheckoutTestPage: React.FC = () => {
                       উৎসব কম্বো প্যাক (১ কেজি)
                     </h4>
                     <div className="text-right">
-                      <span className="text-xs text-[#888780] line-through block font-serif-bangla">৳850</span>
-                      <span className="text-lg font-black text-[#D85A30]">৳699</span>
+                      <span className="text-xs text-[#888780] line-through block font-serif-bangla">৳1,250</span>
+                      <span className="text-lg font-black text-[#D85A30]">৳1,099</span>
                     </div>
                   </div>
+                  <p className="text-[11px] text-[#639922] font-bold font-serif-bangla mt-1">
+                    নকশি ২৫০g + ঝিনুক ২৫০g + পুলি ২৫০g + নাড়ু ২৫০g
+                  </p>
                 </div>
               </div>
               <div className="p-4 pt-0">
@@ -1095,7 +1101,48 @@ export const CheckoutTestPage: React.FC = () => {
                   onClick={() => handleSelectAndScroll('opt-utsab-1kg')}
                   className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#D85A30] to-[#B84218] hover:from-[#b84218] hover:to-[#963311] text-white font-black text-xs sm:text-sm font-serif-bangla transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
                 >
-                  <span>এখনই অর্ডার করুন</span>
+                  <span>এখনই অর্ডার করুন (১ কেজি)</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card 6: Utsab Combo 2kg (HIGHLIGHTED) */}
+            <div className="bg-gradient-to-b from-[#FFFDF6] via-[#FFF8EC] to-[#FFF1DE]/50 rounded-2xl border-2 border-[#2E7D32] overflow-hidden shadow-md hover:shadow-xl transition-all flex flex-col justify-between group ring-2 ring-[#2E7D32]/30 relative">
+              <div>
+                <div className="h-48 overflow-hidden bg-[#FAEEDA] relative">
+                  <img
+                    src={utsabComboImg}
+                    alt="উৎসব কম্বো প্যাক ২ কেজি"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-2.5 left-2.5 bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] text-white text-[11px] font-black px-3 py-1 rounded-full shadow-md font-serif-bangla flex items-center gap-1 border border-[#81C784]/60">
+                    <Truck className="w-3.5 h-3.5 text-[#A5D6A7]" />
+                    <span>🚚 মেগা প্যাক (ফ্রি ডেলিভারি)</span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif-bangla font-black text-base text-[#3A2A1E]">
+                      উৎসব কম্বো প্যাক (২ কেজি)
+                    </h4>
+                    <div className="text-right">
+                      <span className="text-xs text-[#888780] line-through block font-serif-bangla">৳2,500</span>
+                      <span className="text-lg font-black text-[#1B5E20]">৳1,999</span>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-[#1B5E20] font-bold font-serif-bangla mt-1">
+                    নকশি ৫০০g + ঝিনুক ৫০০g + পুলি ৫০০g + নাড়ু ৫০০g
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0">
+                <button
+                  type="button"
+                  onClick={() => handleSelectAndScroll('opt-utsab-2kg')}
+                  className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] hover:from-[#154a1a] hover:to-[#1b5e20] text-white font-black text-xs sm:text-sm font-serif-bangla transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+                >
+                  <span>এখনই অর্ডার করুন (২ কেজি)</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </button>
               </div>

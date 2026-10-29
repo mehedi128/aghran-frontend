@@ -22,6 +22,7 @@ import { trackInitiateCheckout, trackPurchase } from '../../services/facebookTra
 
 // Product Images
 import nokshiJhinukComboImg from '../../assets/images/nokshi_jhinuk_combo.jpg';
+import utsabComboImg from '../../assets/images/utsab_combo_pack.jpg';
 import pataNokshiImg1 from '../../assets/images/pata_n0.png';
 import pataNokshiImg2 from '../../assets/images/pata_n1.png';
 import phulNokshiImg from '../../assets/images/pn0.png';
@@ -68,24 +69,18 @@ export const NokshiPithaLandingPage: React.FC = () => {
       freeDelivery: true
     },
     {
-      id: 'opt-nokshi-1kg',
-      productId: 'pitha-1',
-      name: 'নকশি পিঠা (১ কেজি)',
-      nameEnglish: 'Nokshi Pitha (1 kg)',
+      id: 'opt-utsab-1kg',
+      productId: 'pitha-combo-pack',
+      name: 'উৎসব কম্বো প্যাক (১ কেজি)',
+      nameEnglish: 'Utsab Combo Pack (1 kg)',
+      description: 'নকশি ২৫০ গ্রাম + ঝিনুক ২৫০ গ্রাম + নারিকেল পুলি ২৫০ গ্রাম + নারিকেল নাড়ু ২৫০ গ্রাম',
       weight: '1 kg',
-      price: 650,
-      originalPrice: 799,
-      image: pataNokshiImg1
-    },
-    {
-      id: 'opt-nokshi-500g',
-      productId: 'pitha-1',
-      name: 'নকশি পিঠা (৫০০ গ্রাম)',
-      nameEnglish: 'Nokshi Pitha (500g)',
-      weight: '500g',
-      price: 399,
-      originalPrice: 499,
-      image: pataNokshiImg1
+      price: 1099,
+      originalPrice: 1250,
+      image: utsabComboImg,
+      badge: '🚚 ফ্রি ডেলিভারি',
+      freeDelivery: true,
+      highlight: true
     },
     {
       id: 'opt-combo-2kg',
@@ -102,6 +97,16 @@ export const NokshiPithaLandingPage: React.FC = () => {
       highlight: true
     },
     {
+      id: 'opt-nokshi-1kg',
+      productId: 'pitha-1',
+      name: 'নকশি পিঠা (১ কেজি)',
+      nameEnglish: 'Nokshi Pitha (1 kg)',
+      weight: '1 kg',
+      price: 650,
+      originalPrice: 799,
+      image: pataNokshiImg1
+    },
+    {
       id: 'opt-combo-1kg',
       productId: 'pitha-combo-pack',
       name: 'নকশি ও ঝিনুক স্পেশাল কম্বো (১ কেজি)',
@@ -111,6 +116,16 @@ export const NokshiPithaLandingPage: React.FC = () => {
       price: 650,
       originalPrice: 850,
       image: nokshiJhinukComboImg
+    },
+    {
+      id: 'opt-nokshi-500g',
+      productId: 'pitha-1',
+      name: 'নকশি পিঠা (৫০০ গ্রাম)',
+      nameEnglish: 'Nokshi Pitha (500g)',
+      weight: '500g',
+      price: 399,
+      originalPrice: 499,
+      image: pataNokshiImg1
     }
   ], []);
 
@@ -716,7 +731,7 @@ export const NokshiPithaLandingPage: React.FC = () => {
                   </label>
                   {isFreeDeliveryQualified && (
                     <span className="text-[11px] font-bold text-[#1B5E20] bg-[#E8F5E9] px-2.5 py-0.5 rounded-full border border-[#81C784]/50">
-                      🎉 ২ কেজি বা তার বেশি হওয়ায় ফ্রি ডেলিভারি পাচ্ছেন!
+                      🎉 আপনি সম্পূর্ণ ফ্রি ডেলিভারি পাচ্ছেন!
                     </span>
                   )}
                 </div>
