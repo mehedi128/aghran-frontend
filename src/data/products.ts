@@ -15,6 +15,9 @@ import reviewUserImage1 from '../assets/images/review_user_1.jpg';
 import reviewUserImage2 from '../assets/images/review_user_2.jpg';
 import reviewUserImage3 from '../assets/images/review_user_3.jpg';
 import narikelNaruImage from '../assets/images/narikel-naru.png';
+import dhekiChalerGuraImg1 from '../assets/images/dheki_chaler_gura_1.jpg';
+import dhekiChalerGuraBannerImg from '../assets/images/dheki_chaler_gura_banner.jpg';
+import dhekiChalerGuraTextureImg from '../assets/images/dheki_chaler_gura_texture.jpg';
 
 export const INITIAL_PRODUCTS: Product[] = [
   // ==================== TOP SELLING NOKSHI PITHA PRODUCTS ====================
@@ -296,6 +299,53 @@ export const INITIAL_PRODUCTS: Product[] = [
     origin: 'অঘ্রাণ হেরিটেজ কিচেন',
     shelfLife: '৩০ দিন (এয়ারটাইট বয়ামে সংরক্ষণ করুন)',
     storageAdvice: 'শুকনো ও পরিষ্কার এয়ারটাইট বয়ামে সংরক্ষণ করুন যাতে ক্রাঞ্চি ও ফ্রেশ স্বাদ দীর্ঘ দিন অটুট থাকে।'
+  },
+  {
+    id: 'chaler-gura-1',
+    slug: 'dheki-chata-atop-chaler-gura',
+    nameBangla: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া',
+    nameEnglish: 'Dheki-chata Atop Rice Flour (100% Organic)',
+    category: 'pitha',
+    categoryBangla: 'ঐতিহ্যবাহী পিঠার উপকরণ',
+    categoryEnglish: 'Traditional Pitha Ingredients',
+    price: 490,
+    originalPrice: 590,
+    discountPercentage: 17,
+    weight: '1 kg Pack',
+    variants: [
+      { id: 'v-chal-1kg', name: '১ কেজি (1 kg)', weight: '1 kg', price: 490, originalPrice: 590, inStock: true },
+      { id: 'v-chal-2kg', name: '২ কেজি (2 kg)', weight: '2 kg', price: 790, originalPrice: 980, inStock: true }
+    ],
+    descriptionBangla: 'গ্রামবাংলার প্রাচীন কাঠের ঢেঁকিতে ঐতিহ্যবাহী উপায়ে ধীরে ধীরে কুটে তৈরি আমাদের এই ঢেঁকি ছাঁটা সুগন্ধি আতপ চালের গুঁড়া। আধুনিক মেশিনে চালের গুঁড়া তৈরির সময় উচ্চ তাপে চালের স্বাভাবিক পুষ্টি ও মিষ্টি সুবাস নষ্ট হয়ে যায়, কিন্তু আমাদের ঐতিহ্যবাহী কাঠের ঢেঁকির গুঁড়ায় চালের প্রাকৃতিক আর্দ্রতা, মিষ্টি ঘ্রাণ ও ফাইবার শতভাগ অটুট থাকে। ভাপা পিঠা, চিতই পিঠা, নকশি পিঠা, পুলি পিঠা কিংবা যেকোনো শীতকালীন পিঠার জন্য এটি অতুলনীয়। কোনো রকম কৃত্রিম রঙ বা কেমিক্যাল ছাড়া সম্পূর্ণ নির্ভেজাল।',
+    descriptionEnglish: 'Traditionally crushed in wooden Dheki (pedal-pounder), this premium fragrant Atop rice flour preserves authentic aroma, natural moisture, and fiber. Ideal for authentic Bangladeshi winter pithas like Vapa, Chitoi, Nokshi, and Puli pitha. 100% chemical-free.',
+    shortDescription: 'কাঠের ঢেঁকিতে ছাঁটা খাঁটি সুবাসিত আতপ চালের গুঁড়া - শীতের পারফেক্ট পিঠাপুলির সেরা উপকরণ।',
+    ingredients: [
+      '১০০% খাঁটি দেশি সুগন্ধি আতপ চাল',
+      'প্রাকৃতিক উপায়ে রোদে শুকানো',
+      'জিরো প্রিজারভেটিভ বা কেমিক্যাল'
+    ],
+    features: [
+      'ঐতিহ্যবাহী কাঠের ঢেঁকিতে ধীরে ধীরে ছাঁটা',
+      'চালের আসল সুবাস, পুষ্টি ও প্রাকৃতিক আর্দ্রতা অক্ষুণ্ণ',
+      'নকশি, চিতই, ভাপা ও পুলি পিঠার জন্য একদম মিহি ও উপযুক্ত',
+      'কোনো রকম কৃত্রিম রঙ বা কেমিক্যালমুক্ত',
+      'ক্যাশ অন হোম ডেলিভারিতে পণ্য দেখে নেওয়ার সুবিধা'
+    ],
+    stockStatus: 'In Stock',
+    stockCount: 60,
+    rating: 5.0,
+    reviewCount: 78,
+    images: [
+      dhekiChalerGuraImg1,
+      dhekiChalerGuraBannerImg,
+      dhekiChalerGuraTextureImg
+    ],
+    isFeatured: true,
+    isTopSeller: true,
+    badge: 'ঢেঁকি ছাঁটা খাঁটি',
+    origin: 'অঘ্রাণ ঐতিহ্যবাহী পল্লী কিচেন, বগুড়া',
+    shelfLife: '৩ মাস (শুকনো পাত্রে রাখুন)',
+    storageAdvice: 'বায়ুরোধী (এয়ারটাইট) পাত্রে স্বাভাবিক তাপমাত্রায় সংরক্ষণ করুন। সরাসরি রোদ বা আর্দ্রতা থেকে দূরে রাখুন।'
   },
 
   // ==================== OTHER AUTHENTIC PRODUCTS ====================

@@ -14,6 +14,7 @@ export type CurrentView =
   | 'checkout'
   | 'checkout-test'
   | 'nokshipitha'
+  | 'chaler-gura'
   | 'order-success'
   | 'track-order'
   | 'about'
@@ -111,8 +112,12 @@ const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: str
 
   const viewParam = urlParams.get('view');
   if (viewParam) {
+    let resolvedView = viewParam as CurrentView;
+    if (['chaler-gura', 'chalergura', 'atopchal', 'chaler-guda'].includes(viewParam)) {
+      resolvedView = 'chaler-gura';
+    }
     return {
-      view: (viewParam as CurrentView) || 'home',
+      view: resolvedView || 'home',
       category: (urlParams.get('category') as CategoryId) || 'all',
       slug: urlParams.get('slug') || null
     };
@@ -128,7 +133,7 @@ const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: str
     const cat = pathToCheck.replace('collection/', '');
     return { view: 'collection', category: cat as CategoryId, slug: null };
   }
-  if (['collection', 'cart', 'checkout', 'checkout-test', 'nokshipitha', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
+  if (['collection', 'cart', 'checkout', 'checkout-test', 'nokshipitha', 'chaler-gura', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
     return { view: pathToCheck as CurrentView, category: 'all', slug: null };
   }
 
@@ -495,8 +500,8 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     clearCart();
 
     // Send order to Google Sheets
-    // IMPORTANT: Skip default sheet sync if on nokshipitha landing page or explicitly requested
-    const shouldSkipDefaultSheet = currentView === 'nokshipitha' || options?.skipDefaultSheetSync;
+    // IMPORTANT: Skip default sheet sync if on dedicated landing pages or explicitly requested
+    const shouldSkipDefaultSheet = currentView === 'nokshipitha' || currentView === 'chaler-gura' || options?.skipDefaultSheetSync;
     if (!shouldSkipDefaultSheet) {
       sendOrderToGoogleSheet(newOrder).catch(err => {
         console.error('Failed to sync order to Google Sheets:', err);

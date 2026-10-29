@@ -116,3 +116,11 @@ export const sendOrderToGoogleSheet = async (
 export const sendNokshiOrderToGoogleSheet = async (order: Order) => {
   return sendOrderToGoogleSheet(order, NOKSHI_GOOGLE_SHEETS_URL, 'নকশি পিঠা ল্যান্ডিং পেজ');
 };
+
+/**
+ * Dedicated sender for Dheki-chata Atop Chaler Gura Landing Page.
+ */
+export const sendChalerGuraOrderToGoogleSheet = async (order: Order) => {
+  return sendOrderToGoogleSheet(order, DEFAULT_GOOGLE_SHEETS_URL, 'ঢেঁকি ছাঁটা চালের গুঁড়া ল্যান্ডিং পেজ');
+};
+
