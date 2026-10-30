@@ -53,6 +53,7 @@ interface PackageOption {
   badge?: string;
   description: string;
   highlight?: boolean;
+  freeDelivery?: boolean;
 }
 
 export const ChalerGuraLandingPage: React.FC = () => {
@@ -70,7 +71,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
       originalPrice: 980,
       savings: 190,
       image: dhekiChalerGuraImg1,
-      badge: '🔥 বেস্ট ভ্যালু - ১৯০ টাকা সাশ্রয়',
+      badge: '🚚 ফ্রি ডেলিভারি',
+      freeDelivery: true,
       description: 'পুরো পরিবারের শীতের পিঠাপুলির সেরা প্যাকেজ। খাঁটি সুগন্ধি আতপ চালের গুঁড়া।',
       highlight: true
     },
@@ -240,10 +242,11 @@ export const ChalerGuraLandingPage: React.FC = () => {
     return activeSelectedList.reduce((acc, item) => acc + (item.weightKg * item.quantity), 0);
   }, [activeSelectedList]);
 
-  // Free delivery trigger: 4kg or more, or subtotal >= 1500
+  // Free delivery trigger: if any item has freeDelivery, or total weight >= 5kg, or subtotal >= 1000
   const isFreeDeliveryQualified = useMemo(() => {
-    return totalWeightKg >= 4 || subtotal >= 1500;
-  }, [totalWeightKg, subtotal]);
+    const hasFreeItem = activeSelectedList.some(item => item.freeDelivery);
+    return hasFreeItem || totalWeightKg >= 5 || subtotal >= 1000;
+  }, [activeSelectedList, totalWeightKg, subtotal]);
 
   const shippingFee = useMemo(() => {
     if (activeSelectedList.length === 0) return 0;
@@ -360,7 +363,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       <div className="bg-gradient-to-r from-[#8B2500] via-[#D85A30] to-[#8B2500] text-white py-2.5 px-4 text-center shadow-md sticky top-0 z-40 border-b border-amber-300/30">
         <div className="max-w-5xl mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base font-bold font-serif-bangla tracking-wide">
           <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse shrink-0" />
-          <span>🌾 শীতের স্পেশাল ধামাকা অফার: ৩ কেজি মাত্র ৪৯০৳ এবং ৫ কেজি ৭৯০৳! ক্যাশ অন হোম ডেলিভারি</span>
+          <span>🌾 শীতের স্পেশাল ধামাকা অফার: ৫ কেজিতে সম্পূর্ণ ফ্রি হোম ডেলিভারি! ক্যাশ অন হোম ডেলিভারি</span>
           <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse shrink-0 hidden sm:inline" />
         </div>
       </div>
@@ -519,15 +522,21 @@ export const ChalerGuraLandingPage: React.FC = () => {
               <div
                 key={pkg.id}
                 className={`rounded-3xl p-5 sm:p-6 bg-white border-2 transition-all duration-300 relative flex flex-col justify-between shadow-md hover:shadow-xl ${
-                  pkg.highlight
-                    ? 'border-[#D85A30] ring-2 ring-[#D85A30]/30 bg-gradient-to-b from-[#FFFDF9] via-white to-[#FAF6EE]'
-                    : 'border-[#D85A30]/20 hover:border-[#D85A30]/60'
+                  pkg.freeDelivery
+                    ? 'border-[#2E7D32] ring-2 ring-[#2E7D32]/30 bg-gradient-to-b from-[#F1F8E9]/50 via-white to-[#FAF6EE]'
+                    : pkg.highlight
+                      ? 'border-[#D85A30] ring-2 ring-[#D85A30]/30 bg-gradient-to-b from-[#FFFDF9] via-white to-[#FAF6EE]'
+                      : 'border-[#D85A30]/20 hover:border-[#D85A30]/60'
                 }`}
               >
                 {/* Badge */}
                 {pkg.badge && (
                   <div className="absolute -top-3 left-6 z-10">
-                    <span className="bg-[#D85A30] text-white text-xs font-black px-3.5 py-1 rounded-full shadow-sm font-serif-bangla">
+                    <span className={`text-xs font-black px-3.5 py-1 rounded-full shadow-sm font-serif-bangla uppercase tracking-wider ${
+                      pkg.freeDelivery
+                        ? 'bg-[#1B5E20] text-white border border-[#81C784]/70'
+                        : 'bg-[#D85A30] text-white'
+                    }`}>
                       {pkg.badge}
                     </span>
                   </div>
@@ -752,14 +761,22 @@ export const ChalerGuraLandingPage: React.FC = () => {
                     onClick={() => handleSelectPackage(pkg.id)}
                     className={`relative p-3.5 sm:p-4 rounded-2xl border transition-all cursor-pointer flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
                       isSelected
-                        ? 'border-[#D85A30] bg-[#FAEEDA]/70 shadow-md ring-2 ring-[#D85A30]/40'
-                        : 'border-[#D85A30]/20 bg-white hover:border-[#D85A30]/50 hover:bg-[#FAF6EE]/50'
+                        ? pkg.freeDelivery
+                          ? 'border-[#2E7D32] bg-[#E8F5E9]/70 shadow-md ring-2 ring-[#2E7D32]/50'
+                          : 'border-[#D85A30] bg-[#FAEEDA]/70 shadow-md ring-2 ring-[#D85A30]/40'
+                        : pkg.freeDelivery
+                          ? 'border-[#81C784]/80 bg-gradient-to-r from-[#F1F8E9] via-[#FFFDE7] to-[#F1F8E9] hover:border-[#2E7D32]'
+                          : 'border-[#D85A30]/20 bg-white hover:border-[#D85A30]/50 hover:bg-[#FAF6EE]/50'
                     }`}
                   >
                     {/* Top Badge */}
                     {pkg.badge && (
                       <div className="absolute -top-2.5 left-4 z-10">
-                        <span className="bg-[#D85A30] text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase">
+                        <span className={`text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider ${
+                          pkg.freeDelivery
+                            ? 'bg-[#1B5E20] text-white border border-[#81C784]/70'
+                            : 'bg-[#D85A30] text-white'
+                        }`}>
                           {pkg.badge}
                         </span>
                       </div>
@@ -986,7 +1003,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
                   {!isFreeDeliveryQualified && (
                     <p className="text-[11px] text-[#888780] font-serif-bangla mt-2">
-                      💡 মোট ৬ কেজি বা ১০০০ টাকার অর্ডারে উপভোগ করুন সম্পূর্ণ ফ্রি হোম ডেলিভারি!
+                      💡 ৫ কেজি প্যাকেজ অর্ডার করলেই পাচ্ছেন সম্পূর্ণ ফ্রি হোম ডেলিভারি!
                     </p>
                   )}
                 </div>
