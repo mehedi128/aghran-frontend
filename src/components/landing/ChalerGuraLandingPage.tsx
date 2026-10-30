@@ -32,13 +32,8 @@ import { trackPurchase } from '../../services/facebookTrackingService';
 import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.jpg';
 import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_banner.jpg';
 import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.jpg';
-import pataNokshiImg1 from '../../assets/images/pata_n0.png';
-import jhinukNokshiImg from '../../assets/images/jn0.png';
+import nokshi500gImg from '../../assets/images/pata_n0.png';
 
-// Reviews user avatars
-import reviewUser1 from '../../assets/images/review_user_1.jpg';
-import reviewUser2 from '../../assets/images/review_user_2.jpg';
-import reviewUser3 from '../../assets/images/review_user_3.jpg';
 
 interface PackageOption {
   id: string;
@@ -51,7 +46,7 @@ interface PackageOption {
   savings: number;
   image: string;
   badge?: string;
-  description: string;
+  description?: string;
   highlight?: boolean;
   freeDelivery?: boolean;
 }
@@ -73,7 +68,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
       image: dhekiChalerGuraImg1,
       badge: '🚚 ফ্রি ডেলিভারি',
       freeDelivery: true,
-      description: 'পুরো পরিবারের শীতের পিঠাপুলির সেরা প্যাকেজ। খাঁটি সুগন্ধি আতপ চালের গুঁড়া।',
       highlight: true
     },
     {
@@ -85,9 +79,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       price: 490,
       originalPrice: 590,
       savings: 100,
-      image: dhekiChalerGuraTextureImg,
-      badge: '🌾 স্পেশাল অফার',
-      description: 'ছোট ও মাঝারি পরিবারের জন্য আদর্শ। কাঠের ঢেঁকিতে ছাঁটা ১০০% খাঁটি আতপ চালের গুঁড়া।'
+      image: dhekiChalerGuraTextureImg
     }
   ], []);
 
@@ -97,22 +89,27 @@ export const ChalerGuraLandingPage: React.FC = () => {
     'pkg-chal-5kg': 1
   });
 
+  // 1-Click Order Bump Upsell (500g Nokshi Pitha)
+  const [isNokshiBumpSelected, setIsNokshiBumpSelected] = useState<boolean>(false);
+  const nokshiBumpPrice = 399;
+  const nokshiBumpOriginalPrice = 499;
+
   // Photo Carousel State
   const carouselSlides = useMemo(() => [
     {
       src: dhekiChalerGuraBannerImg,
-      title: 'ঐতিহ্যবাহী কাঠের ঢেঁকিতে খাঁটি আতপ চাল ছাঁটাই',
-      subtitle: 'গ্রামবাংলার মা-বোনদের হাতে তৈরি শীতের সকালের নিখুঁত পিঠাপুলির সুবাস'
+      title: '',
+      subtitle: ''
     },
     {
       src: dhekiChalerGuraImg1,
-      title: 'মাটির পাত্র ও পাটের বস্তায় ১০০% খাঁটি চালের গুঁড়া',
-      subtitle: 'কোনো প্রিজারভেটিভ বা কৃত্রিম উপাদান ছাড়া প্রাকৃতিক রোদে শুকানো আতপ চাল'
+      title: '',
+      subtitle: ''
     },
     {
       src: dhekiChalerGuraTextureImg,
-      title: 'বাঁশের চালনিতে নিখুঁত মিহি চালের গুঁড়া',
-      subtitle: 'ভাপা, চিতই, নকশি ও পুলি পিঠার জন্য একদম মসৃণ ও পারফেক্ট টেক্সচার'
+      title: '',
+      subtitle: ''
     }
   ], []);
 
@@ -234,13 +231,16 @@ export const ChalerGuraLandingPage: React.FC = () => {
   }, [selectedItems, packages]);
 
   // Calculations
-  const subtotal = useMemo(() => {
+  const baseSubtotal = useMemo(() => {
     return activeSelectedList.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   }, [activeSelectedList]);
 
+  const subtotal = baseSubtotal + (isNokshiBumpSelected ? nokshiBumpPrice : 0);
+
   const totalWeightKg = useMemo(() => {
-    return activeSelectedList.reduce((acc, item) => acc + (item.weightKg * item.quantity), 0);
-  }, [activeSelectedList]);
+    const baseWeight = activeSelectedList.reduce((acc, item) => acc + (item.weightKg * item.quantity), 0);
+    return baseWeight + (isNokshiBumpSelected ? 0.5 : 0);
+  }, [activeSelectedList, isNokshiBumpSelected]);
 
   // Free delivery trigger: if any item has freeDelivery, or total weight >= 5kg, or subtotal >= 1000
   const isFreeDeliveryQualified = useMemo(() => {
@@ -324,6 +324,34 @@ export const ChalerGuraLandingPage: React.FC = () => {
         };
       });
 
+      // Include 500g Nokshi Pitha Order Bump if selected
+      if (isNokshiBumpSelected) {
+        const nokshiProduct = products.find(p => p.id === 'pitha-1' || p.slug === 'nokshi-pitha-500g') || matchedProduct;
+        const bumpVariant: ProductVariant = {
+          id: 'opt-nokshi-500g',
+          name: '৫০০ গ্রাম (অ্যাড-অন)',
+          weight: '500g',
+          price: nokshiBumpPrice,
+          originalPrice: nokshiBumpOriginalPrice,
+          inStock: true
+        };
+
+        orderCartItems.push({
+          product: {
+            ...nokshiProduct,
+            id: 'pitha-1',
+            nameBangla: 'নকশি পিঠা (৫০০ গ্রাম)',
+            nameEnglish: 'Nokshi Pitha (500g)',
+            price: nokshiBumpPrice,
+            originalPrice: nokshiBumpOriginalPrice,
+            images: [nokshi500gImg, ...nokshiProduct.images]
+          },
+          selectedVariant: bumpVariant,
+          quantity: 1,
+          unitPrice: nokshiBumpPrice
+        });
+      }
+
       const createdOrder = placeOrder({
         items: orderCartItems,
         customer: formData,
@@ -374,7 +402,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
         <div className="text-center space-y-4 pt-2">
           <div className="inline-flex items-center gap-2 bg-[#FFF3CC] border-2 border-[#E59E27] text-[#7A270D] px-4 py-1.5 rounded-full text-xs sm:text-sm font-black shadow-xs">
             <Wheat className="w-4 h-4 text-[#D85A30]" />
-            <span>শতভাগ খাঁটি দেশি আতপ চাল • গ্রামীণ কাঠের ঢেঁকি ছাঁটা</span>
+            <span>শতভাগ খাঁটি দেশি আতপ চাল</span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-black font-serif-bangla text-[#3A2A1E] leading-tight sm:leading-snug">
@@ -397,10 +425,10 @@ export const ChalerGuraLandingPage: React.FC = () => {
             </button>
             <a
               href="tel:+8801752421224"
-              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-[#FAF6EE] text-[#3A2A1E] border border-[#D85A30]/30 font-bold text-sm sm:text-base px-6 py-3.5 rounded-2xl shadow-xs transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-base sm:text-lg px-7 py-3.5 rounded-2xl shadow-md shadow-[#D85A30]/25 hover:shadow-lg transition-all transform active:scale-95"
             >
-              <Phone className="w-4 h-4 text-[#D85A30]" />
-              <span>01752-421224</span>
+              <Phone className="w-5 h-5 text-white" />
+              <span>কল করুন: 01752-421224</span>
             </a>
           </div>
         </div>
@@ -416,18 +444,24 @@ export const ChalerGuraLandingPage: React.FC = () => {
             >
               <img
                 src={slide.src}
-                alt={slide.title}
+                alt={slide.title || 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া'}
                 className="w-full h-full object-cover cursor-pointer hover:scale-102 transition-transform duration-500"
                 onClick={() => setLightboxImg(slide.src)}
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 sm:p-6 text-white text-center">
-                <h3 className="font-serif-bangla font-black text-sm sm:text-lg md:text-xl drop-shadow-md">
-                  {slide.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-amber-200 font-serif-bangla drop-shadow-sm mt-0.5 hidden sm:block">
-                  {slide.subtitle}
-                </p>
-              </div>
+              {(slide.title || slide.subtitle) && (
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 sm:p-6 text-white text-center">
+                  {slide.title && (
+                    <h3 className="font-serif-bangla font-black text-sm sm:text-lg md:text-xl drop-shadow-md">
+                      {slide.title}
+                    </h3>
+                  )}
+                  {slide.subtitle && (
+                    <p className="text-xs sm:text-sm text-amber-200 font-serif-bangla drop-shadow-sm mt-0.5 hidden sm:block">
+                      {slide.subtitle}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           ))}
 
@@ -555,9 +589,11 @@ export const ChalerGuraLandingPage: React.FC = () => {
                     <h3 className="font-serif-bangla font-black text-lg sm:text-xl text-[#3A2A1E] leading-snug">
                       {pkg.name}
                     </h3>
-                    <p className="text-xs sm:text-sm text-[#706050] font-serif-bangla leading-relaxed">
-                      {pkg.description}
-                    </p>
+                    {pkg.description && (
+                      <p className="text-xs sm:text-sm text-[#706050] font-serif-bangla leading-relaxed">
+                        {pkg.description}
+                      </p>
+                    )}
                   </div>
 
                   {/* Pricing Box */}
@@ -594,131 +630,75 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
         {/* 6. WHY CHOOSE OUR DHEKI-CHATA CHALER GURA (BENEFITS GRID) */}
         <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#D85A30]/20 shadow-sm space-y-6">
-          <div className="text-center space-y-1.5">
-            <span className="text-xs font-black text-[#D85A30] bg-[#FAF6EE] px-3 py-1 rounded-full border border-[#D85A30]/20">
-              খাঁটি ঐতিহ্য ও গুণমান
-            </span>
+          <div className="text-center">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-black font-serif-bangla text-[#3A2A1E]">
               কেন আমাদের ঢেঁকি ছাঁটা চালের গুঁড়া সেরা?
             </h3>
-            <p className="text-xs sm:text-sm text-[#706050] font-serif-bangla max-w-xl mx-auto">
-              আধুনিক অটো মিলের তাপে চালের আসল সুবাস ও পুষ্টি নষ্ট হয়ে যায়। আমাদের গুঁড়ায় যা পাবেন:
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4">
             {/* 1. বাছাইকৃত দেশীয় আতপ চাল */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-[#D85A30]/10 text-[#D85A30] flex items-center justify-center font-bold">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 flex items-center gap-3 hover:shadow-sm transition-all hover:bg-[#FAF6EE]">
+              <div className="w-10 h-10 rounded-xl bg-[#D85A30]/10 text-[#D85A30] flex items-center justify-center font-bold shrink-0">
                 <Wheat className="w-5 h-5" />
               </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+              <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                 বাছাইকৃত দেশীয় আতপ চাল
               </h4>
-              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                মানসম্মত সেরা জাতের দেশি আতপ চাল বিশেষ যত্ন নিয়ে বাছাই করে তৈরি করা হয়। কোনো কৃত্রিম উপাদান বা ভেজাল নেই।
-              </p>
             </div>
 
             {/* 2. রোদে ভালোভাবে শুকানো */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 flex items-center gap-3 hover:shadow-sm transition-all hover:bg-[#FAF6EE]">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold shrink-0">
                 <Sun className="w-5 h-5" />
               </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+              <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                 রোদে ভালোভাবে শুকানো ☀️
               </h4>
-              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                চাল ও চালের গুঁড়া উভয়ই প্রয়োজন ও নিয়ম অনুযায়ী রোদে শুকিয়ে নেওয়া হয়, যা পুষ্টিমান ও আসল সুবাস অটুট রাখে।
-              </p>
             </div>
 
             {/* 3. মিহি ও ঝরঝরে গুঁড়া */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-[#19910f]/10 text-[#19910f] flex items-center justify-center font-bold">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 flex items-center gap-3 hover:shadow-sm transition-all hover:bg-[#FAF6EE]">
+              <div className="w-10 h-10 rounded-xl bg-[#19910f]/10 text-[#19910f] flex items-center justify-center font-bold shrink-0">
                 <Sparkles className="w-5 h-5" />
               </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+              <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                 মিহি ও ঝরঝরে গুঁড়া ✨
               </h4>
-              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                পিঠার মিশ্রণে খুব সহজে মিশে যায় এবং কোনো দলা বাঁধে না। প্রতিটি পিঠা তৈরিতে অসাধারণ ফিনিশিং এনে দেয়।
-              </p>
             </div>
 
             {/* 4. পিঠা-পুলির জন্য উপযোগী */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-[#639922]/10 text-[#639922] flex items-center justify-center font-bold">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 flex items-center gap-3 hover:shadow-sm transition-all hover:bg-[#FAF6EE]">
+              <div className="w-10 h-10 rounded-xl bg-[#639922]/10 text-[#639922] flex items-center justify-center font-bold shrink-0">
                 <CookingPot className="w-5 h-5" />
               </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+              <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                 পিঠা-পুলির জন্য উপযোগী 🥣
               </h4>
-              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                ভাপা পিঠা, ফুলকো চিতই, তুলতুলে পাটিসাপটা, রসালো পুলি ও মচমচে নকশি পিঠা তৈরিতে বিশেষভাবে উপযোগী।
-              </p>
             </div>
 
             {/* 5. যত্নসহকারে প্রস্তুত */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-600 flex items-center justify-center font-bold">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 flex items-center gap-3 hover:shadow-sm transition-all hover:bg-[#FAF6EE]">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-600 flex items-center justify-center font-bold shrink-0">
                 <Leaf className="w-5 h-5" />
               </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+              <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                 যত্নসহকারে প্রস্তুত 🌿
               </h4>
-              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                সম্পূর্ণ পরিষ্কার পরিবেশে ঐতিহ্যবাহী উপায়ে ভাঙানো, বাঁশের চালনিতে নিখুঁতভাবে চেলে নেওয়া ও প্যাকেটজাত করা হয়।
-              </p>
             </div>
 
             {/* 6. পরিচ্ছন্ন প্যাকেজিং */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-[#D85A30]/10 text-[#D85A30] flex items-center justify-center font-bold">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 flex items-center gap-3 hover:shadow-sm transition-all hover:bg-[#FAF6EE]">
+              <div className="w-10 h-10 rounded-xl bg-[#D85A30]/10 text-[#D85A30] flex items-center justify-center font-bold shrink-0">
                 <PackageCheck className="w-5 h-5" />
               </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+              <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                 পরিচ্ছন্ন প্যাকেজিং 📦
               </h4>
-              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                আপনার রান্নাঘরে পৌঁছানো পর্যন্ত পণ্যের মান, আর্দ্রতা ও শতভাগ পরিচ্ছন্নতার প্রতি সর্বোচ্চ গুরুত্ব দেওয়া হয়।
-              </p>
             </div>
           </div>
         </div>
 
-        {/* 7. WHICH PITHAS CAN BE MADE? (PITHA SHOWCASE) */}
-        <div className="bg-gradient-to-r from-[#FFF9E6] via-[#FFF3CC] to-[#FFF9E6] border-2 border-[#E59E27]/50 rounded-3xl p-5 sm:p-7 text-center space-y-4 shadow-sm">
-          <h3 className="text-lg sm:text-2xl font-black font-serif-bangla text-[#3A2A1E]">
-            যেসব ঐতিহ্যবাহী পিঠার জন্য আমাদের চালের গুঁড়া সেরা
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div className="bg-white p-3 rounded-2xl border border-[#E59E27]/30 shadow-xs">
-              <span className="text-2xl block mb-1">🥟</span>
-              <span className="font-serif-bangla font-bold text-xs sm:text-sm text-[#3A2A1E]">
-                ভাপা পিঠা (Vapa)
-              </span>
-            </div>
-            <div className="bg-white p-3 rounded-2xl border border-[#E59E27]/30 shadow-xs">
-              <span className="text-2xl block mb-1">🥮</span>
-              <span className="font-serif-bangla font-bold text-xs sm:text-sm text-[#3A2A1E]">
-                চিতই পিঠা (Chitoi)
-              </span>
-            </div>
-            <div className="bg-white p-3 rounded-2xl border border-[#E59E27]/30 shadow-xs">
-              <span className="text-2xl block mb-1">✨</span>
-              <span className="font-serif-bangla font-bold text-xs sm:text-sm text-[#3A2A1E]">
-                নকশি পিঠা (Nokshi)
-              </span>
-            </div>
-            <div className="bg-white p-3 rounded-2xl border border-[#E59E27]/30 shadow-xs">
-              <span className="text-2xl block mb-1">🥥</span>
-              <span className="font-serif-bangla font-bold text-xs sm:text-sm text-[#3A2A1E]">
-                পুলি পিঠা (Puli)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* 8. CHECKOUT SECTION (STEP 1, 2, 3 - BILRONG & NOKSHI HYBRID) */}
         <div id="order" className="scroll-mt-14 space-y-6">
@@ -802,9 +782,11 @@ export const ChalerGuraLandingPage: React.FC = () => {
                         <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
                           {pkg.name}
                         </h4>
-                        <p className="text-xs text-[#888780] font-serif-bangla mt-0.5 leading-snug">
-                          {pkg.description}
-                        </p>
+                        {pkg.description && (
+                          <p className="text-xs text-[#888780] font-serif-bangla mt-0.5 leading-snug">
+                            {pkg.description}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -1017,6 +999,77 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <span>অর্ডার বিবরণী ও পেমেন্ট</span>
               </h3>
 
+              {/* 1-CLICK ORDER BUMP: 500g Nokshi Pitha */}
+              <div 
+                onClick={() => setIsNokshiBumpSelected(!isNokshiBumpSelected)}
+                className={`p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer relative select-none ${
+                  isNokshiBumpSelected
+                    ? 'bg-gradient-to-r from-[#FFF8EE] to-[#FFF3E0] border-[#D85A30] shadow-md ring-2 ring-[#D85A30]/30'
+                    : 'bg-[#FFFBF5] border-dashed border-[#D85A30]/40 hover:border-[#D85A30] hover:bg-[#FFF8EE]/60'
+                }`}
+              >
+                {/* Header badges and pricing */}
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <div className="inline-flex items-center gap-1.5 bg-[#D85A30] text-white text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                      <Sparkles className="w-3 h-3 text-yellow-300 animate-pulse" />
+                      <span>স্পেশাল অ্যাড-অন অফার</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1 bg-[#E8F5E9] text-[#1B5E20] text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-[#81C784]/60">
+                      <Truck className="w-3 h-3 text-[#2E7D32]" />
+                      <span>একই ডেলিভারি চার্জে (অতিরিক্ত চার্জ নেই)</span>
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 text-xs ml-auto">
+                    <span className="text-[#888780] line-through font-mono">৳{nokshiBumpOriginalPrice}</span>
+                    <span className="font-black text-[#D85A30] text-base sm:text-lg font-mono">৳{nokshiBumpPrice}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3.5 sm:gap-4">
+                  {/* Image centered on mobile - enlarged for high clarity */}
+                  <div className="relative group shrink-0">
+                    <img
+                      src={nokshi500gImg}
+                      alt="ঐতিহ্যবাহী নকশি পিঠা ৫০০ গ্রাম"
+                      className="w-36 h-36 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-2xl object-cover border-2 border-[#D85A30]/25 shadow-md group-hover:scale-102 transition-transform cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLightboxImg(nokshi500gImg);
+                      }}
+                    />
+                    <span className="absolute bottom-1.5 right-1.5 bg-black/65 text-white text-[10px] px-2 py-0.5 rounded-md backdrop-blur-xs font-serif-bangla font-bold">
+                      ৫০০ গ্রাম
+                    </span>
+                  </div>
+
+                  {/* Checkbox and Text UNDER image on mobile */}
+                  <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0 w-full sm:w-auto">
+                    <div className="pt-0.5 shrink-0">
+                      <input
+                        type="checkbox"
+                        id="nokshi-bump-checkbox"
+                        checked={isNokshiBumpSelected}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          setIsNokshiBumpSelected(e.target.checked);
+                        }}
+                        className="w-5 h-5 rounded text-[#D85A30] accent-[#D85A30] focus:ring-[#D85A30] cursor-pointer"
+                      />
+                    </div>
+                    <div className="space-y-1 text-left flex-1 min-w-0">
+                      <h4 className="font-serif-bangla font-black text-sm sm:text-base text-[#3A2A1E] leading-snug">
+                        হ্যাঁ! আমার অর্ডারের সাথে ৫০০ গ্রাম ঐতিহ্যবাহী নকশি পিঠা যোগ করুন
+                      </h4>
+                      <p className="text-xs text-[#5D4A3A] font-serif-bangla">
+                        চালের গুঁড়ার সাথে এখনই নিলে পাচ্ছেন <strong className="text-[#D85A30]">১০০ টাকা সরাসরি ডিসকাউন্ট!</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Items Table */}
               <div className="divide-y divide-[#D85A30]/10 border border-[#D85A30]/15 rounded-2xl overflow-hidden">
                 <div className="p-3 bg-[#FAEEDA]/60 flex items-center justify-between text-xs font-bold text-[#3A2A1E]">
@@ -1031,17 +1084,35 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 ) : (
                   activeSelectedList.map(item => (
                     <div key={item.id} className="p-3 flex items-center justify-between gap-2 text-xs">
-                      <div className="flex items-center gap-2 min-w-0">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
                         <span className="font-bold text-[#3A2A1E] font-serif-bangla truncate">
                           {item.name}
                         </span>
-                        <span className="text-[#888780] font-black">× {item.quantity}</span>
+                        <span className="text-[#888780] font-black shrink-0">× {item.quantity}</span>
                       </div>
-                      <span className="font-black text-[#D85A30] shrink-0 font-mono">
+                      <span className="font-black text-[#D85A30] shrink-0 font-mono text-right">
                         ৳{(item.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
                   ))
+                )}
+
+                {/* Show Nokshi Pitha 500g Bump row if selected */}
+                {isNokshiBumpSelected && (
+                  <div className="p-3 flex items-center justify-between gap-2 text-xs bg-[#FFF8EE] border-t border-[#D85A30]/15">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                      <span className="font-bold text-[#3A2A1E] font-serif-bangla truncate">
+                        নকশি পিঠা (৫০০ গ্রাম)
+                      </span>
+                      <span className="text-[#888780] font-black shrink-0">× ১</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0 text-right">
+                      <span className="text-[11px] text-[#888780] line-through font-mono">৳{nokshiBumpOriginalPrice}</span>
+                      <span className="font-black text-[#D85A30] font-mono text-sm">
+                        ৳{nokshiBumpPrice}
+                      </span>
+                    </div>
+                  </div>
                 )}
 
                 {/* Subtotal */}
@@ -1068,13 +1139,13 @@ export const ChalerGuraLandingPage: React.FC = () => {
               </div>
 
               {/* Cash On Delivery Guarantee Box (Bilrong/Nokshi standard) */}
-              <div className="p-4 rounded-2xl bg-[#E8F5E9] border border-[#81C784]/60 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#2E7D32] shrink-0 mt-0.5" />
+              <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#E8F5E9] border border-[#81C784]/60 flex items-start gap-2.5 sm:gap-3">
+                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#2E7D32] shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#1B5E20] font-serif-bangla">
+                  <h4 className="text-[11px] sm:text-sm font-bold text-[#1B5E20] font-serif-bangla leading-tight">
                     ক্যাশ অন ডেলিভারি (Cash On Delivery)
                   </h4>
-                  <p className="text-xs sm:text-sm text-[#1B5E20] mt-0.5 font-serif-bangla font-semibold">
+                  <p className="text-[10px] sm:text-xs text-[#1B5E20] mt-0.5 font-serif-bangla font-medium leading-relaxed">
                     আমি অবশ্যই পণ্যটি গ্রহণ করব এবং পণ্যটি হাতে পেয়ে চেক করে ডেলিভারিম্যানকে টাকা পরিশোধ করব, ইনশাআল্লাহ।
                   </p>
                 </div>
@@ -1121,101 +1192,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
           </form>
         </div>
 
-        {/* 9. REAL CUSTOMER REVIEWS (Matching Nokshi Pitha / Bilrong quality) */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#D85A30]/20 space-y-6 shadow-sm">
-          <div className="text-center space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 bg-[#FAF6EE] text-[#D85A30] text-xs font-black px-3.5 py-1 rounded-full border border-[#D85A30]/20">
-              <Star className="w-3.5 h-3.5 fill-[#D85A30] text-[#D85A30]" />
-              <span>গ্রাহকদের মূল্যবান প্রতিক্রিয়া (Customer Reviews)</span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-bold font-serif-bangla text-[#3A2A1E]">
-              আমাদের চালের গুঁড়া ব্যবহার করে গ্রাহকরা যা বলছেন
-            </h3>
-            <p className="text-xs sm:text-sm text-[#888780] font-serif-bangla max-w-lg mx-auto">
-              সারা দেশ থেকে পিঠাপ্রেমী পরিবাররা আমাদের ঐতিহ্যবাহী চালের গুঁড়ায় মুগ্ধ।
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-[#FAF6EE]/60 rounded-2xl p-4 sm:p-5 border border-[#D85A30]/15 flex flex-col justify-between space-y-3 hover:shadow-md transition-shadow">
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-[#639922] bg-[#E8F5E9] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" />
-                    ভেরিফাইড ক্রেতা
-                  </span>
-                </div>
-                <p className="text-xs sm:text-[13px] font-serif-bangla text-[#3A2A1E] leading-relaxed italic">
-                  "বাজারে প্যাকেটজাত চালের গুঁড়ায় কোনো ঘ্রাণ পাই না। কিন্তু অঘ্রাণের ঢেঁকি ছাঁটা গুঁড়া দিয়ে ভাপা আর চিতই বানিয়েছি—একদম ছোটবেলায় গ্রামে খাওয়া পিঠার মতো নরম ও মিষ্টি ঘ্রাণ!"
-                </p>
-              </div>
-              <div className="flex items-center gap-3 pt-3 border-t border-[#D85A30]/10">
-                <img src={reviewUser1} alt="Customer" className="w-10 h-10 rounded-full object-cover border border-[#D85A30]/20" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#3A2A1E] font-serif-bangla">সুলতানা রহমান</h4>
-                  <p className="text-[11px] text-[#888780]">উত্তরা, ঢাকা</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#FAF6EE]/60 rounded-2xl p-4 sm:p-5 border border-[#D85A30]/15 flex flex-col justify-between space-y-3 hover:shadow-md transition-shadow">
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-[#639922] bg-[#E8F5E9] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" />
-                    ভেরিফাইড ক্রেতা
-                  </span>
-                </div>
-                <p className="text-xs sm:text-[13px] font-serif-bangla text-[#3A2A1E] leading-relaxed italic">
-                  "৫ কেজির প্যাকটা নিয়েছিলাম। চালের গুঁড়াটা সত্যি অসাধারণ মিহি ও তাজা। নকশি পিঠা বানাতে কোনো ফাটাফাটি হয়নি, তেলে ভাজার পর মচমচে হয়েছে। ধন্যবাদ অঘ্রাণ।"
-                </p>
-              </div>
-              <div className="flex items-center gap-3 pt-3 border-t border-[#D85A30]/10">
-                <img src={reviewUser2} alt="Customer" className="w-10 h-10 rounded-full object-cover border border-[#D85A30]/20" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#3A2A1E] font-serif-bangla">ফাতিমা জোহরা</h4>
-                  <p className="text-[11px] text-[#888780]">ধানমন্ডি, ঢাকা</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#FAF6EE]/60 rounded-2xl p-4 sm:p-5 border border-[#D85A30]/15 flex flex-col justify-between space-y-3 hover:shadow-md transition-shadow">
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-[#639922] bg-[#E8F5E9] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" />
-                    ভেরিফাইড ক্রেতা
-                  </span>
-                </div>
-                <p className="text-xs sm:text-[13px] font-serif-bangla text-[#3A2A1E] leading-relaxed italic">
-                  "ঢাকার বাইরে দ্রুত ডেলিভারি পেয়েছি। চালের কোয়ালিটি ১০০% নির্ভেজাল, কোনো বালু বা কণা নেই। চিতই পিঠা খুব সুন্দর ফুলেছে। আবার অর্ডার করবো ইনশাআল্লাহ।"
-                </p>
-              </div>
-              <div className="flex items-center gap-3 pt-3 border-t border-[#D85A30]/10">
-                <img src={reviewUser3} alt="Customer" className="w-10 h-10 rounded-full object-cover border border-[#D85A30]/20" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#3A2A1E] font-serif-bangla">তানভীর আহমেদ</h4>
-                  <p className="text-[11px] text-[#888780]">সিলেট সদর</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* 10. FAQ SECTION */}
         <div className="bg-white rounded-3xl border border-[#D85A30]/20 p-5 sm:p-7 space-y-4 shadow-sm">
@@ -1225,17 +1202,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
           <div className="space-y-3 max-w-2xl mx-auto">
             <details className="p-3.5 rounded-2xl bg-[#FAF6EE]/60 border border-[#D85A30]/15 group cursor-pointer">
               <summary className="font-bold text-sm text-[#3A2A1E] font-serif-bangla list-none flex items-center justify-between">
-                <span>১. এটি কি সত্যিই কাঠের ঢেঁকিতে ছাঁটা?</span>
-                <ChevronRight className="w-4 h-4 text-[#D85A30] group-open:rotate-90 transition-transform" />
-              </summary>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla mt-2 pt-2 border-t border-[#D85A30]/10 leading-relaxed">
-                হ্যাঁ, শতভাগ নিশ্চিত থাকুন। উত্তরবঙ্গের পল্লী গ্রামের ঐতিহ্যবাহী কাঠের ঢেঁকিতে মা-বোনদের হাতে ধীরে ধীরে কুটে এই আতপ চালের গুঁড়া তৈরি করা হয়।
-              </p>
-            </details>
-
-            <details className="p-3.5 rounded-2xl bg-[#FAF6EE]/60 border border-[#D85A30]/15 group cursor-pointer">
-              <summary className="font-bold text-sm text-[#3A2A1E] font-serif-bangla list-none flex items-center justify-between">
-                <span>২. কত দিন ভালো থাকবে এবং কীভাবে রাখব?</span>
+                <span>১. কত দিন ভালো থাকবে এবং কীভাবে রাখব?</span>
                 <ChevronRight className="w-4 h-4 text-[#D85A30] group-open:rotate-90 transition-transform" />
               </summary>
               <p className="text-xs text-[#5D4A3A] font-serif-bangla mt-2 pt-2 border-t border-[#D85A30]/10 leading-relaxed">
@@ -1245,7 +1212,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
             <details className="p-3.5 rounded-2xl bg-[#FAF6EE]/60 border border-[#D85A30]/15 group cursor-pointer">
               <summary className="font-bold text-sm text-[#3A2A1E] font-serif-bangla list-none flex items-center justify-between">
-                <span>৩. ডেলিভারি কত দিনে পাব এবং টাকা কীভাবে দেব?</span>
+                <span>২. ডেলিভারি কত দিনে পাব এবং টাকা কীভাবে দেব?</span>
                 <ChevronRight className="w-4 h-4 text-[#D85A30] group-open:rotate-90 transition-transform" />
               </summary>
               <p className="text-xs text-[#5D4A3A] font-serif-bangla mt-2 pt-2 border-t border-[#D85A30]/10 leading-relaxed">
@@ -1258,14 +1225,14 @@ export const ChalerGuraLandingPage: React.FC = () => {
         {/* 11. QUICK CONTACT FOOTER */}
         <div className="text-center py-6 px-4 bg-[#FFF5EB] border border-[#D85A30]/25 rounded-3xl shadow-sm space-y-3">
           <p className="text-base sm:text-lg font-bold font-serif-bangla text-[#D85A30]">
-            Aghran - অঘ্রাণ • খাঁটি স্বাদের নিশ্চয়তা
+            Aghran - অঘ্রাণ
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="tel:+8801752421224"
-              className="inline-flex items-center gap-2 bg-[#D85A30] hover:bg-[#b84218] text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl transition-all"
+              className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-sm sm:text-base px-6 py-3 rounded-2xl shadow-md shadow-[#D85A30]/25 transition-all transform active:scale-95"
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-4 h-4 text-white" />
               <span>কল করুন: 01752-421224</span>
             </a>
             <a
@@ -1288,8 +1255,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
       {/* 12. STICKY MOBILE BOTTOM BAR FOR QUICK ORDER JUMP */}
       <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D85A30]/20 p-3 sm:hidden z-30 shadow-2xl flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <span className="text-[10px] text-[#888780] block font-serif-bangla leading-none">
-            ঢেঁকি ছাঁটা আতপ চালের গুঁড়া
+          <span className="text-[10px] text-[#888780] block font-serif-bangla leading-none truncate max-w-[140px]">
+            ঢেঁকি ছাঁটা চালের গুঁড়া{isNokshiBumpSelected ? ' + নকশি পিঠা' : ''}
           </span>
           <span className="text-base font-black text-[#D85A30] font-mono leading-tight">
             ৳{totalAmount.toLocaleString()}
