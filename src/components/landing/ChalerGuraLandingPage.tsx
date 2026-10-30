@@ -17,7 +17,11 @@ import {
   Wheat,
   Clock,
   HeartHandshake,
-  Award
+  Award,
+  Sun,
+  PackageCheck,
+  CookingPot,
+  Leaf
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
@@ -594,75 +598,81 @@ export const ChalerGuraLandingPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-2xl bg-[#FAF6EE]/70 border border-[#D85A30]/15 space-y-2">
+            {/* 1. বাছাইকৃত দেশীয় আতপ চাল */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
               <div className="w-10 h-10 rounded-xl bg-[#D85A30]/10 text-[#D85A30] flex items-center justify-center font-bold">
                 <Wheat className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                দেশি সুগন্ধি আতপ চাল
+                বাছাইকৃত দেশীয় আতপ চাল
               </h4>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                বাছাইকৃত সেরা দেশি সুগন্ধি ধান থেকে সম্পূর্ণ প্রাকৃতিকভাবে সংগৃহীত খাঁটি আতপ চাল।
+              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                মানসম্মত সেরা জাতের দেশি আতপ চাল বিশেষ যত্ন নিয়ে বাছাই করে তৈরি করা হয়। কোনো কৃত্রিম উপাদান বা ভেজাল নেই।
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAF6EE]/70 border border-[#D85A30]/15 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-[#639922]/10 text-[#639922] flex items-center justify-center font-bold">
-                <Award className="w-5 h-5" />
+            {/* 2. রোদে ভালোভাবে শুকানো */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-bold">
+                <Sun className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                ঐতিহ্যবাহী কাঠের ঢেঁকি
+                রোদে ভালোভাবে শুকানো ☀️
               </h4>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                কোনো হাই-স্পিড মেকানিক্যাল গরম মেশিন নয়, ধীরে ধীরে ঢেঁকিতে কুটে চালের আর্দ্রতা ও সুবাস রক্ষা করা হয়।
+              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                চাল ও চালের গুঁড়া উভয়ই প্রয়োজন ও নিয়ম অনুযায়ী রোদে শুকিয়ে নেওয়া হয়, যা পুষ্টিমান ও আসল সুবাস অটুট রাখে।
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAF6EE]/70 border border-[#D85A30]/15 space-y-2">
+            {/* 3. মিহি ও ঝরঝরে গুঁড়া */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
               <div className="w-10 h-10 rounded-xl bg-[#19910f]/10 text-[#19910f] flex items-center justify-center font-bold">
                 <Sparkles className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                পিঠার পারফেক্ট টেক্সচার
+                মিহি ও ঝরঝরে গুঁড়া ✨
               </h4>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                ভাপা পিঠার পারফেক্ট দানা এবং চিতই, নকশি ও পুলি পিঠার মসৃণ ব্যাটারের জন্য অতুলনীয়।
+              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                পিঠার মিশ্রণে খুব সহজে মিশে যায় এবং কোনো দলা বাঁধে না। প্রতিটি পিঠা তৈরিতে অসাধারণ ফিনিশিং এনে দেয়।
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAF6EE]/70 border border-[#D85A30]/15 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-amber-600/10 text-amber-600 flex items-center justify-center font-bold">
-                <ShieldCheck className="w-5 h-5" />
+            {/* 4. পিঠা-পুলির জন্য উপযোগী */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-xl bg-[#639922]/10 text-[#639922] flex items-center justify-center font-bold">
+                <CookingPot className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                জিরো প্রিজারভেটিভ
+                পিঠা-পুলির জন্য উপযোগী 🥣
               </h4>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                কোনো প্রকার কৃত্রিম সাদা করার কেমিক্যাল, ব্লিচিং বা প্রিজারভেটিভ ছাড়া ১০০% নিরাপদ।
+              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                ভাপা পিঠা, ফুলকো চিতই, তুলতুলে পাটিসাপটা, রসালো পুলি ও মচমচে নকশি পিঠা তৈরিতে বিশেষভাবে উপযোগী।
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FAF6EE]/70 border border-[#D85A30]/15 space-y-2">
+            {/* 5. যত্নসহকারে প্রস্তুত */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-600 flex items-center justify-center font-bold">
+                <Leaf className="w-5 h-5" />
+              </div>
+              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
+                যত্নসহকারে প্রস্তুত 🌿
+              </h4>
+              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                সম্পূর্ণ পরিষ্কার পরিবেশে ঐতিহ্যবাহী উপায়ে ভাঙানো, বাঁশের চালনিতে নিখুঁতভাবে চেলে নেওয়া ও প্যাকেটজাত করা হয়।
+              </p>
+            </div>
+
+            {/* 6. পরিচ্ছন্ন প্যাকেজিং */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF6EE]/80 border border-[#D85A30]/20 space-y-2.5 hover:shadow-md transition-shadow">
               <div className="w-10 h-10 rounded-xl bg-[#D85A30]/10 text-[#D85A30] flex items-center justify-center font-bold">
-                <Clock className="w-5 h-5" />
+                <PackageCheck className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                তাজা কুটে ডেলিভারি
+                পরিচ্ছন্ন প্যাকেজিং 📦
               </h4>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                মাসখানেক আগের বাসি স্টক নয়, নিয়মিত তাজা কুটে প্রস্তুত করে আপনাদের ঠিকানায় পৌঁছে দেওয়া হয়।
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-[#FAF6EE]/70 border border-[#D85A30]/15 space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-[#19910f]/10 text-[#19910f] flex items-center justify-center font-bold">
-                <HeartHandshake className="w-5 h-5" />
-              </div>
-              <h4 className="font-serif-bangla font-bold text-base text-[#3A2A1E]">
-                হাতে পেয়ে পেমেন্ট
-              </h4>
-              <p className="text-xs text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                আগে কোনো অগ্রিম টাকা লাগবে না, পণ্য হাতে পেয়ে গুণগত মান দেখে মূল্য পরিশোধ করবেন।
+              <p className="text-xs sm:text-[13px] text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                আপনার রান্নাঘরে পৌঁছানো পর্যন্ত পণ্যের মান, আর্দ্রতা ও শতভাগ পরিচ্ছন্নতার প্রতি সর্বোচ্চ গুরুত্ব দেওয়া হয়।
               </p>
             </div>
           </div>
