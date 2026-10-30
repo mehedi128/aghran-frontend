@@ -58,14 +58,14 @@ interface PackageOption {
 export const ChalerGuraLandingPage: React.FC = () => {
   const { products, placeOrder, navigateTo } = useStore();
 
-  // Packages according to user requirements: 1kg = 490, 2kg = 790
+  // Packages: 3kg = 490, 5kg = 790
   const packages: PackageOption[] = useMemo(() => [
     {
-      id: 'pkg-chal-2kg',
-      name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া (২ কেজি)',
-      nameEnglish: 'Dheki-chata Atop Rice Flour (2 kg)',
-      weight: '2 kg',
-      weightKg: 2,
+      id: 'pkg-chal-5kg',
+      name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া (৫ কেজি)',
+      nameEnglish: 'Dheki-chata Atop Rice Flour (5 kg)',
+      weight: '5 kg',
+      weightKg: 5,
       price: 790,
       originalPrice: 980,
       savings: 190,
@@ -75,24 +75,24 @@ export const ChalerGuraLandingPage: React.FC = () => {
       highlight: true
     },
     {
-      id: 'pkg-chal-1kg',
-      name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া (১ কেজি)',
-      nameEnglish: 'Dheki-chata Atop Rice Flour (1 kg)',
-      weight: '1 kg',
-      weightKg: 1,
+      id: 'pkg-chal-3kg',
+      name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া (৩ কেজি)',
+      nameEnglish: 'Dheki-chata Atop Rice Flour (3 kg)',
+      weight: '3 kg',
+      weightKg: 3,
       price: 490,
       originalPrice: 590,
       savings: 100,
       image: dhekiChalerGuraTextureImg,
-      badge: '🌾 ট্রায়াল প্যাক',
-      description: 'ছোট পরিবারের জন্য আদর্শ। কাঠের ঢেঁকিতে ছাঁটা ১০০% খাঁটি আতপ চালের গুঁড়া।'
+      badge: '🌾 স্পেশাল অফার',
+      description: 'ছোট ও মাঝারি পরিবারের জন্য আদর্শ। কাঠের ঢেঁকিতে ছাঁটা ১০০% খাঁটি আতপ চালের গুঁড়া।'
     }
   ], []);
 
   // Selected Package State: Map of packageId -> quantity
-  // Default selected: 2kg Package
+  // Default selected: 5kg Package
   const [selectedItems, setSelectedItems] = useState<{ [pkgId: string]: number }>({
-    'pkg-chal-2kg': 1
+    'pkg-chal-5kg': 1
   });
 
   // Photo Carousel State
@@ -360,7 +360,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       <div className="bg-gradient-to-r from-[#8B2500] via-[#D85A30] to-[#8B2500] text-white py-2.5 px-4 text-center shadow-md sticky top-0 z-40 border-b border-amber-300/30">
         <div className="max-w-5xl mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base font-bold font-serif-bangla tracking-wide">
           <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse shrink-0" />
-          <span>🌾 শীতের স্পেশাল ধামাকা অফার: ২ কেজিতে ১৯০ টাকা সাশ্রয়! ক্যাশ অন হোম ডেলিভারি</span>
+          <span>🌾 শীতের স্পেশাল ধামাকা অফার: ৩ কেজি মাত্র ৪৯০৳ এবং ৫ কেজি ৭৯০৳! ক্যাশ অন হোম ডেলিভারি</span>
           <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse shrink-0 hidden sm:inline" />
         </div>
       </div>
@@ -386,7 +386,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <button
               type="button"
-              onClick={() => scrollToOrder('pkg-chal-2kg')}
+              onClick={() => scrollToOrder('pkg-chal-5kg')}
               className="inline-flex items-center justify-center gap-2.5 bg-[#19910f] hover:bg-[#157a0d] text-white font-black font-serif-bangla text-base sm:text-lg px-8 py-3.5 rounded-2xl shadow-lg shadow-[#19910f]/30 hover:shadow-xl transition-all transform active:scale-95 cursor-pointer border border-white/20"
             >
               <ShoppingBag className="w-5 h-5" />
@@ -986,7 +986,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
                   {!isFreeDeliveryQualified && (
                     <p className="text-[11px] text-[#888780] font-serif-bangla mt-2">
-                      💡 মোট ৪ কেজি বা ১৫০০ টাকার অর্ডারে উপভোগ করুন সম্পূর্ণ ফ্রি হোম ডেলিভারি!
+                      💡 মোট ৬ কেজি বা ১০০০ টাকার অর্ডারে উপভোগ করুন সম্পূর্ণ ফ্রি হোম ডেলিভারি!
                     </p>
                   )}
                 </div>
@@ -1160,7 +1160,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-xs sm:text-[13px] font-serif-bangla text-[#3A2A1E] leading-relaxed italic">
-                  "২ কেজির প্যাকটা নিয়েছিলাম। চালের গুঁড়াটা সত্যি অসাধারণ মিহি ও তাজা। নকশি পিঠা বানাতে কোনো ফাটাফাটি হয়নি, তেলে ভাজার পর মচমচে হয়েছে। ধন্যবাদ অঘ্রাণ।"
+                  "৫ কেজির প্যাকটা নিয়েছিলাম। চালের গুঁড়াটা সত্যি অসাধারণ মিহি ও তাজা। নকশি পিঠা বানাতে কোনো ফাটাফাটি হয়নি, তেলে ভাজার পর মচমচে হয়েছে। ধন্যবাদ অঘ্রাণ।"
                 </p>
               </div>
               <div className="flex items-center gap-3 pt-3 border-t border-[#D85A30]/10">

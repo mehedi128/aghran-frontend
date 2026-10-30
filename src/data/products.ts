@@ -311,10 +311,10 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 490,
     originalPrice: 590,
     discountPercentage: 17,
-    weight: '1 kg Pack',
+    weight: '3 kg Pack',
     variants: [
-      { id: 'v-chal-1kg', name: '১ কেজি (1 kg)', weight: '1 kg', price: 490, originalPrice: 590, inStock: true },
-      { id: 'v-chal-2kg', name: '২ কেজি (2 kg)', weight: '2 kg', price: 790, originalPrice: 980, inStock: true }
+      { id: 'v-chal-3kg', name: '৩ কেজি (3 kg)', weight: '3 kg', price: 490, originalPrice: 590, inStock: true },
+      { id: 'v-chal-5kg', name: '৫ কেজি (5 kg)', weight: '5 kg', price: 790, originalPrice: 980, inStock: true }
     ],
     descriptionBangla: 'গ্রামবাংলার প্রাচীন কাঠের ঢেঁকিতে ঐতিহ্যবাহী উপায়ে ধীরে ধীরে কুটে তৈরি আমাদের এই ঢেঁকি ছাঁটা সুগন্ধি আতপ চালের গুঁড়া। আধুনিক মেশিনে চালের গুঁড়া তৈরির সময় উচ্চ তাপে চালের স্বাভাবিক পুষ্টি ও মিষ্টি সুবাস নষ্ট হয়ে যায়, কিন্তু আমাদের ঐতিহ্যবাহী কাঠের ঢেঁকির গুঁড়ায় চালের প্রাকৃতিক আর্দ্রতা, মিষ্টি ঘ্রাণ ও ফাইবার শতভাগ অটুট থাকে। ভাপা পিঠা, চিতই পিঠা, নকশি পিঠা, পুলি পিঠা কিংবা যেকোনো শীতকালীন পিঠার জন্য এটি অতুলনীয়। কোনো রকম কৃত্রিম রঙ বা কেমিক্যাল ছাড়া সম্পূর্ণ নির্ভেজাল।',
     descriptionEnglish: 'Traditionally crushed in wooden Dheki (pedal-pounder), this premium fragrant Atop rice flour preserves authentic aroma, natural moisture, and fiber. Ideal for authentic Bangladeshi winter pithas like Vapa, Chitoi, Nokshi, and Puli pitha. 100% chemical-free.',
