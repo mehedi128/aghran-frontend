@@ -34,6 +34,13 @@ import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_bann
 import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.jpg';
 import nokshi500gImg from '../../assets/images/pata_n0.png';
 
+// Clean SVG WhatsApp Icon
+const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+  </svg>
+);
+
 
 interface PackageOption {
   id: string;
@@ -57,9 +64,20 @@ export const ChalerGuraLandingPage: React.FC = () => {
   // Packages: 3kg = 490, 5kg = 790
   const packages: PackageOption[] = useMemo(() => [
     {
+      id: 'pkg-chal-3kg',
+      name: 'আতপ চালের গুঁড়া (৩ কেজি)',
+      nameEnglish: 'Atop Rice Flour (3 kg)',
+      weight: '3 kg',
+      weightKg: 3,
+      price: 490,
+      originalPrice: 590,
+      savings: 100,
+      image: dhekiChalerGuraTextureImg
+    },
+    {
       id: 'pkg-chal-5kg',
-      name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া (৫ কেজি)',
-      nameEnglish: 'Dheki-chata Atop Rice Flour (5 kg)',
+      name: 'আতপ চালের গুঁড়া (৫ কেজি)',
+      nameEnglish: 'Atop Rice Flour (5 kg)',
       weight: '5 kg',
       weightKg: 5,
       price: 790,
@@ -69,19 +87,14 @@ export const ChalerGuraLandingPage: React.FC = () => {
       badge: '🚚 ফ্রি ডেলিভারি',
       freeDelivery: true,
       highlight: true
-    },
-    {
-      id: 'pkg-chal-3kg',
-      name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া (৩ কেজি)',
-      nameEnglish: 'Dheki-chata Atop Rice Flour (3 kg)',
-      weight: '3 kg',
-      weightKg: 3,
-      price: 490,
-      originalPrice: 590,
-      savings: 100,
-      image: dhekiChalerGuraTextureImg
     }
   ], []);
+
+  // Checkout Form Packages: 5kg first for high-converting free delivery offer
+  const checkoutPackages = useMemo(() => [
+    packages.find(p => p.id === 'pkg-chal-5kg') || packages[1],
+    packages.find(p => p.id === 'pkg-chal-3kg') || packages[0]
+  ], [packages]);
 
   // Selected Package State: Map of packageId -> quantity
   // Default selected: 5kg Package
@@ -148,7 +161,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
     if (typeof window !== 'undefined' && window.fbq) {
       window.fbq('track', 'PageView');
       window.fbq('track', 'ViewContent', {
-        content_name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া ল্যান্ডিং পেজ',
+        content_name: 'আতপ চালের গুঁড়া ল্যান্ডিং পেজ',
         content_ids: ['chaler-gura-1'],
         content_type: 'product',
         value: 790,
@@ -178,7 +191,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       setHasTrackedCheckout(true);
       if (typeof window !== 'undefined' && window.fbq) {
         window.fbq('track', 'InitiateCheckout', {
-          content_name: 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া অর্ডার ফর্ম',
+          content_name: 'আতপ চালের গুঁড়া অর্ডার ফর্ম',
           content_ids: ['chaler-gura-1'],
           content_type: 'product',
           value: totalAmount,
@@ -387,50 +400,52 @@ export const ChalerGuraLandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF6EE] text-[#3A2A1E] font-bangla pb-20 selection:bg-[#FAC775] selection:text-[#3A2A1E]">
       
-      {/* 1. TOP URGENCY ANNOUNCEMENT BAR (Bilrong Inspiration) */}
-      <div className="bg-gradient-to-r from-[#8B2500] via-[#D85A30] to-[#8B2500] text-white py-2.5 px-4 text-center shadow-md sticky top-0 z-40 border-b border-amber-300/30">
-        <div className="max-w-5xl mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base font-bold font-serif-bangla tracking-wide">
-          <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse shrink-0" />
-          <span>🌾 শীতের স্পেশাল ধামাকা অফার: ৫ কেজিতে সম্পূর্ণ ফ্রি হোম ডেলিভারি! ক্যাশ অন হোম ডেলিভারি</span>
-          <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse shrink-0 hidden sm:inline" />
+
+
+      <div className="max-w-4xl mx-auto px-4 py-5 sm:py-8 space-y-6 sm:space-y-8">
+
+        {/* TOP HIGHLIGHTED NOTICE & TRUST BANNER (MATCHES USER SCREENSHOT - 3 SEPARATE LARGE LINES) */}
+        <div className="bg-gradient-to-r from-[#FFF9E6] via-[#FFF3CC] to-[#FFF9E6] border-2 border-[#E59E27] rounded-3xl p-4 sm:p-7 text-center shadow-lg max-w-4xl mx-auto">
+          <div className="bg-[#FFE066] text-[#7A270D] px-4 py-5 sm:px-8 sm:py-6 rounded-2xl sm:rounded-3xl font-black shadow-sm space-y-3 sm:space-y-4 max-w-3xl mx-auto font-serif-bangla">
+            
+            {/* Line 1 */}
+            <p className="text-lg sm:text-2xl md:text-3xl font-black text-[#7A270D] leading-snug drop-shadow-xs">
+              🚚 ফ্রি হোম ডেলিভারিতে ঘরে পৌঁছে যাবে
+            </p>
+
+            {/* Line 2 */}
+            <div className="py-0.5">
+              <h1 className="text-[#B82900] bg-white/95 px-4 py-2 sm:px-7 sm:py-3 rounded-2xl border-2 border-[#D85A30]/40 shadow-md inline-block text-2xl sm:text-3xl md:text-5xl font-black tracking-wide leading-tight">
+                খাঁটি আতপ চালের গুঁড়া!
+              </h1>
+            </div>
+
+            {/* Line 3 */}
+            <p className="text-sm sm:text-lg md:text-xl font-bold text-[#5D2510] leading-relaxed max-w-2xl mx-auto">
+              এক প্যাকেটেই তৈরি করুন বিভিন্ন দেশীয় পিঠা, রুটি ও পরিবারের সবার পছন্দের বাহারি সব পিঠা।
+            </p>
+
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-5 sm:py-8 space-y-8">
-
-        {/* 2. HERO HEADLINE & BADGE */}
-        <div className="text-center space-y-4 pt-2">
-          <div className="inline-flex items-center gap-2 bg-[#FFF3CC] border-2 border-[#E59E27] text-[#7A270D] px-4 py-1.5 rounded-full text-xs sm:text-sm font-black shadow-xs">
-            <Wheat className="w-4 h-4 text-[#D85A30]" />
-            <span>শতভাগ খাঁটি দেশি আতপ চাল</span>
-          </div>
-
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black font-serif-bangla text-[#3A2A1E] leading-tight sm:leading-snug">
-            ঐতিহ্যবাহী <span className="text-[#D85A30]">ঢেঁকি ছাঁটা আতপ চালের গুঁড়া</span>
-          </h1>
-
-          <p className="text-sm sm:text-base md:text-lg text-[#5D4A3A] font-serif-bangla max-w-2xl mx-auto leading-relaxed">
-            শীতের সকালে ধোঁয়া ওঠা তুলতুলে নরম ভাপা, ফুলকো চিতই, মচমচে নকশি কিংবা রসালো পুলি পিঠার আসল গ্রামীণ স্বাদ ফিরিয়ে আনুন কোনো প্রকার কেমিক্যাল বা প্রিজারভেটিভ ছাড়া।
-          </p>
-
-          {/* Quick Hero CTA Button */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => scrollToOrder('pkg-chal-5kg')}
-              className="inline-flex items-center justify-center gap-2.5 bg-[#19910f] hover:bg-[#157a0d] text-white font-black font-serif-bangla text-base sm:text-lg px-8 py-3.5 rounded-2xl shadow-lg shadow-[#19910f]/30 hover:shadow-xl transition-all transform active:scale-95 cursor-pointer border border-white/20"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              <span>অর্ডার করুন এখনই</span>
-            </button>
-            <a
-              href="tel:+8801752421224"
-              className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-base sm:text-lg px-7 py-3.5 rounded-2xl shadow-md shadow-[#D85A30]/25 hover:shadow-lg transition-all transform active:scale-95"
-            >
-              <Phone className="w-5 h-5 text-white" />
-              <span>কল করুন: 01752-421224</span>
-            </a>
-          </div>
+        {/* Quick Hero CTA Buttons */}
+        <div className="pt-1 flex flex-wrap items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => scrollToOrder('pkg-chal-5kg')}
+            className="inline-flex items-center justify-center gap-2.5 bg-[#19910f] hover:bg-[#157a0d] text-white font-black font-serif-bangla text-base sm:text-lg px-8 py-3.5 rounded-2xl shadow-lg shadow-[#19910f]/30 hover:shadow-xl transition-all transform active:scale-95 cursor-pointer border border-white/20"
+          >
+            <ShoppingBag className="w-5 h-5" />
+            <span>অর্ডার করুন এখনই</span>
+          </button>
+          <a
+            href="tel:+8801752421224"
+            className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-base sm:text-lg px-7 py-3.5 rounded-2xl shadow-md shadow-[#D85A30]/25 hover:shadow-lg transition-all transform active:scale-95"
+          >
+            <Phone className="w-5 h-5 text-white" />
+            <WhatsAppIcon className="w-5 h-5 text-[#85E0A3]" />
+            <span>কল করুন: 01752-421224</span>
+          </a>
         </div>
 
         {/* 3. HERO IMAGE CAROUSEL / SLIDESHOW (Bilrong Elementor Style) */}
@@ -444,7 +459,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
             >
               <img
                 src={slide.src}
-                alt={slide.title || 'ঢেঁকি ছাঁটা আতপ চালের গুঁড়া'}
+                alt={slide.title || 'আতপ চালের গুঁড়া'}
                 className="w-full h-full object-cover cursor-pointer hover:scale-102 transition-transform duration-500"
                 onClick={() => setLightboxImg(slide.src)}
               />
@@ -632,7 +647,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
         <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#D85A30]/20 shadow-sm space-y-6">
           <div className="text-center">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-black font-serif-bangla text-[#3A2A1E]">
-              কেন আমাদের ঢেঁকি ছাঁটা চালের গুঁড়া সেরা?
+              কেন আমাদের চালের গুঁড়া সেরা?
             </h3>
           </div>
 
@@ -653,7 +668,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <Sun className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
-                রোদে ভালোভাবে শুকানো ☀️
+                রোদে ভালোভাবে শুকানো
               </h4>
             </div>
 
@@ -663,7 +678,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <Sparkles className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
-                মিহি ও ঝরঝরে গুঁড়া ✨
+                মিহি ও ঝরঝরে গুঁড়া
               </h4>
             </div>
 
@@ -673,7 +688,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <CookingPot className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
-                পিঠা-পুলির জন্য উপযোগী 🥣
+                পিঠা-পুলির জন্য উপযোগী
               </h4>
             </div>
 
@@ -683,7 +698,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <Leaf className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
-                যত্নসহকারে প্রস্তুত 🌿
+                যত্নসহকারে প্রস্তুত
               </h4>
             </div>
 
@@ -693,7 +708,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <PackageCheck className="w-5 h-5" />
               </div>
               <h4 className="font-serif-bangla font-bold text-sm sm:text-base text-[#3A2A1E] leading-snug">
-                পরিচ্ছন্ন প্যাকেজিং 📦
+                পরিচ্ছন্ন প্যাকেজিং
               </h4>
             </div>
           </div>
@@ -731,7 +746,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
             )}
 
             <div className="space-y-3">
-              {packages.map(pkg => {
+              {checkoutPackages.map(pkg => {
                 const isSelected = (selectedItems[pkg.id] || 0) > 0;
                 const quantity = selectedItems[pkg.id] || 0;
 
@@ -999,73 +1014,81 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <span>অর্ডার বিবরণী ও পেমেন্ট</span>
               </h3>
 
-              {/* 1-CLICK ORDER BUMP: 500g Nokshi Pitha */}
+              {/* 1-CLICK ORDER BUMP: 500g Nokshi Pitha (Side-by-side with extra large image) */}
               <div 
                 onClick={() => setIsNokshiBumpSelected(!isNokshiBumpSelected)}
                 className={`p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer relative select-none ${
                   isNokshiBumpSelected
-                    ? 'bg-gradient-to-r from-[#FFF8EE] to-[#FFF3E0] border-[#D85A30] shadow-md ring-2 ring-[#D85A30]/30'
-                    : 'bg-[#FFFBF5] border-dashed border-[#D85A30]/40 hover:border-[#D85A30] hover:bg-[#FFF8EE]/60'
+                    ? 'bg-gradient-to-r from-[#F1F8E9] to-[#E8F5E9] border-[#2E7D32] shadow-md ring-2 ring-[#2E7D32]/30'
+                    : 'bg-[#F1F8E9]/35 border-dashed border-[#2E7D32]/50 hover:border-[#2E7D32] hover:bg-[#F1F8E9]/60 shadow-xs'
                 }`}
               >
-                {/* Header badges and pricing */}
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <div className="inline-flex items-center gap-1.5 bg-[#D85A30] text-white text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-xs">
-                      <Sparkles className="w-3 h-3 text-yellow-300 animate-pulse" />
-                      <span>স্পেশাল অ্যাড-অন অফার</span>
-                    </div>
-                    <span className="inline-flex items-center gap-1 bg-[#E8F5E9] text-[#1B5E20] text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-[#81C784]/60">
-                      <Truck className="w-3 h-3 text-[#2E7D32]" />
-                      <span>একই ডেলিভারি চার্জে (অতিরিক্ত চার্জ নেই)</span>
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1.5 text-xs ml-auto">
-                    <span className="text-[#888780] line-through font-mono">৳{nokshiBumpOriginalPrice}</span>
-                    <span className="font-black text-[#D85A30] text-base sm:text-lg font-mono">৳{nokshiBumpPrice}</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3.5 sm:gap-4">
-                  {/* Image centered on mobile - enlarged for high clarity */}
-                  <div className="relative group shrink-0">
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-6 items-center">
+                  
+                  {/* Side 1: Extra Large Image */}
+                  <div className="sm:col-span-5 relative group aspect-square rounded-2xl overflow-hidden border-2 border-[#2E7D32]/30 shadow-md max-w-[240px] sm:max-w-none mx-auto w-full bg-white">
                     <img
                       src={nokshi500gImg}
                       alt="ঐতিহ্যবাহী নকশি পিঠা ৫০০ গ্রাম"
-                      className="w-36 h-36 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-2xl object-cover border-2 border-[#D85A30]/25 shadow-md group-hover:scale-102 transition-transform cursor-pointer"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         setLightboxImg(nokshi500gImg);
                       }}
                     />
-                    <span className="absolute bottom-1.5 right-1.5 bg-black/65 text-white text-[10px] px-2 py-0.5 rounded-md backdrop-blur-xs font-serif-bangla font-bold">
+                    <span className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2.5 py-1 rounded-lg backdrop-blur-xs font-serif-bangla font-black shadow-sm">
                       ৫০০ গ্রাম
+                    </span>
+                    <span className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-md backdrop-blur-xs font-serif-bangla flex items-center gap-1">
+                      🔍 বড় করে দেখুন
                     </span>
                   </div>
 
-                  {/* Checkbox and Text UNDER image on mobile */}
-                  <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0 w-full sm:w-auto">
-                    <div className="pt-0.5 shrink-0">
-                      <input
-                        type="checkbox"
-                        id="nokshi-bump-checkbox"
-                        checked={isNokshiBumpSelected}
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          setIsNokshiBumpSelected(e.target.checked);
-                        }}
-                        className="w-5 h-5 rounded text-[#D85A30] accent-[#D85A30] focus:ring-[#D85A30] cursor-pointer"
-                      />
+                  {/* Side 2: All Information (Badge, Price, Checkbox, Text) */}
+                  <div className="sm:col-span-7 space-y-3.5 text-left w-full">
+                    
+                    {/* Top Row: Badge & Price */}
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#1B5E20] via-[#2E7D32] to-[#15803D] text-white text-[11px] sm:text-xs font-black px-3 py-1 rounded-full shadow-md border border-[#81C784]/80 ring-2 ring-[#4CAF50]/30">
+                        <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse shrink-0" />
+                        <span>স্পেশাল অফার</span>
+                        <span className="text-yellow-300 font-black">•</span>
+                        <span className="text-yellow-200 font-bold flex items-center gap-1">
+                          <Truck className="w-3.5 h-3.5 text-yellow-300 inline shrink-0" />
+                          একই ডেলিভারি চার্জে
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 text-xs font-mono ml-auto">
+                        <span className="text-[#888780] line-through">৳{nokshiBumpOriginalPrice}</span>
+                        <span className="font-black text-[#1B5E20] text-lg sm:text-xl">৳{nokshiBumpPrice}</span>
+                      </div>
                     </div>
-                    <div className="space-y-1 text-left flex-1 min-w-0">
-                      <h4 className="font-serif-bangla font-black text-sm sm:text-base text-[#3A2A1E] leading-snug">
-                        হ্যাঁ! আমার অর্ডারের সাথে ৫০০ গ্রাম ঐতিহ্যবাহী নকশি পিঠা যোগ করুন
-                      </h4>
-                      <p className="text-xs text-[#5D4A3A] font-serif-bangla">
-                        চালের গুঁড়ার সাথে এখনই নিলে পাচ্ছেন <strong className="text-[#D85A30]">১০০ টাকা সরাসরি ডিসকাউন্ট!</strong>
-                      </p>
+
+                    {/* Checkbox and Text Block */}
+                    <div className="flex items-start gap-3 bg-white/80 p-3 sm:p-3.5 rounded-xl border border-[#2E7D32]/25 shadow-xs hover:bg-white transition-colors">
+                      <div className="pt-0.5 shrink-0">
+                        <input
+                          type="checkbox"
+                          id="nokshi-bump-checkbox"
+                          checked={isNokshiBumpSelected}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            setIsNokshiBumpSelected(e.target.checked);
+                          }}
+                          className="w-5 h-5 rounded text-[#2E7D32] accent-[#2E7D32] focus:ring-[#2E7D32] cursor-pointer"
+                        />
+                      </div>
+                      <div className="space-y-1 text-left flex-1 min-w-0">
+                        <h4 className="font-serif-bangla font-black text-sm sm:text-base text-[#1B5E20] leading-snug">
+                          হ্যাঁ! আমার অর্ডারের সাথে ৫০০ গ্রাম ঐতিহ্যবাহী নকশি পিঠা যোগ করুন
+                        </h4>
+                        <p className="text-xs sm:text-sm text-[#5D4A3A] font-serif-bangla leading-relaxed">
+                          চালের গুঁড়ার সাথে এখনই নিলে পাচ্ছেন <strong className="text-[#1B5E20] font-black">১০০ টাকা সরাসরি ডিসকাউন্ট!</strong>
+                        </p>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -1233,10 +1256,11 @@ export const ChalerGuraLandingPage: React.FC = () => {
               className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-sm sm:text-base px-6 py-3 rounded-2xl shadow-md shadow-[#D85A30]/25 transition-all transform active:scale-95"
             >
               <Phone className="w-4 h-4 text-white" />
+              <WhatsAppIcon className="w-4 h-4 text-[#85E0A3]" />
               <span>কল করুন: 01752-421224</span>
             </a>
             <a
-              href="https://wa.me/8801752421224?text=আমি ঢেঁকি ছাঁটা আতপ চালের গুঁড়া অর্ডার করতে চাই"
+              href="https://wa.me/8801752421224?text=আমি আতপ চালের গুঁড়া অর্ডার করতে চাই"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 bg-[#19910f] hover:bg-[#157a0d] text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl transition-all"
@@ -1256,7 +1280,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D85A30]/20 p-3 sm:hidden z-30 shadow-2xl flex items-center justify-between gap-3">
         <div className="min-w-0">
           <span className="text-[10px] text-[#888780] block font-serif-bangla leading-none truncate max-w-[140px]">
-            ঢেঁকি ছাঁটা চালের গুঁড়া{isNokshiBumpSelected ? ' + নকশি পিঠা' : ''}
+            চালের গুঁড়া{isNokshiBumpSelected ? ' + নকশি পিঠা' : ''}
           </span>
           <span className="text-base font-black text-[#D85A30] font-mono leading-tight">
             ৳{totalAmount.toLocaleString()}
