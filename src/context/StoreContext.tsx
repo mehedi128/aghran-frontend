@@ -67,7 +67,7 @@ interface StoreContextType {
   applyCoupon: (code: string) => { success: boolean; message: string };
   placeOrder: (
     orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'status' | 'trackingSteps'>,
-    options?: { skipDefaultSheetSync?: boolean }
+    options?: { skipDefaultSheetSync?: boolean; customOrderNumber?: string }
   ) => Order;
   
   // Calculations
@@ -477,13 +477,13 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   // Place Order
   const placeOrder = (
     orderData: Omit<Order, 'id' | 'orderNumber' | 'createdAt' | 'status' | 'trackingSteps'>,
-    options?: { skipDefaultSheetSync?: boolean }
+    options?: { skipDefaultSheetSync?: boolean; customOrderNumber?: string }
   ): Order => {
     const randomSuffix = Math.floor(10000 + Math.random() * 90000);
     const newOrder: Order = {
       ...orderData,
       id: `ord-${Date.now()}`,
-      orderNumber: `AGH-${randomSuffix}`,
+      orderNumber: options?.customOrderNumber || `AGH-${randomSuffix}`,
       createdAt: new Date().toISOString(),
       status: 'Confirmed',
       trackingSteps: [

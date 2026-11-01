@@ -365,6 +365,27 @@ export const ChalerGuraLandingPage: React.FC = () => {
         });
       }
 
+      // Sequential Order ID: AGH-C001, AGH-C002, AGH-C003...
+      const getNextChalerGuraOrderNumber = (): string => {
+        const STORAGE_KEY = 'aghran_chaler_gura_order_counter_v1';
+        let counter = 1;
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = parseInt(saved, 10);
+            if (!isNaN(parsed) && parsed >= 1) {
+              counter = parsed + 1;
+            }
+          }
+          localStorage.setItem(STORAGE_KEY, String(counter));
+        } catch {
+          // Fallback
+        }
+        return `AGH-C${String(counter).padStart(3, '0')}`;
+      };
+
+      const customOrderId = getNextChalerGuraOrderNumber();
+
       const createdOrder = placeOrder({
         items: orderCartItems,
         customer: formData,
@@ -372,7 +393,10 @@ export const ChalerGuraLandingPage: React.FC = () => {
         shippingFee: shippingFee,
         discount: 0,
         total: totalAmount
-      }, { skipDefaultSheetSync: true });
+      }, { 
+        skipDefaultSheetSync: true,
+        customOrderNumber: customOrderId
+      });
 
       // Facebook tracking & Dedicated Google Sheet sync
       trackPurchase(createdOrder);

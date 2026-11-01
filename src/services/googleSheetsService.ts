@@ -12,6 +12,10 @@ const NOKSHI_GOOGLE_SHEETS_URL =
   import.meta.env.VITE_NOKSHI_GOOGLE_SHEETS_URL || 
   'https://script.google.com/macros/s/AKfycbweRnX_F_AGrOZ4rEaolQHXLsizBYsvWrKqU6raZKp-Fv0l1ZsD6M46foHiD0RM3um1/exec';
 
+const CHALER_GURA_GOOGLE_SHEETS_URL = 
+  import.meta.env.VITE_CHALER_GURA_GOOGLE_SHEETS_URL || 
+  'https://script.google.com/macros/s/AKfycbxu9icby0Wywp6gOBp_vpnPdHoRybQ7nzNLO_b5GZjIub6m_JlnVDG-1rxY8G_avRKG/exec';
+
 export interface GoogleSheetOrderPayload {
   orderNumber: string;
   orderId?: string;
@@ -58,10 +62,10 @@ export const formatOrderForSheet = (order: Order, source = 'General'): GoogleShe
     customerName: order.customer.fullName,
     phone: order.customer.phone,
     mobileNumber: order.customer.phone,
-    deliveryZone: order.customer.deliveryZone === 'dhaka' ? 'Dhaka Metro' : 'Outside Dhaka',
+    deliveryZone: order.customer.deliveryZone === 'dhaka' ? 'ঢাকা মেট্রো' : 'ঢাকার বাইরে',
     streetAddress: order.customer.streetAddress,
     deliveryAddress: order.customer.streetAddress,
-    paymentMethod: order.customer.paymentMethod.toUpperCase(),
+    paymentMethod: 'Cash on Delivery',
     itemsSummary,
     itemsOrdered: itemsSummary,
     subtotal: order.subtotal,
@@ -92,7 +96,7 @@ export const sendOrderToGoogleSheet = async (
   try {
     const payload = formatOrderForSheet(order, source);
 
-    // Using POST with text/plain or URLSearchParams avoids CORS preflight blockage from Google Apps Script
+    // Using POST with text/plain avoids CORS preflight blockage from Google Apps Script
     await fetch(targetUrl, {
       method: 'POST',
       mode: 'no-cors', // Google Apps Script redirects require no-cors or text/plain
@@ -118,9 +122,9 @@ export const sendNokshiOrderToGoogleSheet = async (order: Order) => {
 };
 
 /**
- * Dedicated sender for Dheki-chata Atop Chaler Gura Landing Page.
+ * Dedicated sender for Chaler Gura Landing Page.
  */
 export const sendChalerGuraOrderToGoogleSheet = async (order: Order) => {
-  return sendOrderToGoogleSheet(order, DEFAULT_GOOGLE_SHEETS_URL, 'চালের গুঁড়া ল্যান্ডিং পেজ');
+  return sendOrderToGoogleSheet(order, CHALER_GURA_GOOGLE_SHEETS_URL, 'চালের গুঁড়া ল্যান্ডিং পেজ');
 };
 
