@@ -2,8 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Product, ProductVariant, CartItem, Order, CategoryId, DeliveryZone, Coupon } from '../types';
 import { INITIAL_PRODUCTS, SAMPLE_COUPONS } from '../data/products';
 import { sendOrderToGoogleSheet } from '../services/googleSheetsService';
-import { sendOrderConfirmationSms } from '../services/smsService';
-import { sendOrderToTelegram } from '../services/telegramService';
+import { notifyOrder } from '../services/orderNotificationService';
 import { trackAddToCart, trackInitiateCheckout, trackPurchase } from '../services/facebookTrackingService';
 
 export type CurrentView = 
@@ -521,25 +520,8 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       console.warn('Facebook Purchase tracking error:', err);
     }
 
-    // Send SMS Confirmation via GP SIM & report delivery status in Telegram alert
-    sendOrderConfirmationSms(newOrder)
-      .then(smsResult => {
-        sendOrderToTelegram(newOrder, {
-          sent: smsResult.success,
-          error: smsResult.error
-        }).catch(err => {
-          console.error('Failed to dispatch Telegram order notification:', err);
-        });
-      })
-      .catch(err => {
-        console.error('Failed to dispatch confirmation SMS:', err);
-        sendOrderToTelegram(newOrder, {
-          sent: false,
-          error: err?.message || 'Network error'
-        }).catch(tErr => {
-          console.error('Failed to dispatch Telegram order notification:', tErr);
-        });
-      });
+    // Customer SMS (GP SIM via Textbee) + admin Telegram alert, sent server-side by /api/notify-order
+    notifyOrder(newOrder);
 
     navigateTo('order-success');
     showToast('Order Placed Successfully!', `Order #${newOrder.orderNumber} is now confirmed.`);
