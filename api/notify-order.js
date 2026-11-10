@@ -145,7 +145,7 @@ async function sendSms(order, recipient) {
 
 async function sendTelegram(order, sms) {
   const botToken = env('TELEGRAM_BOT_TOKEN');
-  const chatId = env('TELEGRAM_CHAT_ID');
+  const chatId = env('TELEGRAM_CHAT_ID') || '1022610461'; // admin chat (not a secret on its own)
   if (!botToken || !chatId) return { sent: false, error: 'Telegram not configured on server' };
   try {
     const r = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
