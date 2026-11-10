@@ -26,6 +26,7 @@ import { CheckoutPage } from './components/checkout/CheckoutPage';
 import { CheckoutTestPage } from './components/checkout/CheckoutTestPage';
 import { NokshiPithaLandingPage } from './components/landing/NokshiPithaLandingPage';
 import { ChalerGuraLandingPage } from './components/landing/ChalerGuraLandingPage';
+import { UtsabComboLandingPage } from './components/landing/UtsabComboLandingPage';
 import { OrderSuccessView } from './components/checkout/OrderSuccessView';
 import { OrderTrackingView } from './components/orders/OrderTrackingView';
 import { AboutPage } from './components/pages/AboutPage';
@@ -64,6 +65,7 @@ const MainContent: React.FC = () => {
       {currentView === 'checkout-test' && <CheckoutTestPage />}
       {currentView === 'nokshipitha' && <NokshiPithaLandingPage />}
       {currentView === 'chaler-gura' && <ChalerGuraLandingPage />}
+      {currentView === 'utsab-combo' && <UtsabComboLandingPage />}
       {currentView === 'order-success' && <OrderSuccessView />}
       {currentView === 'track-order' && <OrderTrackingView />}
       {currentView === 'about' && <AboutPage />}
@@ -75,7 +77,11 @@ const MainContent: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const { currentView } = useStore();
-  const isDedicatedLanding = currentView === 'checkout-test' || currentView === 'nokshipitha' || currentView === 'chaler-gura';
+  const isDedicatedLanding =
+    currentView === 'checkout-test' ||
+    currentView === 'nokshipitha' ||
+    currentView === 'chaler-gura' ||
+    currentView === 'utsab-combo';
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAEEDA]/30 text-[#3A2A1E] font-sans selection:bg-[#FAC775] selection:text-[#3A2A1E]">

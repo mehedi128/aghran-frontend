@@ -15,10 +15,11 @@ import {
   Images
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
+import { getNextOrderNumber } from '../../services/orderNumberService';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
 import { TESTIMONIALS } from '../../data/products';
 import { sendNokshiOrderToGoogleSheet } from '../../services/googleSheetsService';
-import { trackInitiateCheckout, trackPurchase } from '../../services/facebookTrackingService';
+import { trackInitiateCheckout } from '../../services/facebookTrackingService';
 
 // Product Images
 import nokshiJhinukComboImg from '../../assets/images/nokshi_jhinuk_combo.jpg';
@@ -352,6 +353,9 @@ export const NokshiPithaLandingPage: React.FC = () => {
         };
       });
 
+      // Global sequential Order ID: AGH-N001, AGH-N002...
+      const customOrderId = await getNextOrderNumber('N');
+
       const createdOrder = placeOrder({
         items: orderCartItems,
         customer: formData,
@@ -359,10 +363,13 @@ export const NokshiPithaLandingPage: React.FC = () => {
         shippingFee: shippingFee,
         discount: 0,
         total: totalAmount
-      }, { skipDefaultSheetSync: true });
+      }, {
+        skipDefaultSheetSync: true,
+        customOrderNumber: customOrderId
+      });
 
       // Facebook tracking & Dedicated Nokshi Google Sheet integration
-      trackPurchase(createdOrder);
+      // Purchase pixel + CAPI event is already sent inside placeOrder(); do not call trackPurchase here (it double-counted orders).
       await sendNokshiOrderToGoogleSheet(createdOrder);
 
       navigateTo('order-success');

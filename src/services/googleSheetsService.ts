@@ -16,6 +16,10 @@ const CHALER_GURA_GOOGLE_SHEETS_URL =
   import.meta.env.VITE_CHALER_GURA_GOOGLE_SHEETS_URL || 
   'https://script.google.com/macros/s/AKfycbxu9icby0Wywp6gOBp_vpnPdHoRybQ7nzNLO_b5GZjIub6m_JlnVDG-1rxY8G_avRKG/exec';
 
+const UTSAB_COMBO_GOOGLE_SHEETS_URL = 
+  import.meta.env.VITE_UTSAB_COMBO_GOOGLE_SHEETS_URL || 
+  NOKSHI_GOOGLE_SHEETS_URL;
+
 export interface GoogleSheetOrderPayload {
   orderNumber: string;
   orderId?: string;
@@ -126,5 +130,12 @@ export const sendNokshiOrderToGoogleSheet = async (order: Order) => {
  */
 export const sendChalerGuraOrderToGoogleSheet = async (order: Order) => {
   return sendOrderToGoogleSheet(order, CHALER_GURA_GOOGLE_SHEETS_URL, 'চালের গুঁড়া ল্যান্ডিং পেজ');
+};
+
+/**
+ * Dedicated sender for Utsab Combo Landing Page.
+ */
+export const sendUtsabComboOrderToGoogleSheet = async (order: Order) => {
+  return sendOrderToGoogleSheet(order, UTSAB_COMBO_GOOGLE_SHEETS_URL, 'উৎসব কম্বো ল্যান্ডিং পেজ');
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Truck, ArrowLeft, Banknote, Lock } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
+import { getNextOrderNumber } from '../../services/orderNumberService';
 import { OrderCustomerInfo } from '../../types';
 
 export const CheckoutPage: React.FC = () => {
@@ -50,7 +51,7 @@ export const CheckoutPage: React.FC = () => {
         return Object.keys(errs).length === 0;
     };
 
-    const handleSubmitOrder = (e: React.FormEvent) => {
+    const handleSubmitOrder = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) {
             window.scrollTo({ top: 100, behavior: 'smooth' });
@@ -59,17 +60,18 @@ export const CheckoutPage: React.FC = () => {
 
         setIsSubmitting(true);
 
-        setTimeout(() => {
-            placeOrder({
-                items: cart,
-                customer: formData,
-                subtotal: cartSubtotal,
-                shippingFee: shippingFee,
-                discount: discountAmount,
-                total: cartTotal,
-            });
-            setIsSubmitting(false);
-        }, 600);
+        // Global sequential Order ID: AGH-W001, AGH-W002...
+        const customOrderId = await getNextOrderNumber('W');
+
+        placeOrder({
+            items: cart,
+            customer: formData,
+            subtotal: cartSubtotal,
+            shippingFee: shippingFee,
+            discount: discountAmount,
+            total: cartTotal,
+        }, { customOrderNumber: customOrderId });
+        setIsSubmitting(false);
     };
 
     if (cart.length === 0) {

@@ -24,9 +24,9 @@ import {
   Leaf
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
+import { getNextOrderNumber } from '../../services/orderNumberService';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
 import { sendChalerGuraOrderToGoogleSheet } from '../../services/googleSheetsService';
-import { trackPurchase } from '../../services/facebookTrackingService';
 
 // Product & Showcase Images
 import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.jpg';
@@ -365,26 +365,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
         });
       }
 
-      // Sequential Order ID: AGH-C001, AGH-C002, AGH-C003...
-      const getNextChalerGuraOrderNumber = (): string => {
-        const STORAGE_KEY = 'aghran_chaler_gura_order_counter_v1';
-        let counter = 1;
-        try {
-          const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) {
-            const parsed = parseInt(saved, 10);
-            if (!isNaN(parsed) && parsed >= 1) {
-              counter = parsed + 1;
-            }
-          }
-          localStorage.setItem(STORAGE_KEY, String(counter));
-        } catch {
-          // Fallback
-        }
-        return `AGH-C${String(counter).padStart(3, '0')}`;
-      };
-
-      const customOrderId = getNextChalerGuraOrderNumber();
+      // Global sequential Order ID: AGH-C001, AGH-C002...
+      const customOrderId = await getNextOrderNumber('C');
 
       const createdOrder = placeOrder({
         items: orderCartItems,
@@ -399,7 +381,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       });
 
       // Facebook tracking & Dedicated Google Sheet sync
-      trackPurchase(createdOrder);
+      // Purchase pixel + CAPI event is already sent inside placeOrder(); do not call trackPurchase here (it double-counted orders).
       await sendChalerGuraOrderToGoogleSheet(createdOrder);
 
       navigateTo('order-success');

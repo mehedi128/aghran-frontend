@@ -10,9 +10,9 @@ declare global {
 const PIXEL_ID = 
   import.meta.env.VITE_FACEBOOK_PIXEL_ID || 
   '1733094124585916';
-const CAPI_ACCESS_TOKEN = 
-  import.meta.env.VITE_FACEBOOK_CAPI_TOKEN || 
-  'EAAb4CWBP5boBSWvHMNYuGWtI9KXAJCbzhZCsHq0aviyhS7GlQ1PJPjn1AWG19OdENRl3qZBjZChKfZAU46ToNVNDhRPy6fUumb48CWu7yYZAhOSFokPnLghsoOGBZA6suorkJMkLfwv6K8AdcpUg5onqMBjHC1lHDbstT5W6gbZCsjCfvKorbVp5F1ZBtZByD1gZDZD';
+// CAPI access token is NOT kept in browser code. Server events go through the
+// Vercel function /api/capi, which reads the token from the FB_CAPI_TOKEN env var.
+const CAPI_ENDPOINT = '/api/capi';
 
 /**
  * Normalizes and hashes text using SHA-256 for Meta Conversions API
@@ -122,27 +122,21 @@ async function sendCapiEvent(
 
     const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://aghran.com';
 
-    const payload = {
-      data: [
-        {
-          event_name: eventName,
-          event_time: Math.floor(Date.now() / 1000),
-          event_id: eventId,
-          event_source_url: currentUrl,
-          action_source: 'website',
-          user_data: payloadUserData,
-          custom_data: customData || {}
-        }
-      ]
-    };
-
-    // Send directly to Meta Graph API
-    await fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${CAPI_ACCESS_TOKEN}`, {
+    // Sent to our own server function; it adds IP, user agent, fbp/fbc and the token.
+    await fetch(CAPI_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(payload)
+      credentials: 'same-origin',
+      keepalive: true,
+      body: JSON.stringify({
+        event_name: eventName,
+        event_id: eventId,
+        event_source_url: currentUrl,
+        user_data: payloadUserData,
+        custom_data: customData || {}
+      })
     });
   } catch (err) {
     console.warn('Facebook CAPI Event dispatch error:', err);

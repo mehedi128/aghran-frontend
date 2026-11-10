@@ -15,6 +15,7 @@ export type CurrentView =
   | 'checkout-test'
   | 'nokshipitha'
   | 'chaler-gura'
+  | 'utsab-combo'
   | 'order-success'
   | 'track-order'
   | 'about'
@@ -115,6 +116,8 @@ const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: str
     let resolvedView = viewParam as CurrentView;
     if (['chaler-gura', 'chalergura', 'atopchal', 'chaler-guda'].includes(viewParam)) {
       resolvedView = 'chaler-gura';
+    } else if (['utsab-combo', 'utsab', 'utsabcombo', 'utsab-combo-pack', 'combo-1kg'].includes(viewParam)) {
+      resolvedView = 'utsab-combo';
     }
     return {
       view: resolvedView || 'home',
@@ -133,7 +136,10 @@ const getStateFromUrl = (): { view: CurrentView; category: CategoryId; slug: str
     const cat = pathToCheck.replace('collection/', '');
     return { view: 'collection', category: cat as CategoryId, slug: null };
   }
-  if (['collection', 'cart', 'checkout', 'checkout-test', 'nokshipitha', 'chaler-gura', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
+  if (['utsab-combo', 'utsab', 'utsabcombo', 'utsab-combo-pack', 'combo-1kg'].includes(pathToCheck)) {
+    return { view: 'utsab-combo', category: 'all', slug: null };
+  }
+  if (['collection', 'cart', 'checkout', 'checkout-test', 'nokshipitha', 'chaler-gura', 'utsab-combo', 'order-success', 'track-order', 'about', 'contact', 'wishlist'].includes(pathToCheck)) {
     return { view: pathToCheck as CurrentView, category: 'all', slug: null };
   }
 
@@ -501,7 +507,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     // Send order to Google Sheets
     // IMPORTANT: Skip default sheet sync if on dedicated landing pages or explicitly requested
-    const shouldSkipDefaultSheet = currentView === 'nokshipitha' || currentView === 'chaler-gura' || options?.skipDefaultSheetSync;
+    const shouldSkipDefaultSheet = currentView === 'nokshipitha' || currentView === 'chaler-gura' || currentView === 'utsab-combo' || options?.skipDefaultSheetSync;
     if (!shouldSkipDefaultSheet) {
       sendOrderToGoogleSheet(newOrder).catch(err => {
         console.error('Failed to sync order to Google Sheets:', err);
