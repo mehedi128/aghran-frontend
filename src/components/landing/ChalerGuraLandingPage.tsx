@@ -472,8 +472,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 py-5 sm:py-8 space-y-6 sm:space-y-8">
 
         {/* TOP HIGHLIGHTED NOTICE & TRUST BANNER (MATCHES USER SCREENSHOT - 3 SEPARATE LARGE LINES) */}
-        <div className="bg-gradient-to-r from-[#FFF9E6] via-[#FFF3CC] to-[#FFF9E6] border-2 border-[#E59E27] rounded-3xl p-4 sm:p-7 text-center shadow-lg max-w-4xl mx-auto">
-          <div className="bg-[#FFE066] text-[#7A270D] px-4 py-5 sm:px-8 sm:py-6 rounded-2xl sm:rounded-3xl font-black shadow-sm space-y-3 sm:space-y-4 max-w-3xl mx-auto font-serif-bangla">
+        <div className="bg-gradient-to-r from-[#FFF9E6] via-[#FFF3CC] to-[#FFF9E6] border-2 border-[#E59E27] rounded-3xl p-3 sm:p-7 text-center shadow-lg max-w-4xl mx-auto">
+          <div className="bg-[#FFE066] text-[#7A270D] px-2.5 py-5 sm:px-8 sm:py-6 rounded-2xl sm:rounded-3xl font-black shadow-sm space-y-3 sm:space-y-4 max-w-3xl mx-auto font-serif-bangla">
             
             {/* Line 1 */}
             <p className="text-lg sm:text-2xl md:text-3xl font-black text-[#7A270D] leading-snug drop-shadow-xs">
@@ -482,7 +482,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
             {/* Line 2 */}
             <div className="py-0.5">
-              <h1 className="text-[#B82900] bg-white/95 px-4 py-2 sm:px-7 sm:py-3 rounded-2xl border-2 border-[#D85A30]/40 shadow-md inline-block text-2xl sm:text-3xl md:text-5xl font-black tracking-wide leading-tight">
+              <h1 className="text-[#B82900] bg-white/95 px-3 py-2 sm:px-7 sm:py-3 rounded-2xl border-2 border-[#D85A30]/40 shadow-md inline-block whitespace-nowrap text-[clamp(1.1rem,6.2vw,1.5rem)] sm:text-3xl md:text-5xl font-black sm:tracking-wide leading-tight">
                 খাঁটি আতপ চালের গুঁড়া!
               </h1>
             </div>
