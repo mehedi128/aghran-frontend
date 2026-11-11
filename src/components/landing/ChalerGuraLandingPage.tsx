@@ -70,6 +70,13 @@ import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_tex
 import nokshi500gImg from '../../assets/images/pata_n0.webp';
 
 
+// Clean SVG WhatsApp Icon
+const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+  </svg>
+);
+
 interface PackageOption {
   id: string;
   name: string;
@@ -227,6 +234,19 @@ export const ChalerGuraLandingPage: React.FC = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [hasTrackedCheckout, setHasTrackedCheckout] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+
+  // Hide the sticky mobile order bar while the order section is on screen, so it never covers the form
+  const [isOrderSectionVisible, setIsOrderSectionVisible] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById('order');
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsOrderSectionVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Track InitiateCheckout once when customer interacts
   const triggerInitiateCheckout = () => {
@@ -500,17 +520,19 @@ export const ChalerGuraLandingPage: React.FC = () => {
           <button
             type="button"
             onClick={() => scrollToOrder('pkg-chal-5kg')}
-            className="inline-flex items-center justify-center gap-2.5 bg-[#19910f] hover:bg-[#157a0d] text-white font-black font-serif-bangla text-base sm:text-lg px-8 py-3.5 rounded-2xl shadow-lg shadow-[#19910f]/30 hover:shadow-xl transition-all transform active:scale-95 cursor-pointer border border-white/20"
+            className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#b84218] text-white font-black font-serif-bangla text-base sm:text-lg px-8 py-3.5 rounded-2xl shadow-lg shadow-[#D85A30]/30 hover:shadow-xl transition-all transform active:scale-95 cursor-pointer border border-white/20"
           >
             <ShoppingBag className="w-5 h-5" />
             <span>অর্ডার করুন এখনই</span>
           </button>
           <a
-            href="tel:+8801752421224"
-            className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-base sm:text-lg px-7 py-3.5 rounded-2xl shadow-md shadow-[#D85A30]/25 hover:shadow-lg transition-all transform active:scale-95"
+            href={`https://wa.me/8801752421224?text=${encodeURIComponent('আমি আতপ চালের গুঁড়া অর্ডার করতে চাই')}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1ebe5b] text-white font-bold font-serif-bangla text-base sm:text-lg px-7 py-3.5 rounded-2xl shadow-md shadow-[#25D366]/30 hover:shadow-lg transition-all transform active:scale-95"
           >
-            <Phone className="w-5 h-5 text-white" />
-            <span>কল করুন: 01752-421224</span>
+            <WhatsAppIcon className="w-5 h-5 text-white" />
+            <span>হোয়াটসঅ্যাপে মেসেজ দিন</span>
           </a>
         </div>
 
@@ -1364,7 +1386,12 @@ export const ChalerGuraLandingPage: React.FC = () => {
       </div>
 
       {/* 12. STICKY MOBILE BOTTOM BAR FOR QUICK ORDER JUMP */}
-      <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D85A30]/20 p-3 sm:hidden z-30 shadow-2xl flex items-center justify-between gap-3">
+      <div
+        aria-hidden={isOrderSectionVisible}
+        className={`fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#D85A30]/20 p-3 sm:hidden z-30 shadow-2xl flex items-center justify-between gap-3 transition-transform duration-300 ${
+          isOrderSectionVisible ? 'translate-y-full pointer-events-none' : 'translate-y-0'
+        }`}
+      >
         <div className="min-w-0">
           <span className="text-[10px] text-[#888780] block font-serif-bangla leading-none truncate max-w-[140px]">
             চালের গুঁড়া{isNokshiBumpSelected ? ' + নকশি পিঠা' : ''}
