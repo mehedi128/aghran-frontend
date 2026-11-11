@@ -25,21 +25,49 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { getNextOrderNumber } from '../../services/orderNumberService';
-import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
+import { ProductVariant, CartItem, OrderCustomerInfo, Order } from '../../types';
 import { sendChalerGuraOrderToGoogleSheet } from '../../services/googleSheetsService';
 
-// Product & Showcase Images
-import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.jpg';
-import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_banner.jpg';
-import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.jpg';
-import nokshi500gImg from '../../assets/images/pata_n0.png';
+// Converts Bangla digits (০-৯) to English digits so phone numbers typed in Bangla pass validation.
+const toEnglishDigits = (value: string) =>
+  value.replace(/[০-৯]/g, d => String('০১২৩৪৫৬৭৮৯'.indexOf(d)));
 
-// Clean SVG WhatsApp Icon
-const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-  </svg>
-);
+// Orders that failed to reach the Google Sheet are queued here and re-sent on the next visit.
+const PENDING_SHEET_ORDERS_KEY = 'aghran_pending_chaler_gura_sheet_orders';
+
+const readPendingSheetOrders = (): Order[] => {
+  try {
+    const raw = localStorage.getItem(PENDING_SHEET_ORDERS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+};
+
+const writePendingSheetOrders = (orders: Order[]) => {
+  try {
+    if (orders.length === 0) localStorage.removeItem(PENDING_SHEET_ORDERS_KEY);
+    else localStorage.setItem(PENDING_SHEET_ORDERS_KEY, JSON.stringify(orders));
+  } catch {
+    // Storage unavailable (private mode etc.); nothing more we can do here.
+  }
+};
+
+// Sends to the sheet with up to 3 attempts (0s, 1s, 2s backoff).
+const sendToSheetWithRetry = async (order: Order): Promise<boolean> => {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt > 0) await new Promise(r => setTimeout(r, attempt * 1000));
+    const result = await sendChalerGuraOrderToGoogleSheet(order);
+    if (result.success) return true;
+  }
+  return false;
+};
+
+// Product & Showcase Images
+import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.webp';
+import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_banner.webp';
+import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.webp';
+import nokshi500gImg from '../../assets/images/pata_n0.webp';
 
 
 interface PackageOption {
@@ -59,7 +87,7 @@ interface PackageOption {
 }
 
 export const ChalerGuraLandingPage: React.FC = () => {
-  const { products, placeOrder, navigateTo } = useStore();
+  const { products, placeOrder } = useStore();
 
   // Packages: 3kg = 490, 5kg = 790
   const packages: PackageOption[] = useMemo(() => [
@@ -72,7 +100,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
       price: 490,
       originalPrice: 590,
       savings: 100,
-      image: dhekiChalerGuraTextureImg
+      image: dhekiChalerGuraTextureImg,
+      description: '+ ডেলিভারি চার্জ যোগ হবে (ঢাকায় ৳৮০, ঢাকার বাইরে ৳১৩০)'
     },
     {
       id: 'pkg-chal-5kg',
@@ -156,10 +185,23 @@ export const ChalerGuraLandingPage: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Re-send any orders that previously failed to reach the Google Sheet
+  useEffect(() => {
+    const pending = readPendingSheetOrders();
+    if (pending.length === 0) return;
+    (async () => {
+      const stillFailed: Order[] = [];
+      for (const order of pending) {
+        if (!(await sendToSheetWithRetry(order))) stillFailed.push(order);
+      }
+      writePendingSheetOrders(stillFailed);
+    })();
+  }, []);
+
   // Meta Pixel Tracking on mount
+  // PageView is already fired once by the base pixel in index.html; firing it here double-counted it.
   useEffect(() => {
     if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'PageView');
       window.fbq('track', 'ViewContent', {
         content_name: 'আতপ চালের গুঁড়া ল্যান্ডিং পেজ',
         content_ids: ['chaler-gura-1'],
@@ -182,6 +224,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [hasTrackedCheckout, setHasTrackedCheckout] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
@@ -281,7 +324,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       errs.fullName = 'আপনার সম্পূর্ণ নাম লিখুন।';
     }
 
-    const cleanPhone = formData.phone.replace(/[\s-]/g, '');
+    const cleanPhone = toEnglishDigits(formData.phone).replace(/[\s-]/g, '');
     if (!cleanPhone) {
       errs.phone = 'সঠিক ১১ ডিজিটের মোবাইল নাম্বার লিখুন।';
     } else if (!/^(?:\+8801|01)[3-9]\d{8}$/.test(cleanPhone)) {
@@ -309,9 +352,19 @@ export const ChalerGuraLandingPage: React.FC = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitError(null);
+
+    // Store the phone in English digits so the sheet, SMS and courier get a usable number
+    const customerInfo: OrderCustomerInfo = {
+      ...formData,
+      phone: toEnglishDigits(formData.phone).replace(/[\s-]/g, '')
+    };
+
+    let orderPlaced = false;
 
     try {
       const matchedProduct = products.find(p => p.id === 'chaler-gura-1' || p.slug === 'dheki-chata-atop-chaler-gura') || products[0];
+      if (!matchedProduct) throw new Error('Product catalogue not loaded');
 
       const orderCartItems: CartItem[] = activeSelectedList.map(item => {
         const matchedVariant: ProductVariant = {
@@ -370,7 +423,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
       const createdOrder = placeOrder({
         items: orderCartItems,
-        customer: formData,
+        customer: customerInfo,
         subtotal: subtotal,
         shippingFee: shippingFee,
         discount: 0,
@@ -380,14 +433,22 @@ export const ChalerGuraLandingPage: React.FC = () => {
         customOrderNumber: customOrderId
       });
 
+      // placeOrder() has now recorded the order, sent the Telegram alert and opened the success page.
+      orderPlaced = true;
+
       // Facebook tracking & Dedicated Google Sheet sync
       // Purchase pixel + CAPI event is already sent inside placeOrder(); do not call trackPurchase here (it double-counted orders).
-      await sendChalerGuraOrderToGoogleSheet(createdOrder);
-
-      navigateTo('order-success');
+      const synced = await sendToSheetWithRetry(createdOrder);
+      if (!synced) {
+        console.error('Google Sheet sync failed after retries; queued for re-send:', createdOrder.orderNumber);
+        writePendingSheetOrders([...readPendingSheetOrders(), createdOrder]);
+      }
     } catch (err) {
       console.error('Order submission error:', err);
-      navigateTo('order-success');
+      // Only show the error if the order was never placed; otherwise the customer is already on the success page.
+      if (!orderPlaced) {
+        setSubmitError('দুঃখিত, অর্ডারটি সম্পন্ন হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন অথবা কল করুন: 01752-421224');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -416,7 +477,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
             
             {/* Line 1 */}
             <p className="text-lg sm:text-2xl md:text-3xl font-black text-[#7A270D] leading-snug drop-shadow-xs">
-              🚚 ফ্রি হোম ডেলিভারিতে ঘরে পৌঁছে যাবে
+              🚚 <span className="bg-[#B82900] text-white px-2.5 py-0.5 rounded-lg shadow-sm">৫ কেজিতে</span> ফ্রি হোম ডেলিভারি
             </p>
 
             {/* Line 2 */}
@@ -449,7 +510,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
             className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-base sm:text-lg px-7 py-3.5 rounded-2xl shadow-md shadow-[#D85A30]/25 hover:shadow-lg transition-all transform active:scale-95"
           >
             <Phone className="w-5 h-5 text-white" />
-            <WhatsAppIcon className="w-5 h-5 text-[#85E0A3]" />
             <span>কল করুন: 01752-421224</span>
           </a>
         </div>
@@ -465,6 +525,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
             >
               <img
                 src={slide.src}
+                loading={idx === 0 ? "eager" : "lazy"}
+                decoding="async"
                 alt={slide.title || 'আতপ চালের গুঁড়া'}
                 className="w-full h-full object-cover cursor-pointer hover:scale-102 transition-transform duration-500"
                 onClick={() => setLightboxImg(slide.src)}
@@ -601,6 +663,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
                   <div className="overflow-hidden rounded-2xl aspect-[4/3] bg-amber-50">
                     <img
                       src={pkg.image}
+                      loading="lazy"
+                      decoding="async"
                       alt={pkg.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                     />
@@ -795,6 +859,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
                       <img
                         src={pkg.image}
+                        loading="lazy"
+                        decoding="async"
                         alt={pkg.name}
                         className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover border border-[#D85A30]/20 shrink-0"
                       />
@@ -1035,6 +1101,8 @@ export const ChalerGuraLandingPage: React.FC = () => {
                   <div className="sm:col-span-5 relative group aspect-square rounded-2xl overflow-hidden border-2 border-[#2E7D32]/30 shadow-md max-w-[240px] sm:max-w-none mx-auto w-full bg-white">
                     <img
                       src={nokshi500gImg}
+                      loading="lazy"
+                      decoding="async"
                       alt="ঐতিহ্যবাহী নকশি পিঠা ৫০০ গ্রাম"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
                       onClick={(e) => {
@@ -1180,6 +1248,20 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* SUBMIT ERROR (order not placed) */}
+              {submitError && (
+                <div role="alert" className="p-3.5 rounded-xl bg-red-50 border border-red-300 text-red-700 text-xs sm:text-sm font-bold font-serif-bangla flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span>{submitError}</span>
+                  <a
+                    href="tel:+8801752421224"
+                    className="inline-flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg shrink-0"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span>কল করুন</span>
+                  </a>
+                </div>
+              )}
+
               {/* CONFIRM ORDER BUTTON */}
               <div className="pt-2">
                 <button
@@ -1262,7 +1344,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
               className="inline-flex items-center justify-center gap-2.5 bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold font-serif-bangla text-sm sm:text-base px-6 py-3 rounded-2xl shadow-md shadow-[#D85A30]/25 transition-all transform active:scale-95"
             >
               <Phone className="w-4 h-4 text-white" />
-              <WhatsAppIcon className="w-4 h-4 text-[#85E0A3]" />
               <span>কল করুন: 01752-421224</span>
             </a>
             <a
