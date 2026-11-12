@@ -67,7 +67,6 @@ const sendToSheetWithRetry = async (order: Order): Promise<boolean> => {
 import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.webp';
 import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_banner.webp';
 import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.webp';
-import nokshi500gImg from '../../assets/images/pata_n0.webp';
 import pataNokshiThumb from '../../assets/images/pata_n0_thumb.webp';
 import phulNokshiThumb from '../../assets/images/pn0_thumb.webp';
 import jhinukNokshiThumb from '../../assets/images/jn0_thumb.webp';
@@ -163,11 +162,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<{ [pkgId: string]: number }>({
     'pkg-chal-5kg': 1
   });
-
-  // 1-Click Order Bump Upsell (500g Nokshi Pitha)
-  const [isNokshiBumpSelected, setIsNokshiBumpSelected] = useState<boolean>(false);
-  const nokshiBumpPrice = 399;
-  const nokshiBumpOriginalPrice = 499;
 
   // Extra products section: productId -> chosen size & quantity (present = selected)
   const [addonSelections, setAddonSelections] = useState<{ [productId: string]: { size: AddonSize; quantity: number } }>({});
@@ -371,12 +365,11 @@ export const ChalerGuraLandingPage: React.FC = () => {
 
   const addonSubtotal = selectedAddons.reduce((acc, a) => acc + a.unitPrice * a.quantity, 0);
 
-  const subtotal = baseSubtotal + (isNokshiBumpSelected ? nokshiBumpPrice : 0) + addonSubtotal;
+  const subtotal = baseSubtotal + addonSubtotal;
 
   const totalWeightKg = useMemo(() => {
-    const baseWeight = activeSelectedList.reduce((acc, item) => acc + (item.weightKg * item.quantity), 0);
-    return baseWeight + (isNokshiBumpSelected ? 0.5 : 0);
-  }, [activeSelectedList, isNokshiBumpSelected]);
+    return activeSelectedList.reduce((acc, item) => acc + (item.weightKg * item.quantity), 0);
+  }, [activeSelectedList]);
 
   // Free delivery trigger: if any item has freeDelivery, or total weight >= 5kg, or subtotal >= 1000
   const isFreeDeliveryQualified = useMemo(() => {
@@ -469,34 +462,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
           unitPrice: item.price
         };
       });
-
-      // Include 500g Nokshi Pitha Order Bump if selected
-      if (isNokshiBumpSelected) {
-        const nokshiProduct = products.find(p => p.id === 'pitha-1' || p.slug === 'nokshi-pitha-500g') || matchedProduct;
-        const bumpVariant: ProductVariant = {
-          id: 'opt-nokshi-500g',
-          name: '৫০০ গ্রাম (অ্যাড-অন)',
-          weight: '500g',
-          price: nokshiBumpPrice,
-          originalPrice: nokshiBumpOriginalPrice,
-          inStock: true
-        };
-
-        orderCartItems.push({
-          product: {
-            ...nokshiProduct,
-            id: 'pitha-1',
-            nameBangla: 'নকশি পিঠা (৫০০ গ্রাম)',
-            nameEnglish: 'Nokshi Pitha (500g)',
-            price: nokshiBumpPrice,
-            originalPrice: nokshiBumpOriginalPrice,
-            images: [nokshi500gImg, ...nokshiProduct.images]
-          },
-          selectedVariant: bumpVariant,
-          quantity: 1,
-          unitPrice: nokshiBumpPrice
-        });
-      }
 
       // Include extra products (15% off) from the add-on section
       selectedAddons.forEach(addon => {
@@ -1311,87 +1276,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
                 <span>অর্ডার বিবরণী ও পেমেন্ট</span>
               </h3>
 
-              {/* 1-CLICK ORDER BUMP: 500g Nokshi Pitha (Side-by-side with extra large image) */}
-              <div 
-                onClick={() => setIsNokshiBumpSelected(!isNokshiBumpSelected)}
-                className={`p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer relative select-none ${
-                  isNokshiBumpSelected
-                    ? 'bg-gradient-to-r from-[#F1F8E9] to-[#E8F5E9] border-[#2E7D32] shadow-md ring-2 ring-[#2E7D32]/30'
-                    : 'bg-[#F1F8E9]/35 border-dashed border-[#2E7D32]/50 hover:border-[#2E7D32] hover:bg-[#F1F8E9]/60 shadow-xs'
-                }`}
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-6 items-center">
-                  
-                  {/* Side 1: Extra Large Image */}
-                  <div className="sm:col-span-5 relative group aspect-square rounded-2xl overflow-hidden border-2 border-[#2E7D32]/30 shadow-md max-w-[240px] sm:max-w-none mx-auto w-full bg-white">
-                    <img
-                      src={nokshi500gImg}
-                      loading="lazy"
-                      decoding="async"
-                      alt="ঐতিহ্যবাহী নকশি পিঠা ৫০০ গ্রাম"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLightboxImg(nokshi500gImg);
-                      }}
-                    />
-                    <span className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2.5 py-1 rounded-lg backdrop-blur-xs font-serif-bangla font-black shadow-sm">
-                      ৫০০ গ্রাম
-                    </span>
-                    <span className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-md backdrop-blur-xs font-serif-bangla flex items-center gap-1">
-                      🔍 বড় করে দেখুন
-                    </span>
-                  </div>
-
-                  {/* Side 2: All Information (Badge, Price, Checkbox, Text) */}
-                  <div className="sm:col-span-7 space-y-3.5 text-left w-full">
-                    
-                    {/* Top Row: Badge & Price */}
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#1B5E20] via-[#2E7D32] to-[#15803D] text-white text-[11px] sm:text-xs font-black px-3 py-1 rounded-full shadow-md border border-[#81C784]/80 ring-2 ring-[#4CAF50]/30">
-                        <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse shrink-0" />
-                        <span>স্পেশাল অফার</span>
-                        <span className="text-yellow-300 font-black">•</span>
-                        <span className="text-yellow-200 font-bold flex items-center gap-1">
-                          <Truck className="w-3.5 h-3.5 text-yellow-300 inline shrink-0" />
-                          একই ডেলিভারি চার্জে
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1.5 text-xs font-mono ml-auto">
-                        <span className="text-[#888780] line-through">৳{nokshiBumpOriginalPrice}</span>
-                        <span className="font-black text-[#1B5E20] text-lg sm:text-xl">৳{nokshiBumpPrice}</span>
-                      </div>
-                    </div>
-
-                    {/* Checkbox and Text Block */}
-                    <div className="flex items-start gap-3 bg-white/80 p-3 sm:p-3.5 rounded-xl border border-[#2E7D32]/25 shadow-xs hover:bg-white transition-colors">
-                      <div className="pt-0.5 shrink-0">
-                        <input
-                          type="checkbox"
-                          id="nokshi-bump-checkbox"
-                          checked={isNokshiBumpSelected}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            setIsNokshiBumpSelected(e.target.checked);
-                          }}
-                          className="w-5 h-5 rounded text-[#2E7D32] accent-[#2E7D32] focus:ring-[#2E7D32] cursor-pointer"
-                        />
-                      </div>
-                      <div className="space-y-1 text-left flex-1 min-w-0">
-                        <h4 className="font-serif-bangla font-black text-sm sm:text-base text-[#1B5E20] leading-snug">
-                          হ্যাঁ! আমার অর্ডারের সাথে ৫০০ গ্রাম ঐতিহ্যবাহী নকশি পিঠা যোগ করুন
-                        </h4>
-                        <p className="text-xs sm:text-sm text-[#5D4A3A] font-serif-bangla leading-relaxed">
-                          চালের গুঁড়ার সাথে এখনই নিলে পাচ্ছেন <strong className="text-[#1B5E20] font-black">১০০ টাকা সরাসরি ডিসকাউন্ট!</strong>
-                        </p>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
               {/* Items Table */}
               <div className="divide-y divide-[#D85A30]/10 border border-[#D85A30]/15 rounded-2xl overflow-hidden">
                 <div className="p-3 bg-[#FAEEDA]/60 flex items-center justify-between text-xs font-bold text-[#3A2A1E]">
@@ -1417,24 +1301,6 @@ export const ChalerGuraLandingPage: React.FC = () => {
                       </span>
                     </div>
                   ))
-                )}
-
-                {/* Show Nokshi Pitha 500g Bump row if selected */}
-                {isNokshiBumpSelected && (
-                  <div className="p-3 flex items-center justify-between gap-2 text-xs bg-[#FFF8EE] border-t border-[#D85A30]/15">
-                    <div className="flex items-center gap-2 min-w-0 flex-1">
-                      <span className="font-bold text-[#3A2A1E] font-serif-bangla truncate">
-                        নকশি পিঠা (৫০০ গ্রাম)
-                      </span>
-                      <span className="text-[#888780] font-black shrink-0">× ১</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 shrink-0 text-right">
-                      <span className="text-[11px] text-[#888780] line-through font-mono">৳{nokshiBumpOriginalPrice}</span>
-                      <span className="font-black text-[#D85A30] font-mono text-sm">
-                        ৳{nokshiBumpPrice}
-                      </span>
-                    </div>
-                  </div>
                 )}
 
                 {/* Extra products rows */}
@@ -1613,7 +1479,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       >
         <div className="min-w-0">
           <span className="text-[10px] text-[#888780] block font-serif-bangla leading-none truncate max-w-[140px]">
-            চালের গুঁড়া{isNokshiBumpSelected || selectedAddons.length > 0 ? ' + অন্যান্য' : ''}
+            চালের গুঁড়া{selectedAddons.length > 0 ? ' + অন্যান্য' : ''}
           </span>
           <span className="text-base font-black text-[#D85A30] font-mono leading-tight">
             ৳{totalAmount.toLocaleString()}
