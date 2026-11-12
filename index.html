@@ -33,7 +33,12 @@
           var orderList = JSON.parse(rawOrders);
           if (Array.isArray(orderList) && orderList.length > 0 && orderList[0].customer) {
             var cust = orderList[0].customer;
-            if (cust.phone) userMatchData.ph = cust.phone.replace(/\D/g, '');
+            if (cust.phone) {
+              // Meta expects the country code: 017XXXXXXXX -> 88017XXXXXXXX
+              var ph = cust.phone.replace(/\D/g, '');
+              if (ph.indexOf('880') !== 0) ph = ph.indexOf('0') === 0 ? '88' + ph : '880' + ph;
+              userMatchData.ph = ph;
+            }
             if (cust.fullName) {
               var nParts = cust.fullName.trim().toLowerCase().split(/\s+/);
               if (nParts[0]) userMatchData.fn = nParts[0];

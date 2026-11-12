@@ -19,7 +19,7 @@ import { getNextOrderNumber } from '../../services/orderNumberService';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
 import { TESTIMONIALS } from '../../data/products';
 import { sendNokshiOrderToGoogleSheet } from '../../services/googleSheetsService';
-import { trackInitiateCheckout } from '../../services/facebookTrackingService';
+import { trackLandingEvent } from '../../services/facebookTrackingService';
 
 // Product Images
 import nokshiJhinukComboImg from '../../assets/images/nokshi_jhinuk_combo.jpg';
@@ -158,18 +158,16 @@ export const NokshiPithaLandingPage: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Meta Pixel Tracking: PageView & ViewContent on Landing Page Mount
+  // Meta Pixel Tracking: ViewContent on Landing Page Mount
+  // PageView is already sent by the base pixel in index.html (and on SPA navigation); sending it here double-counted it.
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'PageView');
-      window.fbq('track', 'ViewContent', {
-        content_name: 'নকশি ও ঝিনুক পিঠা স্পেশাল অফার ল্যান্ডিং পেজ',
-        content_ids: ['pitha-1', 'pitha-combo-pack'],
-        content_type: 'product_group',
-        value: 1299,
-        currency: 'BDT'
-      });
-    }
+    trackLandingEvent('ViewContent', {
+      content_name: 'নকশি ও ঝিনুক পিঠা স্পেশাল অফার ল্যান্ডিং পেজ',
+      content_ids: ['pitha-1', 'pitha-combo-pack'],
+      content_type: 'product',
+      value: 1299,
+      currency: 'BDT'
+    });
   }, []);
 
   // Selected State: Map of optionId -> quantity
@@ -183,16 +181,14 @@ export const NokshiPithaLandingPage: React.FC = () => {
   const triggerInitiateCheckout = () => {
     if (!hasTrackedCheckout) {
       setHasTrackedCheckout(true);
-      if (typeof window !== 'undefined' && window.fbq) {
-        window.fbq('track', 'InitiateCheckout', {
-          content_name: 'নকশি পিঠা অর্ডার ফর্ম',
-          content_ids: ['pitha-1', 'pitha-combo-pack'],
-          content_type: 'product',
-          value: totalAmount,
-          currency: 'BDT',
-          num_items: activeSelectedList.reduce((sum, item) => sum + item.quantity, 0)
-        });
-      }
+      trackLandingEvent('InitiateCheckout', {
+        content_name: 'নকশি পিঠা অর্ডার ফর্ম',
+        content_ids: ['pitha-1', 'pitha-combo-pack'],
+        content_type: 'product',
+        value: totalAmount,
+        currency: 'BDT',
+        num_items: activeSelectedList.reduce((sum, item) => sum + item.quantity, 0)
+      });
     }
   };
 

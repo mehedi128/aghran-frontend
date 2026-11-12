@@ -68,6 +68,7 @@ import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.webp';
 import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_banner.webp';
 import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.webp';
 import nokshi500gImg from '../../assets/images/pata_n0.webp';
+import { trackLandingEvent } from '../../services/facebookTrackingService';
 
 
 // Clean SVG WhatsApp Icon
@@ -208,15 +209,13 @@ export const ChalerGuraLandingPage: React.FC = () => {
   // Meta Pixel Tracking on mount
   // PageView is already fired once by the base pixel in index.html; firing it here double-counted it.
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'ViewContent', {
-        content_name: 'আতপ চালের গুঁড়া ল্যান্ডিং পেজ',
-        content_ids: ['chaler-gura-1'],
-        content_type: 'product',
-        value: 790,
-        currency: 'BDT'
-      });
-    }
+    trackLandingEvent('ViewContent', {
+      content_name: 'আতপ চালের গুঁড়া ল্যান্ডিং পেজ',
+      content_ids: ['chaler-gura-1'],
+      content_type: 'product',
+      value: 790,
+      currency: 'BDT'
+    });
   }, []);
 
   // Customer Form Data
@@ -252,15 +251,13 @@ export const ChalerGuraLandingPage: React.FC = () => {
   const triggerInitiateCheckout = () => {
     if (!hasTrackedCheckout) {
       setHasTrackedCheckout(true);
-      if (typeof window !== 'undefined' && window.fbq) {
-        window.fbq('track', 'InitiateCheckout', {
-          content_name: 'আতপ চালের গুঁড়া অর্ডার ফর্ম',
-          content_ids: ['chaler-gura-1'],
-          content_type: 'product',
-          value: totalAmount,
-          currency: 'BDT'
-        });
-      }
+      trackLandingEvent('InitiateCheckout', {
+        content_name: 'আতপ চালের গুঁড়া অর্ডার ফর্ম',
+        content_ids: ['chaler-gura-1'],
+        content_type: 'product',
+        value: totalAmount,
+        currency: 'BDT'
+      });
     }
   };
 

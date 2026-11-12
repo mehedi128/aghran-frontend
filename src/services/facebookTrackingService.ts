@@ -144,6 +144,25 @@ async function sendCapiEvent(
 }
 
 /**
+ * Tracks a landing-page ViewContent or InitiateCheckout event.
+ * Sends the browser pixel and CAPI with the same eventID, so Meta deduplicates them
+ * and still receives the event when an ad blocker stops the browser pixel.
+ */
+export const trackLandingEvent = (
+  eventName: 'ViewContent' | 'InitiateCheckout',
+  customData: Record<string, any>
+) => {
+  const prefix = eventName === 'ViewContent' ? 'vc' : 'ic';
+  const eventId = `${prefix}_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
+
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', eventName, customData, { eventID: eventId });
+  }
+
+  sendCapiEvent(eventName, eventId, {}, customData);
+};
+
+/**
  * Tracks ViewContent event (Product PDP View)
  */
 export const trackViewContent = (product: Product) => {

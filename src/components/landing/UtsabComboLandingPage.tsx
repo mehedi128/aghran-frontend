@@ -21,7 +21,7 @@ import { getNextOrderNumber } from '../../services/orderNumberService';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
 import { TESTIMONIALS } from '../../data/products';
 import { sendUtsabComboOrderToGoogleSheet } from '../../services/googleSheetsService';
-import { trackInitiateCheckout } from '../../services/facebookTrackingService';
+import { trackLandingEvent } from '../../services/facebookTrackingService';
 
 // Product & Showcase Images
 import utsabComboImg from '../../assets/images/utsab_combo_pack.jpg';
@@ -177,17 +177,15 @@ export const UtsabComboLandingPage: React.FC = () => {
   }, []);
 
   // Meta Pixel Tracking on mount
+  // PageView is already sent by the base pixel in index.html (and on SPA navigation); sending it here double-counted it.
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'PageView');
-      window.fbq('track', 'ViewContent', {
-        content_name: 'উৎসব কম্বো প্যাক (১ কেজি) ল্যান্ডিং পেজ',
-        content_ids: ['pitha-combo-pack'],
-        content_type: 'product',
-        value: 1099,
-        currency: 'BDT'
-      });
-    }
+    trackLandingEvent('ViewContent', {
+      content_name: 'উৎসব কম্বো প্যাক (১ কেজি) ল্যান্ডিং পেজ',
+      content_ids: ['pitha-combo-pack'],
+      content_type: 'product',
+      value: 1099,
+      currency: 'BDT'
+    });
   }, []);
 
   // Customer Form Data
@@ -208,15 +206,13 @@ export const UtsabComboLandingPage: React.FC = () => {
   const triggerInitiateCheckout = () => {
     if (!hasTrackedCheckout) {
       setHasTrackedCheckout(true);
-      if (typeof window !== 'undefined' && window.fbq) {
-        window.fbq('track', 'InitiateCheckout', {
-          content_name: 'উৎসব কম্বো প্যাক অর্ডার ফর্ম',
-          content_ids: ['pitha-combo-pack'],
-          content_type: 'product',
-          value: totalAmount,
-          currency: 'BDT'
-        });
-      }
+      trackLandingEvent('InitiateCheckout', {
+        content_name: 'উৎসব কম্বো প্যাক অর্ডার ফর্ম',
+        content_ids: ['pitha-combo-pack'],
+        content_type: 'product',
+        value: totalAmount,
+        currency: 'BDT'
+      });
     }
   };
 
