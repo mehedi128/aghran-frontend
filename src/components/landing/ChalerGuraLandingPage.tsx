@@ -68,6 +68,11 @@ import dhekiChalerGuraImg1 from '../../assets/images/dheki_chaler_gura_1.webp';
 import dhekiChalerGuraBannerImg from '../../assets/images/dheki_chaler_gura_banner.webp';
 import dhekiChalerGuraTextureImg from '../../assets/images/dheki_chaler_gura_texture.webp';
 import nokshi500gImg from '../../assets/images/pata_n0.webp';
+import pataNokshiThumb from '../../assets/images/pata_n0_thumb.webp';
+import phulNokshiThumb from '../../assets/images/pn0_thumb.webp';
+import jhinukNokshiThumb from '../../assets/images/jn0_thumb.webp';
+import narikelNaruThumb from '../../assets/images/narikel-naru_thumb.webp';
+import narikelPuliThumb from '../../assets/images/narikel_puli_pitha_1_thumb.webp';
 import { trackLandingEvent } from '../../services/facebookTrackingService';
 
 
@@ -77,6 +82,26 @@ const WhatsAppIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
   </svg>
 );
+
+// Extra products customers can add to the same delivery, at 15% off.
+// Prices are the regular site prices; the 15% discount is applied in the component.
+const ADDON_DISCOUNT_PERCENT = 15;
+type AddonSize = '500g' | '1kg';
+interface AddonProduct {
+  id: string;
+  name: string;
+  image: string;
+  prices: Record<AddonSize, number>;
+}
+const ADDON_PRODUCTS: AddonProduct[] = [
+  { id: 'pitha-1', name: 'পাতা নকশি পিঠা', image: pataNokshiThumb, prices: { '500g': 399, '1kg': 650 } },
+  { id: 'pitha-2', name: 'ফুল নকশি পিঠা', image: phulNokshiThumb, prices: { '500g': 399, '1kg': 650 } },
+  { id: 'pitha-3', name: 'ঝিনুক নকশি পিঠা', image: jhinukNokshiThumb, prices: { '500g': 399, '1kg': 650 } },
+  { id: 'special-narikel-naru', name: 'নারকেল নাড়ু', image: narikelNaruThumb, prices: { '500g': 550, '1kg': 999 } },
+  { id: 'pitha-4', name: 'নারিকেল পুলি পিঠা', image: narikelPuliThumb, prices: { '500g': 499, '1kg': 950 } }
+];
+const ADDON_SIZE_LABEL: Record<AddonSize, string> = { '500g': '৫০০ গ্রাম', '1kg': '১ কেজি' };
+const addonDiscountedPrice = (price: number) => Math.round(price * (100 - ADDON_DISCOUNT_PERCENT) / 100);
 
 interface PackageOption {
   id: string;
@@ -143,6 +168,32 @@ export const ChalerGuraLandingPage: React.FC = () => {
   const [isNokshiBumpSelected, setIsNokshiBumpSelected] = useState<boolean>(false);
   const nokshiBumpPrice = 399;
   const nokshiBumpOriginalPrice = 499;
+
+  // Extra products section: productId -> chosen size & quantity (present = selected)
+  const [addonSelections, setAddonSelections] = useState<{ [productId: string]: { size: AddonSize; quantity: number } }>({});
+
+  const toggleAddon = (productId: string) => {
+    setAddonSelections(prev => {
+      const next = { ...prev };
+      if (next[productId]) delete next[productId];
+      else next[productId] = { size: '500g', quantity: 1 };
+      return next;
+    });
+  };
+
+  const setAddonSize = (productId: string, size: AddonSize) => {
+    setAddonSelections(prev => prev[productId] ? { ...prev, [productId]: { ...prev[productId], size } } : prev);
+  };
+
+  const setAddonQuantity = (productId: string, quantity: number) => {
+    setAddonSelections(prev => {
+      if (!prev[productId]) return prev;
+      const next = { ...prev };
+      if (quantity <= 0) delete next[productId];
+      else next[productId] = { ...prev[productId], quantity };
+      return next;
+    });
+  };
 
   // Photo Carousel State
   const carouselSlides = useMemo(() => [
@@ -308,7 +359,19 @@ export const ChalerGuraLandingPage: React.FC = () => {
     return activeSelectedList.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   }, [activeSelectedList]);
 
-  const subtotal = baseSubtotal + (isNokshiBumpSelected ? nokshiBumpPrice : 0);
+  const selectedAddons = useMemo(() => {
+    return ADDON_PRODUCTS
+      .filter(p => addonSelections[p.id])
+      .map(p => {
+        const { size, quantity } = addonSelections[p.id];
+        const originalPrice = p.prices[size];
+        return { ...p, size, quantity, originalPrice, unitPrice: addonDiscountedPrice(originalPrice) };
+      });
+  }, [addonSelections]);
+
+  const addonSubtotal = selectedAddons.reduce((acc, a) => acc + a.unitPrice * a.quantity, 0);
+
+  const subtotal = baseSubtotal + (isNokshiBumpSelected ? nokshiBumpPrice : 0) + addonSubtotal;
 
   const totalWeightKg = useMemo(() => {
     const baseWeight = activeSelectedList.reduce((acc, item) => acc + (item.weightKg * item.quantity), 0);
@@ -434,6 +497,32 @@ export const ChalerGuraLandingPage: React.FC = () => {
           unitPrice: nokshiBumpPrice
         });
       }
+
+      // Include extra products (15% off) from the add-on section
+      selectedAddons.forEach(addon => {
+        const baseProduct = products.find(p => p.id === addon.id) || matchedProduct;
+        const label = `${addon.name} (${ADDON_SIZE_LABEL[addon.size]})`;
+        orderCartItems.push({
+          product: {
+            ...baseProduct,
+            id: addon.id,
+            nameBangla: label,
+            price: addon.unitPrice,
+            originalPrice: addon.originalPrice,
+            images: [addon.image, ...(baseProduct.images || [])]
+          },
+          selectedVariant: {
+            id: `addon-${addon.id}-${addon.size}`,
+            name: `${ADDON_SIZE_LABEL[addon.size]} (১৫% ছাড়)`,
+            weight: addon.size,
+            price: addon.unitPrice,
+            originalPrice: addon.originalPrice,
+            inStock: true
+          },
+          quantity: addon.quantity,
+          unitPrice: addon.unitPrice
+        });
+      });
 
       // Global sequential Order ID: AGH-C001, AGH-C002...
       const customOrderId = await getNextOrderNumber('C');
@@ -938,6 +1027,123 @@ export const ChalerGuraLandingPage: React.FC = () => {
             </div>
           </div>
 
+          {/* EXTRA PRODUCTS (15% OFF, SAME DELIVERY) */}
+          <div className="bg-white rounded-3xl border border-[#D85A30]/20 shadow-sm p-4 sm:p-6 space-y-4">
+            <h3 className="text-xl sm:text-3xl font-black font-serif-bangla text-[#3A2A1E] text-center leading-snug border-b border-[#D85A30]/15 pb-4">
+              আপনার পছন্দের পণ্য বেছে নিন এবং পান{' '}
+              <span className="inline-block bg-[#B82900] text-[#FFE066] px-3 py-0.5 rounded-xl shadow-md -rotate-2 whitespace-nowrap">১৫% ছাড়!</span>
+              <span className="block text-base sm:text-xl font-bold text-[#1B5E20] mt-2">একই ডেলিভারিতে পেয়ে যান পছন্দের সব পণ্য।</span>
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-start">
+              {ADDON_PRODUCTS.map(addon => {
+                const selection = addonSelections[addon.id];
+                const isSelected = Boolean(selection);
+                const shownSize: AddonSize = selection?.size || '500g';
+                return (
+                  <div
+                    key={addon.id}
+                    className={`rounded-2xl border-2 transition-all ${
+                      isSelected
+                        ? 'border-[#2E7D32] bg-[#F1F8E9] shadow-md'
+                        : 'border-transparent bg-[#F1F8E9]/60 hover:border-[#81C784]'
+                    }`}
+                  >
+                    {/* Card header: click to select */}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => toggleAddon(addon.id)}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAddon(addon.id); } }}
+                      className="p-3 flex items-center gap-3 cursor-pointer select-none"
+                    >
+                      <span className={`w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${
+                        isSelected ? 'bg-[#2E7D32] border-[#2E7D32] text-white' : 'bg-white border-[#A5B4FC]'
+                      }`}>
+                        {isSelected && <CheckCircle2 className="w-4 h-4" />}
+                      </span>
+                      <img
+                        src={addon.image}
+                        alt={addon.name}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover bg-white shrink-0"
+                      />
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <h4 className="font-serif-bangla font-black text-sm sm:text-base text-[#3A2A1E] leading-snug">
+                          {addon.name}
+                        </h4>
+                        {!isSelected && (
+                          <span className="inline-block text-[11px] font-bold text-[#5D4A00] bg-[#FFFBD6] px-2.5 py-0.5 rounded-full font-serif-bangla">
+                            পরিমাণ সিলেক্ট করুন
+                          </span>
+                        )}
+                        <div className="flex items-center gap-1.5 font-mono">
+                          <span className="text-base font-black text-[#1565C0]">৳{addonDiscountedPrice(addon.prices[shownSize])}</span>
+                          <span className="text-[11px] text-[#888780] line-through">৳{addon.prices[shownSize]}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Expanded: size + quantity */}
+                    {isSelected && selection && (
+                      <div className="px-3 pb-3 space-y-3">
+                        <p className="text-xs text-[#5D4A3A] font-serif-bangla">সাইজ বেছে নিন:</p>
+                        <div className="space-y-2">
+                          {(['500g', '1kg'] as AddonSize[]).map(size => (
+                            <label
+                              key={size}
+                              className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
+                                selection.size === size ? 'border-[#2E7D32] bg-[#E8F5E9]' : 'border-[#D85A30]/15 bg-white hover:border-[#81C784]'
+                              }`}
+                            >
+                              <span className="flex items-center gap-2.5">
+                                <input
+                                  type="radio"
+                                  name={`addon-size-${addon.id}`}
+                                  checked={selection.size === size}
+                                  onChange={() => setAddonSize(addon.id, size)}
+                                  className="accent-[#2E7D32] w-4 h-4"
+                                />
+                                <span className="text-sm font-bold font-serif-bangla text-[#3A2A1E]">{ADDON_SIZE_LABEL[size]}</span>
+                              </span>
+                              <span className="flex items-center gap-1.5 font-mono">
+                                <span className="text-[11px] text-[#888780] line-through">৳{addon.prices[size]}</span>
+                                <span className="text-sm font-black text-[#1565C0]">৳{addonDiscountedPrice(addon.prices[size])}</span>
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-[#5D4A3A] font-serif-bangla">পরিমাণ:</span>
+                          <div className="flex items-center rounded-xl overflow-hidden border border-[#2E7D32]/30">
+                            <button
+                              type="button"
+                              onClick={() => setAddonQuantity(addon.id, selection.quantity - 1)}
+                              className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-black cursor-pointer"
+                              aria-label="কমিয়ে দিন"
+                            >
+                              -
+                            </button>
+                            <span className="w-10 text-center text-sm font-black font-mono bg-white">{selection.quantity}</span>
+                            <button
+                              type="button"
+                              onClick={() => setAddonQuantity(addon.id, selection.quantity + 1)}
+                              className="w-9 h-9 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-black cursor-pointer"
+                              aria-label="বাড়িয়ে দিন"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* STEP 2 & 3: FORM & ORDER SUMMARY */}
           <form
             onSubmit={handleSubmitOrder}
@@ -1231,6 +1437,22 @@ export const ChalerGuraLandingPage: React.FC = () => {
                   </div>
                 )}
 
+                {/* Extra products rows */}
+                {selectedAddons.map(addon => (
+                  <div key={addon.id} className="p-3 flex items-center justify-between gap-2 text-xs bg-[#F1F8E9]/60 border-t border-[#D85A30]/15">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                      <span className="font-bold text-[#3A2A1E] font-serif-bangla truncate">
+                        {addon.name} ({ADDON_SIZE_LABEL[addon.size]})
+                      </span>
+                      <span className="text-[#888780] font-black shrink-0">× {addon.quantity}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0 text-right">
+                      <span className="text-[11px] text-[#888780] line-through font-mono">৳{(addon.originalPrice * addon.quantity).toLocaleString()}</span>
+                      <span className="font-black text-[#D85A30] font-mono text-sm">৳{(addon.unitPrice * addon.quantity).toLocaleString()}</span>
+                    </div>
+                  </div>
+                ))}
+
                 {/* Subtotal */}
                 <div className="p-3 flex items-center justify-between text-xs bg-[#FAF6EE]/50">
                   <span className="font-medium text-[#3A2A1E]/80">সাবটোটাল (Subtotal):</span>
@@ -1391,7 +1613,7 @@ export const ChalerGuraLandingPage: React.FC = () => {
       >
         <div className="min-w-0">
           <span className="text-[10px] text-[#888780] block font-serif-bangla leading-none truncate max-w-[140px]">
-            চালের গুঁড়া{isNokshiBumpSelected ? ' + নকশি পিঠা' : ''}
+            চালের গুঁড়া{isNokshiBumpSelected || selectedAddons.length > 0 ? ' + অন্যান্য' : ''}
           </span>
           <span className="text-base font-black text-[#D85A30] font-mono leading-tight">
             ৳{totalAmount.toLocaleString()}
