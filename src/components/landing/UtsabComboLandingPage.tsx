@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { getNextOrderNumber } from '../../services/orderNumberService';
+import { normalizeBdPhone, isValidBdMobile } from '../../utils/phone';
 import { ProductVariant, CartItem, OrderCustomerInfo } from '../../types';
 import { TESTIMONIALS } from '../../data/products';
 import { sendUtsabComboOrderToGoogleSheet } from '../../services/googleSheetsService';
@@ -299,10 +300,11 @@ export const UtsabComboLandingPage: React.FC = () => {
       errs.fullName = 'আপনার সম্পূর্ণ নাম লিখুন।';
     }
 
-    const cleanPhone = formData.phone.replace(/[\s-]/g, '');
+    // Accepts Bangla digits (০১৭...) and the 880 / +880 prefix
+    const cleanPhone = normalizeBdPhone(formData.phone);
     if (!cleanPhone) {
       errs.phone = 'আপনার মোবাইল নাম্বার লিখুন।';
-    } else if (!/^(\+?88)?01[3-9]\d{8}$/.test(cleanPhone)) {
+    } else if (!isValidBdMobile(cleanPhone)) {
       errs.phone = 'সঠিক ১১ ডিজিটের মোবাইল নাম্বার লিখুন (যেমন: 01712345678)';
     }
 
@@ -362,7 +364,8 @@ export const UtsabComboLandingPage: React.FC = () => {
 
       const createdOrder = placeOrder({
         items: orderCartItems,
-        customer: formData,
+        // Store the phone as 01XXXXXXXXX so the sheet, SMS and courier get a usable number
+        customer: { ...formData, phone: normalizeBdPhone(formData.phone) },
         subtotal: subtotal,
         shippingFee: shippingFee,
         discount: 0,
