@@ -56,6 +56,20 @@ export default async function handler(req, res) {
   if (fbp) userData.fbp = fbp;
   if (fbc) userData.fbc = fbc;
 
+  // Meta needs value as a non-negative number and currency as a 3-letter ISO code.
+  // Normalize here too, so a bad client payload never reaches Meta as a string/NaN.
+  const customData = { ...(custom_data && typeof custom_data === 'object' ? custom_data : {}) };
+  if ('value' in customData || event_name === 'Purchase') {
+    const n = typeof customData.value === 'number'
+      ? customData.value
+      : parseFloat(String(customData.value ?? '').replace(/[^0-9.\-]/g, ''));
+    customData.value = Number.isFinite(n) && n >= 0 ? Math.round(n * 100) / 100 : 0;
+  }
+  if ('value' in customData) {
+    const cur = typeof customData.currency === 'string' ? customData.currency.trim().toUpperCase() : '';
+    customData.currency = /^[A-Z]{3}$/.test(cur) ? cur : 'BDT';
+  }
+
   const payload = {
     data: [
       {
@@ -65,7 +79,7 @@ export default async function handler(req, res) {
         event_source_url: typeof event_source_url === 'string' ? event_source_url : 'https://www.aghran.shop/',
         action_source: 'website',
         user_data: userData,
-        custom_data: custom_data && typeof custom_data === 'object' ? custom_data : {}
+        custom_data: customData
       }
     ]
   };

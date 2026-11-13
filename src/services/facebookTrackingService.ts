@@ -248,9 +248,50 @@ export const trackInitiateCheckout = (cart: CartItem[], cartTotal: number) => {
  * Tracks Purchase event (High priority conversion event)
  * Implements Meta Manual Advanced Matching & Deduplicated CAPI event
  */
+/**
+ * Converts any price-like input ("1,250", "৳1250", 1250, undefined) to a finite
+ * number rounded to 2 decimals. Returns NaN when it cannot be parsed.
+ * Meta rejects Purchase events whose value is missing, NaN, a string or negative.
+ */
+const toMoney = (input: unknown): number => {
+  const n = typeof input === 'number' ? input : parseFloat(String(input ?? '').replace(/[^0-9.\-]/g, ''));
+  return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN;
+};
+
+/**
+ * Builds a Purchase custom_data object that always carries a valid numeric
+ * `value` and `currency: 'BDT'`. Falls back to items + shipping - discount
+ * when order.total is missing or invalid.
+ */
+const buildPurchaseData = (order: Order) => {
+  const contents = order.items.map(item => ({
+    id: String(item.product.id),
+    quantity: Math.max(1, Math.round(Number(item.quantity) || 1)),
+    item_price: toMoney(item.unitPrice ?? item.product.price) || 0
+  }));
+
+  const itemsTotal = contents.reduce((sum, c) => sum + c.item_price * c.quantity, 0);
+  const fallbackTotal = itemsTotal + (toMoney(order.shippingFee) || 0) - (toMoney(order.discount) || 0);
+
+  let value = toMoney(order.total);
+  if (!Number.isFinite(value) || value <= 0) value = toMoney(fallbackTotal);
+  if (!Number.isFinite(value) || value < 0) value = 0;
+
+  return {
+    content_name: 'Order ' + order.orderNumber,
+    content_ids: contents.map(c => c.id),
+    content_type: 'product',
+    value,
+    currency: 'BDT',
+    num_items: contents.reduce((sum, c) => sum + c.quantity, 0),
+    contents
+  };
+};
+
 export const trackPurchase = (order: Order) => {
   const eventId = order.orderNumber; // Using orderNumber as eventID ensures Pixel & CAPI deduplication
   const city = order.customer.district || (order.customer.deliveryZone === 'dhaka' ? 'dhaka' : undefined);
+  const purchaseData = buildPurchaseData(order);
 
   // 1. Browser Pixel - Manual Advanced Matching & Purchase Event
   if (typeof window !== 'undefined' && window.fbq) {
@@ -262,19 +303,7 @@ export const trackPurchase = (order: Order) => {
       externalId: order.orderNumber
     });
 
-    window.fbq('track', 'Purchase', {
-      content_name: 'Order ' + order.orderNumber,
-      content_ids: order.items.map(item => item.product.id),
-      content_type: 'product',
-      value: order.total,
-      currency: 'BDT',
-      num_items: order.items.reduce((sum, item) => sum + item.quantity, 0),
-      contents: order.items.map(item => ({
-        id: item.product.id,
-        quantity: item.quantity,
-        item_price: item.unitPrice
-      }))
-    }, { eventID: eventId });
+    window.fbq('track', 'Purchase', purchaseData, { eventID: eventId });
   }
 
   // 2. Conversions API (CAPI) with customer data matching
@@ -286,18 +315,6 @@ export const trackPurchase = (order: Order) => {
       fullName: order.customer.fullName,
       city: city
     },
-    {
-      content_name: 'Order ' + order.orderNumber,
-      content_ids: order.items.map(item => item.product.id),
-      content_type: 'product',
-      value: order.total,
-      currency: 'BDT',
-      num_items: order.items.reduce((sum, item) => sum + item.quantity, 0),
-      contents: order.items.map(item => ({
-        id: item.product.id,
-        quantity: item.quantity,
-        item_price: item.unitPrice
-      }))
-    }
+    purchaseData
   );
 };
